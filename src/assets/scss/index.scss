@@ -1,0 +1,261 @@
+.main {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+.logo {
+  position: absolute;
+  top: 25px;
+  left: 20px;
+  @include mediaQuery-tablet {
+    top: 45px;
+    left: 45px;
+  }
+  @include mediaQuery-pc {
+    top: 60px;
+    left: 60px;
+  }
+}
+
+.svg {
+  width: 144px;
+  height: 60px;
+  @include mediaQuery-tablet {
+    width: 210px;
+    height: 87px;
+  }
+  @include mediaQuery-pc {
+    width: 245px;
+    height: 102px;
+  }
+}
+.nav-item {
+  &__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    &--left-side {
+      transform: translate(-80%, -50%);
+      @include mediaQuery-pc {
+        transform: translate(-50%, -50%);
+      }
+    }
+    &--right-side {
+      transform: translate(-20%, -50%);
+      @include mediaQuery-pc {
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+  &__icon {
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+  }
+}
+.nav-nearby-station {
+  position: absolute;
+  top: 160px;
+  right: -70px;
+  @include mediaQuery-pc {
+    right: 40px;
+  }
+}
+.nav-search-local-bus {
+  position: absolute;
+  top: 380px;
+  right: -70px;
+  color: var(--black);
+  @include mediaQuery-pc {
+    right: 35px;
+  }
+}
+.nav-search-global-bus {
+  position: absolute;
+  left: -90px;
+  bottom: -50px;
+  color: var(--black);
+  @include mediaQuery-pc {
+    left: auto;
+    right: 415px;
+    bottom: -70px;
+  }
+}
+.copyright {
+  position: absolute;
+  font-size: 1.2rem;
+  right: 10px;
+  bottom: 10px;
+  z-index: 2;
+  @include mediaQuery-pc {
+    right: auto;
+    left: 30px;
+    bottom: 15px;
+  }
+}
+
+// 導覽圈圈組件
+.circle {
+  position: relative;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  &__bg {
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+  }
+  &__inner {
+    width: calc(100% - 70px);
+    height: calc(100% - 70px);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+  }
+  &--large {
+    width: 300px;
+    height: 300px;
+    @include mediaQuery-tablet {
+      width: 350px;
+      height: 350px;
+    }
+  }
+  &--medium {
+    width: 230px;
+    height: 230px;
+    @include mediaQuery-tablet {
+      width: 280px;
+      height: 280px;
+    }
+  }
+  &--small {
+    width: 205px;
+    height: 205px;
+    @include mediaQuery-tablet {
+      width: 255px;
+      height: 255px;
+    }
+  }
+  &--blue {
+    border: 1px solid var(--blue);
+  }
+  &--blue &__bg {
+    background-color: rgba(28, 200, 238, 0.06);
+  }
+  &--blue &__inner {
+    background-image: linear-gradient(149.2deg, #1cc8ee 29.55%, #07738b 78.54%);
+    box-shadow: 0px 0px 30px -8px #1cc8ee;
+  }
+  &--yellow &__bg {
+    background-color: rgba(252, 212, 44, 0.07);
+  }
+  &--yellow &__inner {
+    background-image: linear-gradient(206.57deg, #fcd42c 18.7%, #a98b0d 80.04%);
+    box-shadow: 0px 0px 30px -8px #fcd42c;
+  }
+  &--gray &__bg {
+    background-color: var(--white);
+  }
+  &--gray &__inner {
+    background-image: none;
+    background-color: var(--white);
+  }
+}
+
+// 裝飾泡泡
+.bubble-1 {
+  position: absolute;
+  top: -43px;
+  right: 20px;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.5);
+  @include mediaQuery-pc {
+    width: 142px;
+    height: 142px;
+    right: 290px;
+  }
+}
+.bubble-2 {
+  position: absolute;
+  top: 191px;
+  left: -34px;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.5);
+  @include mediaQuery-pc {
+    width: 156px;
+    height: 156px;
+    left: -96px;
+    top: 235px;
+  }
+}
+.bubble-3 {
+  position: absolute;
+  top: 378px;
+  left: -30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.5);
+  @include mediaQuery-pc {
+    width: 77px;
+    height: 77px;
+    top: -39px;
+    left: 356px;
+  }
+}
+.bubble-4 {
+  position: absolute;
+  bottom: 60px;
+  right: 100px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.5);
+  @include mediaQuery-pc {
+    width: 131px;
+    height: 131px;
+    bottom: -72px;
+    right: 146px;
+  }
+}
+.bubble-5 {
+  position: absolute;
+  top: 490px;
+  left: 160px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.5);
+  @include mediaQuery-pc {
+    width: 82px;
+    height: 82px;
+    left: 313px;
+  }
+}
+.bubble-6 {
+  display: none;
+  @include mediaQuery-pc {
+    display: block;
+    position: absolute;
+    bottom: 280px;
+    right: 421px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.5);
+  }
+}

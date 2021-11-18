@@ -1,0 +1,30 @@
+:root {
+  /* Reset 1rem = 10px */
+  font-size: 10px;
+
+  /* Basic colors */
+  --white: #f5f5f5;
+  --black: #131414;
+
+  /* Project colors */
+  --blue: #1cc8ee;
+  --gray: #1c1d1d;
+  --gray-light: #414242;
+
+  /* gradient */
+  --black-gray-radial: radial-gradient(
+    86.64% 87.21% at 14.72% 0%,
+    #414242 0%,
+    #0a0a0b 100%
+  );
+  --black-gray-linear: linear-gradient(
+    171.99deg,
+    #323232 10.16%,
+    #0a0a0b 71.59%
+  );
+
+  /* box-shadow */
+  --shadow-button: 0px 0px 6px #1cc8ee, 0px 0px 2px #1cc8ee;
+  --shadow-line: 0px 0px 5px #1cc8ee;
+  --shadow-header: 0px 4px 5px rgba(0, 0, 0, 0.5);
+}

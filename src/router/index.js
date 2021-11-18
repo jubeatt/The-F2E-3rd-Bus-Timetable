@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import SearchNearby from '../views/SearchNearby.vue'
+import SearchLocalBus from '../views/SearchLocalBus.vue'
+import SearchGlobalBus from '../views/SearchGlobalBus.vue'
 
 const routes = [
   {
@@ -8,12 +11,19 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/Search-Nearby',
+    name: 'Search-Nearby',
+    component: SearchNearby
+  },
+  {
+    path: '/Search-LocalBus',
+    name: 'Search-LocalBus',
+    component: SearchLocalBus
+  },
+  {
+    path: '/Search-GlobalBus',
+    name: 'Search-GlobalBus',
+    component: SearchGlobalBus
   }
 ]
 
