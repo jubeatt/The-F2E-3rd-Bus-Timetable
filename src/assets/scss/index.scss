@@ -6,6 +6,7 @@
   bottom: 0;
   z-index: 1;
   overflow: hidden;
+  background-image: var(--black-gray-linear);
 }
 .logo {
   position: absolute;
@@ -21,7 +22,7 @@
   }
 }
 
-.svg {
+.svg-logo {
   width: 144px;
   height: 60px;
   @include mediaQuery-tablet {
@@ -92,6 +93,10 @@
   right: 10px;
   bottom: 10px;
   z-index: 2;
+  a {
+    display: inline-block;
+    color: var(--blue);
+  }
   @include mediaQuery-pc {
     right: auto;
     left: 30px;

@@ -9,7 +9,6 @@ body {
   font-weight: 400;
   line-height: 1.5;
   background-color: var(--black);
-  background-image: var(--black-gray-linear);
   color: var(--white);
   // 選用的背景圖
   // background-image: url(../images/home.jpg);
@@ -21,7 +20,7 @@ body {
 }
 
 section {
-  padding: 20px 15px;
+  padding: 12px 15px;
 }
 
 h1,
@@ -49,6 +48,27 @@ a {
     transition: transform 0.3s;
     &:hover {
       transform: scale(1.1);
+    }
+  }
+  .svg-t {
+    transition: fill 0.5s;
+  }
+  .svg-x {
+    transition: fill 0.5s;
+  }
+  .link:hover {
+    .svg-t {
+      fill: red;
+    }
+  }
+  .button {
+    transition: background-color 0.3s, color 0.3s;
+    &:hover {
+      background-color: var(--blue);
+      color: var(--black);
+      .svg-x {
+        fill: var(--black);
+      }
     }
   }
 }

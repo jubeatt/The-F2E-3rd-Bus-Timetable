@@ -39,12 +39,13 @@
 ### 網站連結
 
 - The-F2E 挑戰連結：[靜候佳音](#)
-- Demo 網站連結：[靜候佳音](#)
+- Demo 網站連結：[這裡](https://jubeatt.github.io/The-F2E-3rd-Bus-Timetable/)
 
 ### 使用的工具
 
 - [Vue.js (3.0)](https://v3.vuejs.org/guide/introduction.html)
 - CSS Flex-box
+- CSS Grid-box
 - SCSS
 - BEM
 - ES6

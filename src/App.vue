@@ -1,8 +1,5 @@
 <template>
   <router-view />
-  <router-view name="SearchNearby"/>
-  <router-view name="SearchLocalBus"/>
-  <router-view name="SearchGlobalBus"/>
 </template>
 
 <style lang="scss">

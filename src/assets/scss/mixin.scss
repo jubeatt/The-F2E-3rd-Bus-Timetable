@@ -1,6 +1,6 @@
 /* --- breakpoint --- */
 $width-tablet: 768px;
-$width-pc: 1280px;
+$width-pc: 1024px;
 /* --- media query --- */
 @mixin mediaQuery-tablet {
   @media screen and (min-width: $width-tablet) {

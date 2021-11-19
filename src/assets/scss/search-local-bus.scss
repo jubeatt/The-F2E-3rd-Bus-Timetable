@@ -1,0 +1,116 @@
+.container {
+  @include mediaQuery-pc {
+    width: 1080px;
+    margin: auto;
+    display: flex;
+    align-items: flex-start;
+  }
+  &__sidebar {
+    @include mediaQuery-pc {
+      width: 33%;
+      height: 100vh;
+      margin-right: 40px;
+      padding: 25px 0 75px;
+    }
+  }
+  &__search-result {
+    padding: 0px 15px 15px;
+    &::-webkit-scrollbar-track {
+      border-radius: 20px;
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar {
+      width: 9px;
+      height: 9px;
+      background-color: transparent;
+      box-shadow: var(--box-shadow-01);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      background-color: #555;
+    }
+    @include mediaQuery-pc {
+      width: 67%;
+      height: 100vh;
+      padding: 25px 0;
+      overflow: auto;
+    }
+  }
+}
+.heading {
+  margin-bottom: 15px;
+  @include mediaQuery-tablet {
+    font-size: 2rem;
+  }
+}
+.sidebar {
+  @include mediaQuery-pc {
+    display: flex;
+    flex-direction: column;
+  }
+  &__search-bar {
+    margin-bottom: 15px;
+  }
+  &__pannel {
+    position: fixed;
+    width: 100%;
+    padding: 20px;
+    bottom: 0;
+    background-color: var(--gray);
+    @include mediaQuery-tablet {
+      padding: 20px 40px;
+    }
+    @include mediaQuery-pc {
+      position: static;
+      padding: 20px;
+      flex: 1;
+    }
+  }
+}
+// 面板展開按鈕
+.button-keyboard-switch {
+  display: none;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  @include mediaQuery-pc {
+    display: none;
+  }
+}
+// 面板按鈕
+.buttons {
+  display: grid;
+  // display: none;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  .button:nth-child(1) {
+    grid-column: 1 / 3;
+    margin-bottom: 2px;
+    @include mediaQuery-pc {
+      grid-column: 1 / 4;
+    }
+  }
+  .button:nth-child(2) {
+    grid-column: 3 / 5;
+    margin-bottom: 2px;
+    @include mediaQuery-pc {
+      grid-column: 4 / 6;
+    }
+  }
+  .button:nth-child(3) {
+    grid-column: 5 / 6;
+    margin-bottom: 2px;
+    @include mediaQuery-pc {
+      display: none;
+    }
+  }
+}
+// 圖標獨立設定
+.icon-arrow {
+  transform: rotate(180deg);
+}
+.icon-position {
+  margin-right: 10px;
+}
