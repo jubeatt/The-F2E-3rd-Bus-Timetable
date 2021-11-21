@@ -48,8 +48,9 @@
           />
         </form>
       </header>
+      <!-- 輸入面板 -->
       <div class="sidebar__pannel">
-        <div class="buttons">
+        <div class="main-buttons">
           <button class="button">
             <i class="icon-position fas fa-map-marker-alt"></i>選擇縣市
           </button>
@@ -57,25 +58,36 @@
           <button class="button">
             <i class="icon-arrow fas fa-chevron-up"></i>
           </button>
+
           <button class="button text-color-blue">紅</button>
           <button class="button text-color-blue">藍</button>
+
           <button class="button">1</button>
           <button class="button">2</button>
           <button class="button">3</button>
+
           <button class="button text-color-blue">綠</button>
           <button class="button text-color-blue">棕</button>
+
           <button class="button">4</button>
           <button class="button">5</button>
           <button class="button">6</button>
+
           <button class="button text-color-blue">橘</button>
           <button class="button text-color-blue">小</button>
+
           <button class="button">7</button>
           <button class="button">8</button>
           <button class="button">9</button>
+
           <button class="button text-color-blue">幹線</button>
+
           <button class="button text-color-blue">更多</button>
+
           <button class="button text-color-blue">C</button>
+
           <button class="button">0</button>
+
           <button class="button">
             <svg
               width="24"
@@ -92,7 +104,120 @@
             </svg>
           </button>
         </div>
+
+        <form class="form-city">
+          <input class="hide" type="radio" id="key1" />
+          <label class="button button--small-text text-color-blue" for="key1"
+            >台北市</label
+          >
+          <input class="hide" type="radio" id="key2" />
+          <label class="button button--small-text text-color-blue" for="key2"
+            >新北市</label
+          >
+          <input class="hide" type="radio" id="key3" />
+          <label class="button button--small-text text-color-blue" for="key3"
+            >基隆市</label
+          >
+          <input class="hide" type="radio" id="key4" />
+          <label class="button button--small-text text-color-blue" for="key4"
+            >桃園市</label
+          >
+          <input class="hide" type="radio" id="key5" />
+          <label class="button button--small-text text-color-blue" for="key5"
+            >新竹市</label
+          >
+          <input class="hide" type="radio" id="key6" />
+          <label class="button button--small-text text-color-blue" for="key6"
+            >新竹縣</label
+          >
+          <input class="hide" type="radio" id="key7" />
+          <label class="button button--small-text text-color-blue" for="key7"
+            >苗栗縣</label
+          >
+          <input class="hide" type="radio" id="key8" />
+          <label class="button button--small-text text-color-blue" for="key8"
+            >台中市</label
+          >
+          <input class="hide" type="radio" id="key9" />
+          <label class="button button--small-text text-color-blue" for="key9"
+            >南投縣</label
+          >
+          <input class="hide" type="radio" id="key10" />
+          <label class="button button--small-text text-color-blue" for="key10"
+            >彰化縣</label
+          >
+          <input class="hide" type="radio" id="key11" />
+          <label class="button button--small-text text-color-blue" for="key11"
+            >雲林縣</label
+          >
+          <input class="hide" type="radio" id="key12" />
+          <label class="button button--small-text text-color-blue" for="key12"
+            >嘉義市</label
+          >
+          <input class="hide" type="radio" id="key13" />
+          <label class="button button--small-text text-color-blue" for="key13"
+            >嘉義縣</label
+          >
+          <input class="hide" type="radio" id="key14" />
+          <label class="button button--small-text text-color-blue" for="key14"
+            >台南市</label
+          >
+          <input class="hide" type="radio" id="key15" />
+          <label class="button button--small-text text-color-blue" for="key15"
+            >高雄市</label
+          >
+          <input class="hide" type="radio" id="key16" />
+          <label class="button button--small-text text-color-blue" for="key16"
+            >屏東縣</label
+          >
+          <input class="hide" type="radio" id="key17" />
+          <label class="button button--small-text text-color-blue" for="key17"
+            >台東縣</label
+          >
+          <input class="hide" type="radio" id="key18" />
+          <label class="button button--small-text text-color-blue" for="key18"
+            >花蓮縣</label
+          >
+          <input class="hide" type="radio" id="key19" />
+          <label class="button button--small-text text-color-blue" for="key19"
+            >宜蘭縣</label
+          >
+          <input class="hide" type="radio" id="key20" />
+          <label class="button button--small-text text-color-blue" for="key20"
+            >澎湖縣</label
+          >
+          <input class="hide" type="radio" id="key21" />
+          <label class="button button--small-text text-color-blue" for="key21"
+            >金門縣</label
+          >
+          <input class="hide" type="radio" id="key22" />
+          <label class="button button--small-text text-color-blue" for="key22"
+            >連江縣</label
+          >
+          <button class="button button--small-text text-color-blue">
+            設定
+          </button>
+        </form>
+        <form class="more-buttons">
+          <button class="button text-color-blue">F</button>
+          <button class="button text-color-blue">R</button>
+          <button class="button text-color-blue">T</button>
+          <button class="button text-color-blue">快</button>
+          <button class="button text-color-blue">內科</button>
+          <button class="button text-color-blue">跳蛙</button>
+          <button class="button text-color-blue">通勤</button>
+          <button class="button text-color-blue">南軟</button>
+          <button class="button text-color-blue">先導</button>
+          <button class="button text-color-blue">夜間</button>
+          <button class="button text-color-blue">市民</button>
+          <button class="button text-color-blue">其他</button>
+          <button class="button text-color-blue">回上一頁</button>
+        </form>
       </div>
+      <!-- 輸入面板開關 -->
+      <button class="button button-keyboard-switch">
+        <i class="fas fa-keyboard"></i>
+      </button>
     </div>
     <!-- 搜尋內容 -->
     <div class="container__search-result">
@@ -310,9 +435,6 @@
         </p>
       </section>
     </div>
-    <button class="button button-keyboard-switch">
-      <i class="fas fa-keyboard"></i>
-    </button>
   </div>
 </template>
 
