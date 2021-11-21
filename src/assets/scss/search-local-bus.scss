@@ -71,7 +71,6 @@
 }
 // 面板展開按鈕
 .button-keyboard-switch {
-  display: none;
   position: fixed;
   right: 15px;
   bottom: 15px;
@@ -110,7 +109,6 @@
 // 選擇縣市面板
 .form-city {
   display: grid;
-  display: none;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
   .button:last-child {
@@ -120,7 +118,6 @@
 // 更多選項面板
 .more-buttons {
   display: grid;
-  display: none;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
   .button:last-child {
@@ -133,4 +130,12 @@
 }
 .icon-position {
   margin-right: 10px;
+}
+.icon-warn {
+  margin-right: 10px;
+}
+// 提示文字設定
+.hint-text {
+  color: var(--red);
+  margin-bottom: 15px;
 }

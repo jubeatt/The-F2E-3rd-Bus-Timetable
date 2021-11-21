@@ -75,4 +75,8 @@
   &--small-text {
     font-size: 1.4rem;
   }
+  &--selected {
+    background-color: var(--blue);
+    color: var(--black);
+  }
 }

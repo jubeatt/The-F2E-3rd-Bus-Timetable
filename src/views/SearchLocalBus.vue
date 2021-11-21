@@ -45,50 +45,52 @@
             class="input"
             type="text"
             placeholder="選擇路線或手動輸入關鍵字"
+            v-model="userInput"
           />
         </form>
       </header>
       <!-- 輸入面板 -->
       <div class="sidebar__pannel">
-        <div class="main-buttons">
-          <button class="button">
+        <!-- 主要功能 -->
+        <div v-if="mainBoard" class="main-buttons">
+          <button @click="openCityBoard" class="button">
             <i class="icon-position fas fa-map-marker-alt"></i>選擇縣市
           </button>
           <button class="button text-color-blue">手動輸入</button>
-          <button class="button">
+          <button @click="closeMainBoard" class="button">
             <i class="icon-arrow fas fa-chevron-up"></i>
           </button>
 
-          <button class="button text-color-blue">紅</button>
-          <button class="button text-color-blue">藍</button>
+          <button @click="inputValue('紅')" class="button text-color-blue">紅</button>
+          <button @click="inputValue('藍')" class="button text-color-blue">藍</button>
 
-          <button class="button">1</button>
-          <button class="button">2</button>
-          <button class="button">3</button>
+          <button @click="inputValue('1')" class="button">1</button>
+          <button @click="inputValue('2')" class="button">2</button>
+          <button @click="inputValue('3')" class="button">3</button>
 
-          <button class="button text-color-blue">綠</button>
-          <button class="button text-color-blue">棕</button>
+          <button @click="inputValue('綠')" class="button text-color-blue">綠</button>
+          <button @click="inputValue('棕')" class="button text-color-blue">棕</button>
 
-          <button class="button">4</button>
-          <button class="button">5</button>
-          <button class="button">6</button>
+          <button @click="inputValue('4')" class="button">4</button>
+          <button @click="inputValue('5')" class="button">5</button>
+          <button @click="inputValue('6')" class="button">6</button>
 
-          <button class="button text-color-blue">橘</button>
-          <button class="button text-color-blue">小</button>
+          <button @click="inputValue('橘')" class="button text-color-blue">橘</button>
+          <button @click="inputValue('小')" class="button text-color-blue">小</button>
 
-          <button class="button">7</button>
-          <button class="button">8</button>
-          <button class="button">9</button>
+          <button @click="inputValue('7')" class="button">7</button>
+          <button @click="inputValue('8')" class="button">8</button>
+          <button @click="inputValue('9')" class="button">9</button>
 
-          <button class="button text-color-blue">幹線</button>
+          <button @click="inputValue('幹線')" class="button text-color-blue">幹線</button>
 
-          <button class="button text-color-blue">更多</button>
+          <button @click="openMoreBoard" class="button text-color-blue">更多</button>
 
-          <button class="button text-color-blue">C</button>
+          <button @click="clearInput" class="button text-color-blue">C</button>
 
-          <button class="button">0</button>
+          <button @click="inputValue('0')" class="button">0</button>
 
-          <button class="button">
+          <button @click="removeLastChar" class="button">
             <svg
               width="24"
               height="24"
@@ -104,101 +106,102 @@
             </svg>
           </button>
         </div>
-
-        <form class="form-city">
-          <input class="hide" type="radio" id="key1" />
-          <label class="button button--small-text text-color-blue" for="key1"
+        <!-- 縣市選擇 -->
+        <form v-if="cityBoard" class="form-city">
+          <input v-model="selectedCity" value="Taipei" class="hide" type="radio" id="key1" />
+          <label :class="{'button--selected' : selectedCity === 'Taipei' }" class="button button--small-text text-color-blue" for="key1"
             >台北市</label
           >
-          <input class="hide" type="radio" id="key2" />
-          <label class="button button--small-text text-color-blue" for="key2"
+          <input v-model="selectedCity" value="NewTaipei" class="hide" type="radio" id="key2" />
+          <label :class="{'button--selected' : selectedCity === 'NewTaipei' }" class="button button--small-text text-color-blue" for="key2"
             >新北市</label
           >
-          <input class="hide" type="radio" id="key3" />
-          <label class="button button--small-text text-color-blue" for="key3"
+          <input v-model="selectedCity" value="Keelung" class="hide" type="radio" id="key3" />
+          <label :class="{'button--selected' : selectedCity === 'Keelung' }" class="button button--small-text text-color-blue" for="key3"
             >基隆市</label
           >
-          <input class="hide" type="radio" id="key4" />
-          <label class="button button--small-text text-color-blue" for="key4"
+          <input v-model="selectedCity" value="Taoyuan" class="hide" type="radio" id="key4" />
+          <label :class="{'button--selected' : selectedCity === 'Taoyuan' }" class="button button--small-text text-color-blue" for="key4"
             >桃園市</label
           >
-          <input class="hide" type="radio" id="key5" />
-          <label class="button button--small-text text-color-blue" for="key5"
+          <input v-model="selectedCity" value="Hsinchu" class="hide" type="radio" id="key5" />
+          <label :class="{'button--selected' : selectedCity === 'Hsinchu' }" class="button button--small-text text-color-blue" for="key5"
             >新竹市</label
           >
-          <input class="hide" type="radio" id="key6" />
-          <label class="button button--small-text text-color-blue" for="key6"
+          <input v-model="selectedCity" value="HsinchuCounty" class="hide" type="radio" id="key6" />
+          <label :class="{'button--selected' : selectedCity === 'HsinchuCounty' }" class="button button--small-text text-color-blue" for="key6"
             >新竹縣</label
           >
-          <input class="hide" type="radio" id="key7" />
-          <label class="button button--small-text text-color-blue" for="key7"
+          <input v-model="selectedCity" value="MiaoliCounty" class="hide" type="radio" id="key7" />
+          <label :class="{'button--selected' : selectedCity === 'MiaoliCounty' }" class="button button--small-text text-color-blue" for="key7"
             >苗栗縣</label
           >
-          <input class="hide" type="radio" id="key8" />
-          <label class="button button--small-text text-color-blue" for="key8"
+          <input v-model="selectedCity" value="Taichung" class="hide" type="radio" id="key8" />
+          <label :class="{'button--selected' : selectedCity === 'Taichung' }" class="button button--small-text text-color-blue" for="key8"
             >台中市</label
           >
-          <input class="hide" type="radio" id="key9" />
-          <label class="button button--small-text text-color-blue" for="key9"
+          <input v-model="selectedCity" value="NantouCounty" class="hide" type="radio" id="key9" />
+          <label :class="{'button--selected' : selectedCity === 'NantouCounty' }" class="button button--small-text text-color-blue" for="key9"
             >南投縣</label
           >
-          <input class="hide" type="radio" id="key10" />
-          <label class="button button--small-text text-color-blue" for="key10"
+          <input v-model="selectedCity" value="ChanghuaCounty" class="hide" type="radio" id="key10" />
+          <label :class="{'button--selected' : selectedCity === 'ChanghuaCounty' }" class="button button--small-text text-color-blue" for="key10"
             >彰化縣</label
           >
-          <input class="hide" type="radio" id="key11" />
-          <label class="button button--small-text text-color-blue" for="key11"
+          <input v-model="selectedCity" value="YunlinCounty" class="hide" type="radio" id="key11" />
+          <label :class="{'button--selected' : selectedCity === 'YunlinCounty' }" class="button button--small-text text-color-blue" for="key11"
             >雲林縣</label
           >
-          <input class="hide" type="radio" id="key12" />
-          <label class="button button--small-text text-color-blue" for="key12"
+          <input v-model="selectedCity" value="Chiayi" class="hide" type="radio" id="key12" />
+          <label :class="{'button--selected' : selectedCity === 'Chiayi' }" class="button button--small-text text-color-blue" for="key12"
             >嘉義市</label
           >
-          <input class="hide" type="radio" id="key13" />
-          <label class="button button--small-text text-color-blue" for="key13"
+          <input v-model="selectedCity" value="ChiayiCounty" class="hide" type="radio" id="key13" />
+          <label :class="{'button--selected' : selectedCity === 'ChiayiCounty' }" class="button button--small-text text-color-blue" for="key13"
             >嘉義縣</label
           >
-          <input class="hide" type="radio" id="key14" />
-          <label class="button button--small-text text-color-blue" for="key14"
+          <input v-model="selectedCity" value="Tainan" class="hide" type="radio" id="key14" />
+          <label :class="{'button--selected' : selectedCity === 'Tainan' }" class="button button--small-text text-color-blue" for="key14"
             >台南市</label
           >
-          <input class="hide" type="radio" id="key15" />
-          <label class="button button--small-text text-color-blue" for="key15"
+          <input v-model="selectedCity" value="Kaohsiung" class="hide" type="radio" id="key15" />
+          <label :class="{'button--selected' : selectedCity === 'Kaohsiung' }" class="button button--small-text text-color-blue" for="key15"
             >高雄市</label
           >
-          <input class="hide" type="radio" id="key16" />
-          <label class="button button--small-text text-color-blue" for="key16"
+          <input v-model="selectedCity" value="PingtungCounty" class="hide" type="radio" id="key16" />
+          <label :class="{'button--selected' : selectedCity === 'PingtungCounty' }" class="button button--small-text text-color-blue" for="key16"
             >屏東縣</label
           >
-          <input class="hide" type="radio" id="key17" />
-          <label class="button button--small-text text-color-blue" for="key17"
+          <input v-model="selectedCity" value="TaitungCounty" class="hide" type="radio" id="key17" />
+          <label :class="{'button--selected' : selectedCity === 'TaitungCounty' }" class="button button--small-text text-color-blue" for="key17"
             >台東縣</label
           >
-          <input class="hide" type="radio" id="key18" />
-          <label class="button button--small-text text-color-blue" for="key18"
+          <input v-model="selectedCity" value="HualienCounty" class="hide" type="radio" id="key18" />
+          <label :class="{'button--selected' : selectedCity === 'HualienCounty' }" class="button button--small-text text-color-blue" for="key18"
             >花蓮縣</label
           >
-          <input class="hide" type="radio" id="key19" />
-          <label class="button button--small-text text-color-blue" for="key19"
+          <input v-model="selectedCity" value="YilanCounty" class="hide" type="radio" id="key19" />
+          <label :class="{'button--selected' : selectedCity === 'YilanCounty' }" class="button button--small-text text-color-blue" for="key19"
             >宜蘭縣</label
           >
-          <input class="hide" type="radio" id="key20" />
-          <label class="button button--small-text text-color-blue" for="key20"
+          <input v-model="selectedCity" value="PenghuCounty" class="hide" type="radio" id="key20" />
+          <label :class="{'button--selected' : selectedCity === 'PenghuCounty' }" class="button button--small-text text-color-blue" for="key20"
             >澎湖縣</label
           >
-          <input class="hide" type="radio" id="key21" />
-          <label class="button button--small-text text-color-blue" for="key21"
+          <input v-model="selectedCity" value="KinmenCounty" class="hide" type="radio" id="key21" />
+          <label :class="{'button--selected' : selectedCity === 'KinmenCounty' }" class="button button--small-text text-color-blue" for="key21"
             >金門縣</label
           >
-          <input class="hide" type="radio" id="key22" />
-          <label class="button button--small-text text-color-blue" for="key22"
+          <input v-model="selectedCity" value="LienchiangCounty" class="hide" type="radio" id="key22" />
+          <label :class="{'button--selected' : selectedCity === 'LienchiangCounty' }" class="button button--small-text text-color-blue" for="key22"
             >連江縣</label
           >
-          <button class="button button--small-text text-color-blue">
+          <button @click.prevent="finishChoose" class="button button--small-text text-color-blue">
             設定
           </button>
         </form>
-        <form class="more-buttons">
+        <!-- 更多選擇 -->
+        <form v-if="moreBoard" class="more-buttons">
           <button class="button text-color-blue">F</button>
           <button class="button text-color-blue">R</button>
           <button class="button text-color-blue">T</button>
@@ -215,225 +218,26 @@
         </form>
       </div>
       <!-- 輸入面板開關 -->
-      <button class="button button-keyboard-switch">
+      <button @click="openMainBoard" v-if="!mainBoard && !cityBoard && !moreBoard" class="button button-keyboard-switch">
         <i class="fas fa-keyboard"></i>
       </button>
     </div>
     <!-- 搜尋內容 -->
     <div class="container__search-result">
-      <h2 class="heading">
-        <i class="icon-position fas fa-map-marker-alt"></i>台北市
+      <h2 v-if="!warningMsg" class="heading">
+        <i class="icon-position fas fa-map-marker-alt"></i>{{ currentCity }}
       </h2>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
-      <section class="card-info">
-        <h3 class="card-info__title">紅10</h3>
-        <p class="card-info__text">
-          台北海大<span class="card-info__middle-text">往</span>捷運劍潭站
-        </p>
-      </section>
+      <p v-if="warningMsg" class="hint-text"><span class="icon-warn"><i class="fas fa-exclamation-triangle"></i></span>請先選擇縣市</p>
+
+      <p v-if="noResultMsg">查無搜尋結果</p>
+
+      <template v-for="(item, index) of routeData" :key="index">
+        <section class="card-info">
+          <h3 class="card-info__title">{{ item.RouteName.Zh_tw }}</h3>
+          <p class="card-info__text">{{ item.DepartureStopNameZh }}<span class="card-info__middle-text">往</span>{{ item.DestinationStopNameZh }}</p>
+        </section>
+      </template>
+
     </div>
   </div>
 </template>
@@ -442,3 +246,177 @@
 @import '@/assets/scss/components.scss';
 @import '@/assets/scss/search-local-bus.scss';
 </style>
+
+<script>
+import GetAuthorizationHeader from '../lib/Authorization.js'
+export default {
+  name: 'SearchLocalBus',
+  data () {
+    return {
+      mainBoard: true,
+      cityBoard: false,
+      moreBoard: false,
+      warningMsg: false,
+      noResultMsg: false,
+      userInput: '',
+      selectedCity: '',
+      currentCity: '尚未選擇縣市',
+      routeData: [],
+      tempRouteData: []
+    }
+  },
+  methods: {
+    openCityBoard () {
+      // 清除輸入文字
+      this.userInput = ''
+      // 關閉主功能面板
+      this.mainBoard = false
+      // 切換至選擇縣市面板
+      this.cityBoard = true
+    },
+    openMoreBoard () {
+      // 關閉主功能面板
+      this.mainBoard = false
+      // 切換至更多選項面板
+      this.moreBoard = true
+    },
+    openMainBoard () {
+      this.mainBoard = true
+    },
+    closeMainBoard () {
+      this.mainBoard = false
+    },
+    async finishChoose () {
+      if (this.selectedCity) {
+        // 清除提示文字
+        this.warningMsg = false
+        // 送出請求。取得該縣市的公車路線資料
+        this.routeData = await this.fetchRoute(this.selectedCity)
+        // 拷貝資料
+        this.tempRouteData = [...this.routeData]
+        // 更新顯示文字
+        this.currentCity = this.transferToZhTw(this.selectedCity)
+        // 關閉選擇縣市面板
+        this.cityBoard = false
+        // 切回主功能面板
+        this.mainBoard = true
+      } else {
+        this.warningMsg = true
+      }
+    },
+    inputValue (value) {
+      // 將值寫入 userInput
+      this.userInput += value
+    },
+    removeLastChar () {
+      // 移除最後一個字元
+      this.userInput = this.userInput.slice(0, -1)
+    },
+    clearInput () {
+      // 清空所有內容
+      this.userInput = ''
+    },
+    fetchRoute (cityName) {
+      return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${cityName}?$format=JSON`, { headers: GetAuthorizationHeader() })
+        .then((response) => response.json())
+        .then((json) => json)
+    },
+    transferToZhTw (string) {
+      let result = ''
+      switch (string) {
+        case 'Taipei':
+          result = '台北市'
+          break
+        case 'NewTaipei':
+          result = '新北市'
+          break
+        case 'Keelung':
+          result = '基隆市'
+          break
+        case 'Taoyuan':
+          result = '桃園市'
+          break
+        case 'Hsinchu':
+          result = '新竹市'
+          break
+        case 'HsinchuCounty':
+          result = '新竹縣'
+          break
+        case 'MiaoliCounty':
+          result = '苗栗縣'
+          break
+        case 'Taichung':
+          result = '台中市'
+          break
+        case 'NantouCounty':
+          result = '南投縣'
+          break
+        case 'ChanghuaCounty':
+          result = '彰化縣'
+          break
+        case 'YunlinCounty':
+          result = '雲林縣'
+          break
+        case 'Chiayi':
+          result = '嘉義市'
+          break
+        case 'ChiayiCounty':
+          result = '嘉義縣'
+          break
+        case 'Tainan':
+          result = '台南市'
+          break
+        case 'Kaohsiung':
+          result = '高雄市'
+          break
+        case 'PingtungCounty':
+          result = '屏東縣'
+          break
+        case 'TaitungCounty':
+          result = '台東縣'
+          break
+        case 'HualienCounty':
+          result = '花蓮縣'
+          break
+        case 'YilanCounty':
+          result = '宜蘭縣'
+          break
+        case 'PenghuCounty':
+          result = '澎湖縣'
+          break
+        case 'KinmenCounty':
+          result = '金門縣'
+          break
+        case 'LienchiangCounty':
+          result = '連江縣'
+          break
+      }
+      return result
+    },
+    searchData (array, string) {
+      return array.filter(function (item) {
+        return item.RouteName.Zh_tw.includes(string)
+      })
+    }
+  },
+  watch: {
+    userInput: function (val) {
+      // 若 userInput 為空字串
+      if (!this.selectedCity) {
+        console.log('請選擇縣市')
+        // 顯示提示文字
+        this.warningMsg = true
+      } else {
+        // 從拷貝資料中做篩選
+        this.routeData = this.searchData(this.tempRouteData, val)
+        // 若找無結果，顯示提示文字
+        if (this.routeData.length === 0) {
+          this.noResultMsg = true
+        } else {
+          this.noResultMsg = false
+        }
+      }
+    }
+  }
+}
+</script>
