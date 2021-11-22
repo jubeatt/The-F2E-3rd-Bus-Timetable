@@ -79,4 +79,7 @@
     background-color: var(--blue);
     color: var(--black);
   }
+  &:not(label):active {
+    background-color: var(--light-blue);
+  }
 }

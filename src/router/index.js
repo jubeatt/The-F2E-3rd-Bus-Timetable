@@ -7,7 +7,8 @@ import Users from '../views/Users.vue'
 import User from '../views/User.vue'
 import TestUser from '../views/TestUser.vue'
 import SearchPage from '../views/SearchPage.vue'
-import ResultPage from '../views/ResultPage.vue'
+import EstimatedTimeOfArrival from '../views/EstimatedTimeOfArrival.vue'
+import SearchResult from '../views/SearchResult.vue'
 
 const routes = [
   {
@@ -23,7 +24,14 @@ const routes = [
   {
     path: '/Search-LocalBus',
     name: 'Search-LocalBus',
-    component: SearchLocalBus
+    component: SearchLocalBus,
+    children: [
+      {
+        path: ':City/:RouteName?',
+        name: 'SearchResult',
+        component: SearchResult
+      }
+    ]
   },
   {
     path: '/Search-GlobalBus',
@@ -33,10 +41,6 @@ const routes = [
   {
     path: '/SearchPage',
     component: SearchPage
-  },
-  {
-    path: '/ResultPage/:City/:RouteName?',
-    component: ResultPage
   },
   {
     path: '/Users',
@@ -51,6 +55,10 @@ const routes = [
         }
       }
     ]
+  },
+  {
+    path: '/EstimatedTimeOfArrival/:City/:RouteName',
+    component: EstimatedTimeOfArrival
   }
 ]
 

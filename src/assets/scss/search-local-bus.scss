@@ -14,6 +14,8 @@
     }
   }
   &__search-result {
+    // for loading-overlay
+    position: relative;
     padding: 0px 15px 15px;
     &::-webkit-scrollbar-track {
       border-radius: 20px;
@@ -45,6 +47,16 @@
     font-size: 2rem;
   }
 }
+// 提示文字設定
+.hint-text {
+  color: var(--red);
+  margin-top: 25px;
+  margin-left: 15px;
+}
+// 搜尋文字設定
+.search-text {
+  margin-bottom: 15px;
+}
 .sidebar {
   @include mediaQuery-pc {
     display: flex;
@@ -54,6 +66,8 @@
     margin-bottom: 15px;
   }
   &__pannel {
+    // 避免被 search-result 覆蓋
+    z-index: 1;
     position: fixed;
     width: 100%;
     padding: 20px;
@@ -71,6 +85,7 @@
 }
 // 面板展開按鈕
 .button-keyboard-switch {
+  z-index: 1;
   position: fixed;
   right: 15px;
   bottom: 15px;
@@ -80,7 +95,7 @@
   }
 }
 // 主面板
-.main-buttons {
+.main-board {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
@@ -116,7 +131,7 @@
   }
 }
 // 更多選項面板
-.more-buttons {
+.more-board {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
@@ -134,8 +149,6 @@
 .icon-warn {
   margin-right: 10px;
 }
-// 提示文字設定
-.hint-text {
-  color: var(--red);
-  margin-bottom: 15px;
+.icon-search {
+  margin: 0 10px;
 }

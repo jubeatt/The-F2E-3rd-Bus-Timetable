@@ -46,18 +46,19 @@
             type="text"
             placeholder="選擇路線或手動輸入關鍵字"
             v-model="userInput"
+            ref="input"
           />
         </form>
       </header>
       <!-- 輸入面板 -->
-      <div class="sidebar__pannel">
+      <div v-if="isPanelActive" class="sidebar__pannel">
         <!-- 主要功能 -->
-        <div v-if="mainBoard" class="main-buttons">
+        <div v-if="mainBoard" class="main-board">
           <button @click="openCityBoard" class="button">
             <i class="icon-position fas fa-map-marker-alt"></i>選擇縣市
           </button>
-          <button class="button text-color-blue">手動輸入</button>
-          <button @click="closeMainBoard" class="button">
+          <button @click="focusOnInput" class="button text-color-blue">手動輸入</button>
+          <button @click="closePanel" class="button">
             <i class="icon-arrow fas fa-chevron-up"></i>
           </button>
 
@@ -201,68 +202,49 @@
           </button>
         </form>
         <!-- 更多選擇 -->
-        <form v-if="moreBoard" class="more-buttons">
-          <button class="button text-color-blue">F</button>
-          <button class="button text-color-blue">R</button>
-          <button class="button text-color-blue">T</button>
-          <button class="button text-color-blue">快</button>
-          <button class="button text-color-blue">內科</button>
-          <button class="button text-color-blue">跳蛙</button>
-          <button class="button text-color-blue">通勤</button>
-          <button class="button text-color-blue">南軟</button>
-          <button class="button text-color-blue">先導</button>
-          <button class="button text-color-blue">夜間</button>
-          <button class="button text-color-blue">市民</button>
-          <button class="button text-color-blue">其他</button>
-          <button class="button text-color-blue">回上一頁</button>
-        </form>
+        <div v-if="moreBoard" class="more-board">
+          <button @click="inputValue('F')" class="button text-color-blue">F</button>
+          <button @click="inputValue('R')" class="button text-color-blue">R</button>
+          <button @click="inputValue('T')" class="button text-color-blue">T</button>
+          <button @click="inputValue('快')" class="button text-color-blue">快</button>
+          <button @click="inputValue('內科')" class="button text-color-blue">內科</button>
+          <button @click="inputValue('跳蛙')" class="button text-color-blue">跳蛙</button>
+          <button @click="inputValue('通勤')" class="button text-color-blue">通勤</button>
+          <button @click="inputValue('南軟')" class="button text-color-blue">南軟</button>
+          <button @click="inputValue('先導')" class="button text-color-blue">先導</button>
+          <button @click="inputValue('夜間')" class="button text-color-blue">夜間</button>
+          <button @click="inputValue('市民')" class="button text-color-blue">市民</button>
+          <button @click="inputValue('其他')" class="button text-color-blue">其他</button>
+          <button @click="closeMoreBoaard" class="button text-color-blue">回上一頁</button>
+        </div>
       </div>
       <!-- 輸入面板開關 -->
-      <button @click="openMainBoard" v-if="!mainBoard && !cityBoard && !moreBoard" class="button button-keyboard-switch">
+      <button @click="openPanel" v-if="!isPanelActive" class="button button-keyboard-switch">
         <i class="fas fa-keyboard"></i>
       </button>
     </div>
+
+    <p v-if="warningMsg" class="hint-text"><span class="icon-warn"><i class="fas fa-exclamation-triangle"></i></span>請先選擇縣市</p>
+
     <!-- 搜尋內容 -->
-    <div class="container__search-result">
-      <h2 v-if="!warningMsg" class="heading">
-        <i class="icon-position fas fa-map-marker-alt"></i>{{ currentCity }}
-      </h2>
-      <p v-if="warningMsg" class="hint-text"><span class="icon-warn"><i class="fas fa-exclamation-triangle"></i></span>請先選擇縣市</p>
-
-      <p v-if="noResultMsg">查無搜尋結果</p>
-
-      <template v-for="(item, index) of routeData" :key="index">
-        <section class="card-info">
-          <h3 class="card-info__title">{{ item.RouteName.Zh_tw }}</h3>
-          <p class="card-info__text">{{ item.DepartureStopNameZh }}<span class="card-info__middle-text">往</span>{{ item.DestinationStopNameZh }}</p>
-        </section>
-      </template>
-
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
-<style lang="scss" scoped>
-@import '@/assets/scss/components.scss';
-@import '@/assets/scss/search-local-bus.scss';
-</style>
-
 <script>
-import GetAuthorizationHeader from '../lib/Authorization.js'
+// 引入 router
+import router from '../router'
 export default {
   name: 'SearchLocalBus',
   data () {
     return {
+      isPanelActive: true,
       mainBoard: true,
       cityBoard: false,
       moreBoard: false,
       warningMsg: false,
-      noResultMsg: false,
       userInput: '',
-      selectedCity: '',
-      currentCity: '尚未選擇縣市',
-      routeData: [],
-      tempRouteData: []
+      selectedCity: ''
     }
   },
   methods: {
@@ -280,22 +262,29 @@ export default {
       // 切換至更多選項面板
       this.moreBoard = true
     },
-    openMainBoard () {
+    closeMoreBoaard () {
+      // 關閉更多選項面板
+      this.moreBoard = false
+      // 切換至主功能面板
       this.mainBoard = true
     },
-    closeMainBoard () {
-      this.mainBoard = false
+    openPanel () {
+      // 開啟面板
+      this.isPanelActive = true
     },
-    async finishChoose () {
+    closePanel () {
+      // 關閉面板
+      this.isPanelActive = false
+    },
+    focusOnInput () {
+      this.$refs.input.focus()
+    },
+    finishChoose () {
       if (this.selectedCity) {
         // 清除提示文字
         this.warningMsg = false
-        // 送出請求。取得該縣市的公車路線資料
-        this.routeData = await this.fetchRoute(this.selectedCity)
-        // 拷貝資料
-        this.tempRouteData = [...this.routeData]
-        // 更新顯示文字
-        this.currentCity = this.transferToZhTw(this.selectedCity)
+        // 更新路由
+        router.push({ name: 'SearchResult', params: { City: this.selectedCity, query: { RouteName: this.userInput } } })
         // 關閉選擇縣市面板
         this.cityBoard = false
         // 切回主功能面板
@@ -315,106 +304,17 @@ export default {
     clearInput () {
       // 清空所有內容
       this.userInput = ''
-    },
-    fetchRoute (cityName) {
-      return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${cityName}?$format=JSON`, { headers: GetAuthorizationHeader() })
-        .then((response) => response.json())
-        .then((json) => json)
-    },
-    transferToZhTw (string) {
-      let result = ''
-      switch (string) {
-        case 'Taipei':
-          result = '台北市'
-          break
-        case 'NewTaipei':
-          result = '新北市'
-          break
-        case 'Keelung':
-          result = '基隆市'
-          break
-        case 'Taoyuan':
-          result = '桃園市'
-          break
-        case 'Hsinchu':
-          result = '新竹市'
-          break
-        case 'HsinchuCounty':
-          result = '新竹縣'
-          break
-        case 'MiaoliCounty':
-          result = '苗栗縣'
-          break
-        case 'Taichung':
-          result = '台中市'
-          break
-        case 'NantouCounty':
-          result = '南投縣'
-          break
-        case 'ChanghuaCounty':
-          result = '彰化縣'
-          break
-        case 'YunlinCounty':
-          result = '雲林縣'
-          break
-        case 'Chiayi':
-          result = '嘉義市'
-          break
-        case 'ChiayiCounty':
-          result = '嘉義縣'
-          break
-        case 'Tainan':
-          result = '台南市'
-          break
-        case 'Kaohsiung':
-          result = '高雄市'
-          break
-        case 'PingtungCounty':
-          result = '屏東縣'
-          break
-        case 'TaitungCounty':
-          result = '台東縣'
-          break
-        case 'HualienCounty':
-          result = '花蓮縣'
-          break
-        case 'YilanCounty':
-          result = '宜蘭縣'
-          break
-        case 'PenghuCounty':
-          result = '澎湖縣'
-          break
-        case 'KinmenCounty':
-          result = '金門縣'
-          break
-        case 'LienchiangCounty':
-          result = '連江縣'
-          break
-      }
-      return result
-    },
-    searchData (array, string) {
-      return array.filter(function (item) {
-        return item.RouteName.Zh_tw.includes(string)
-      })
     }
   },
   watch: {
-    userInput: function (val) {
-      // 若 userInput 為空字串
+    userInput: function () {
+      // 若 selectedCity 沒有值
       if (!this.selectedCity) {
-        console.log('請選擇縣市')
         // 顯示提示文字
         this.warningMsg = true
       } else {
-        // 從拷貝資料中做篩選
-        this.routeData = this.searchData(this.tempRouteData, val)
-        // 若找無結果，顯示提示文字
-        if (this.routeData.length === 0) {
-          this.noResultMsg = true
-        } else {
-          this.noResultMsg = false
-        }
+        // 更新路由
+        router.push({ name: 'SearchResult', params: { City: this.selectedCity }, query: { RouteName: this.userInput } })
       }
     }
   }

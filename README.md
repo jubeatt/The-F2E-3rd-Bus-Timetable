@@ -32,6 +32,12 @@
 
 1. 完成公車路線 API 串接、過濾資料
 
+## 2021/11/22
+
+1. 重新規劃路由設定
+2. 新增 Loading 效果
+3. 部分 UI 新增
+
 ## 總覽
 
 ### 關於這份挑戰
@@ -56,6 +62,7 @@
 ### 使用的工具
 
 - [Vue.js (3.0)](https://v3.vuejs.org/guide/introduction.html)
+- [Loading Overlay](https://www.npmjs.com/package/vue-loading-overlay)
 - CSS Flex-box
 - CSS Grid-box
 - SCSS
