@@ -7,7 +7,7 @@ import Users from '../views/Users.vue'
 import User from '../views/User.vue'
 import TestUser from '../views/TestUser.vue'
 
-import EstimatedTimeOfArrival from '../views/EstimatedTimeOfArrival.vue'
+import EstimatedTimeOfArrival from '../components/EstimatedTimeOfArrival.vue'
 
 const routes = [
   {
@@ -21,7 +21,7 @@ const routes = [
     component: SearchLocalBus,
     children: [
       {
-        path: 'EstimatedTimeOfArrival/:City/:RouteName',
+        path: 'EstimatedTimeOfArrival/:City/:RouteUID',
         name: 'EstimatedTimeOfArrival',
         component: EstimatedTimeOfArrival
       }

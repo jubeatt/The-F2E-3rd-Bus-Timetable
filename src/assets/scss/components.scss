@@ -84,3 +84,27 @@
     background-color: var(--light-blue);
   }
 }
+// 公車狀態訊息
+.status-msg {
+  min-width: 80px;
+  border-radius: 12px;
+  padding: 12px 10px;
+  margin-right: 15px;
+  text-align: center;
+  &--off {
+    background-color: var(--black);
+    color: var(--gray-light);
+  }
+  &--on {
+    background-color: var(--blue);
+    color: var(--black);
+  }
+  &--driving {
+    background-color: var(--black);
+    color: var(--blue);
+    box-shadow: var(--shadow-button);
+  }
+  &--leaving {
+    background-color: var(--gray-light);
+  }
+}

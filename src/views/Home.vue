@@ -3,7 +3,7 @@
     <h1 class="hide">全台公車動態時刻查詢應用服務</h1>
     <div class="logo">
       <svg
-        class="svg-logo"
+        class="hoem-svg-logo"
         width="245"
         height="102"
         viewBox="0 0 93 39"
@@ -95,7 +95,3 @@ export default {
   name: 'Home'
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@/assets/scss/index.scss';
-</style>
