@@ -1,5 +1,5 @@
 .container {
-  padding-bottom: 300px;
+  padding-bottom: 330px;
   @include mediaQuery-pc {
     padding-bottom: 0;
     width: 1080px;
@@ -52,8 +52,6 @@
 // 提示文字設定
 .hint-text {
   color: var(--red);
-  margin-top: 25px;
-  margin-left: 15px;
 }
 // 搜尋文字設定
 .search-text {

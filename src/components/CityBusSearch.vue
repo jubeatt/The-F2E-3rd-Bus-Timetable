@@ -228,15 +228,10 @@
     <!-- 搜尋結果 -->
     <div class="container__search-result">
       <h2 class="heading"><i class="icon-position fas fa-map-marker-alt"></i>{{ currentCity }}</h2>
-      <p v-if="userInput" class="mb-s">搜尋：{{ userInput }}</p>
       <p v-if="warningMsg" class="hint-text"><span class="icon-warn"><i class="fas fa-exclamation-triangle"></i></span>請先選擇縣市</p>
       <p v-if="noResultMsg">找不到搜尋結果</p>
       <template v-for="(item, index) of routeData" :key="index">
-         <router-link
-           :to="`/Search-LocalBus/EstimatedTimeOfArrival/${this.selectedCity}/${item.RouteUID}`"
-           class="card-info"
-           @click="changePage"
-           >
+         <router-link :to="`/Include/Detail/${this.selectedCity}/${item.RouteUID}`" class="card-info">
           <h3 class="card-info__title">{{ item.RouteName.Zh_tw }}</h3>
           <p class="card-info__text">{{ item.DepartureStopNameZh }}<span class="card-info__middle-text">往</span>{{ item.DestinationStopNameZh }}</p>
         </router-link>
@@ -252,8 +247,6 @@
       :blur="loader.blur"
       :is-full-page="loader.fullPage"/>
   </div>
-
-  <router-view v-if="!onSearching" @backToPrevious="showSearching"></router-view>
 </template>
 
 <script>
@@ -436,15 +429,8 @@ export default {
     },
     searchData (array, string) {
       return array.filter(function (item) {
-        return item.RouteName.Zh_tw.includes(string.toUpperCase())
+        return item.RouteName.Zh_tw.includes(string)
       })
-    },
-    changePage () {
-      // 關閉搜尋頁面
-      this.onSearching = false
-    },
-    showSearching () {
-      this.onSearching = true
     }
   },
   computed: {
@@ -459,12 +445,8 @@ export default {
         // 顯示提示文字
         this.warningMsg = true
       } else {
-        // 打開 loading 畫面
-        this.loader.isLoading = true
         // 過濾顯示資料
         this.routeData = this.searchData(this.tempData, val)
-        // 關閉 Loading 畫面
-        this.loader.isLoading = false
       }
     },
     // 當資料改變時，檢查該資料的長度

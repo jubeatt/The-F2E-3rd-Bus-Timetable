@@ -1,13 +1,13 @@
 <template>
   <div class="container__search-result">
     <h2 class="heading"><i class="icon-position fas fa-map-marker-alt"></i>{{ transferToZhTw(cityName) }}</h2>
-    <p v-if="routerName" class="search-text">搜尋：{{ routerName }}</p>
+    <p v-if="routeName" class="search-text">搜尋：{{ routeName }}</p>
     <p v-if="noResultMsg">找不到搜尋結果</p>
     <template v-for="(item, index) of routeData" :key="index">
-      <section class="card-info">
+      <router-link :to="`/EstimatedTimeOfArrival/${cityName}/${item.RouteUID}`" class="card-info">
         <h3 class="card-info__title">{{ item.RouteName.Zh_tw }}</h3>
         <p class="card-info__text">{{ item.DepartureStopNameZh }}<span class="card-info__middle-text">往</span>{{ item.DestinationStopNameZh }}</p>
-      </section>
+      </router-link>
     </template>
   </div>
   <!-- loading -->
@@ -134,7 +134,7 @@ export default {
     cityName () {
       return this.$route.params.City
     },
-    routerName () {
+    routeName () {
       return this.$route.query.RouteName
     },
     routeDataLength () {
@@ -148,6 +148,11 @@ export default {
     this.routeData = await this.fetchRoute(this.cityName)
     // 拷貝資料（過濾用）
     this.tempData = [...this.routeData]
+    // 如果網址帶有路線參數，過濾資料
+    if (this.routeName) {
+      // 利用暫存資料做過濾，並更新顯示資料的內容
+      this.routeData = this.searchData(this.tempData, this.routeName)
+    }
     // 隱藏 loading 畫面
     this.loader.isLoading = false
   },
@@ -165,8 +170,8 @@ export default {
       // 隱藏 loading 畫面
       this.loader.isLoading = false
     },
-    // 當 routerName 改變時要做的處理
-    routerName: function (newVal) {
+    // 當 routeName 改變時要做的處理
+    routeName: function (newVal) {
       // 利用暫存資料做過濾，並更新顯示資料的內容
       this.routeData = this.searchData(this.tempData, newVal)
     },
@@ -180,6 +185,11 @@ export default {
         this.noResultMsg = false
       }
     }
+  },
+  beforeRouteLeave (to, from) {
+    console.log('即將離開目前的元件，跳轉到下一個路由')
+    console.log(to)
+    console.log(from)
   }
 }
 </script>

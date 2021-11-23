@@ -6,9 +6,8 @@ import SearchGlobalBus from '../views/SearchGlobalBus.vue'
 import Users from '../views/Users.vue'
 import User from '../views/User.vue'
 import TestUser from '../views/TestUser.vue'
-import SearchPage from '../views/SearchPage.vue'
+
 import EstimatedTimeOfArrival from '../views/EstimatedTimeOfArrival.vue'
-import SearchResult from '../views/SearchResult.vue'
 
 const routes = [
   {
@@ -17,19 +16,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/Search-Nearby',
-    name: 'Search-Nearby',
-    component: SearchNearby
-  },
-  {
     path: '/Search-LocalBus',
     name: 'Search-LocalBus',
     component: SearchLocalBus,
     children: [
       {
-        path: ':City/:RouteName?',
-        name: 'SearchResult',
-        component: SearchResult
+        path: 'EstimatedTimeOfArrival/:City/:RouteName',
+        name: 'EstimatedTimeOfArrival',
+        component: EstimatedTimeOfArrival
       }
     ]
   },
@@ -39,8 +33,9 @@ const routes = [
     component: SearchGlobalBus
   },
   {
-    path: '/SearchPage',
-    component: SearchPage
+    path: '/Search-Nearby',
+    name: 'Search-Nearby',
+    component: SearchNearby
   },
   {
     path: '/Users',
