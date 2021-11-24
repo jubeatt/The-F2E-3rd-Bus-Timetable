@@ -1,6 +1,5 @@
 <template>
   <div class="estimated-time-of-arrival">
-
     <header class="header">
       <div class="container">
         <div class="main-buttons">
@@ -44,54 +43,66 @@
           </router-link>
           <button class="main-buttons__button-map"><i class="fas fa-map-marked-alt"></i></button>
         </div>
+        <h2 class="heading">{{ routeName }}</h2>
         <div class="direction">
-          <button class="direction__button direction__button--current">往{{ departureStop }}</button>
-          <button class="direction__button">往 {{ destinationStop }}</button>
+          <button
+            class="direction__button"
+            :class="{'direction__button--current' : direction }"
+            @click="direction = 1">往 {{ destinationStop }}</button>
+          <button
+            class="direction__button"
+            :class="{'direction__button--current' : !direction }"
+            @click="direction = 0">往{{ departureStop }}</button>
         </div>
       </div>
     </header>
-    <main class="content">
+    <main v-if="direction" class="content" :key="randomKey()">
       <div class="container">
-        <p class="update-msg text-color-blue">*於 3 秒前更新</p>
-        <!-- <div class="stops">
-          <section class="stop">
-            <h3 class="stop__name">富洲里</h3>
-            <p class="stop__status status-msg status-msg--off">未發車</p>
-            <p class="stop__plateNumb">619-U3</p>
-            <span class="stop__dot"></span>
-          </section>
-          <section class="stop">
-            <h3 class="stop__name">富洲里</h3>
-            <p class="stop__status status-msg status-msg--on">進站中</p>
-            <p class="stop__plateNumb">619-U3</p>
-            <span class="stop__dot"></span>
-          </section>
-          <section class="stop">
-            <h3 class="stop__name">富洲里</h3>
-            <p class="stop__status status-msg status-msg--driving">4分</p>
-            <p class="stop__plateNumb">619-U3</p>
-            <span class="stop__dot stop__dot--on"></span>
-          </section>
-          <section class="stop">
-            <h3 class="stop__name">富洲里</h3>
-            <p class="stop__status status-msg status-msg--leaving">離站中</p>
-            <p class="stop__plateNumb">619-U3</p>
-            <span class="stop__dot stop__dot--on"></span>
-          </section>
-        </div> -->
+        <p class="update-msg text-color-blue">*於 {{ timer }} 秒後自動更新</p>
         <div class="stops">
-          <template v-for="(stop, index) in stops" :key="index">
+          <template v-for="(stop, index) in goDistanceData" :key="index">
             <section class="stop">
               <h3 class="stop__name">{{ stop.StopName.Zh_tw }}</h3>
-              <p class="stop__status status-msg status-msg--driving">{{ checkStatus(stop) }}</p>
-              <p class="stop__plateNumb">619-U3</p>
-              <span class="stop__dot stop__dot--on"></span>
+              <p
+                class="stop__status status-msg"
+                :class="{'status-msg--close' : statusStyleCheck(stop) === 0,
+                         'status-msg--active' : statusStyleCheck(stop) === 1,
+                         'status-msg--not-yet' : statusStyleCheck(stop) === 2,
+                         'status-msg--last' : statusStyleCheck(stop) === 3,
+                         'status-msg--traffic' : statusStyleCheck(stop) === 4,
+                         'status-msg--driving' : statusStyleCheck(stop) === 5}">{{ statusMessage(stop) }}</p>
+              <span v-if="statusStyleCheck(stop) === 1 &&  checkAccessibility" :key="index" class="stop__icon"><i class="fas fa-wheelchair"></i></span>
+              <p v-if="statusStyleCheck(stop) === 1" :key="index" class="stop__plateNumb">{{ stop.PlateNumb }}</p>
+              <span class="stop__dot" :class="{'stop__dot--on': statusStyleCheck(stop) === 1}"></span>
             </section>
           </template>
         </div>
       </div>
     </main>
-     <!-- <button @click="sendReq">發請求</button> -->
+
+    <main v-if="!direction" class="content" :key="randomKey() + 1">
+      <div class="container">
+        <p class="update-msg text-color-blue">*於 {{ timer }} 秒後自動更新</p>
+        <div class="stops">
+          <template v-for="(stop, index) in backDistanceData" :key="index">
+            <section class="stop">
+              <h3 class="stop__name">{{ stop.StopName.Zh_tw }}</h3>
+              <p
+                class="stop__status status-msg"
+                :class="{'status-msg--close' : statusStyleCheck(stop) === 0,
+                         'status-msg--active' : statusStyleCheck(stop) === 1,
+                         'status-msg--not-yet' : statusStyleCheck(stop) === 2,
+                         'status-msg--last' : statusStyleCheck(stop) === 3,
+                         'status-msg--traffic' : statusStyleCheck(stop) === 4,
+                         'status-msg--driving' : statusStyleCheck(stop) === 5}">{{ statusMessage(stop) }}</p>
+              <span v-if="statusStyleCheck(stop) === 1 && checkAccessibility" :key="index" class="stop__icon"><i class="fas fa-wheelchair"></i></span>
+              <p v-if="statusStyleCheck(stop) === 1" :key="index" class="stop__plateNumb">{{ stop.PlateNumb }}</p>
+              <span class="stop__dot" :class="{'stop__dot--on': statusStyleCheck(stop) === 1}"></span>
+            </section>
+          </template>
+        </div>
+      </div>
+    </main>
      <!-- loading -->
     <loading
       :active="loader.isLoading"
@@ -122,51 +133,214 @@ export default {
         isLoading: false,
         fullPage: true
       },
-      stops: [],
+      direction: 1,
+      timer: 30,
+      goDistanceData: [],
+      backDistanceData: [],
+      routeName: '',
       departureStop: '',
-      destinationStop: ''
+      destinationStop: '',
+      goDistanceVehicleData: [],
+      backDistancevehicleData: []
     }
   },
   components: {
     Loading
   },
   methods: {
-    async sendReq () {
-      this.stops = await this.fetchData()
-    },
-    fetchData (city, routeUID) {
+    fetchGoDistanceData (city, routeUID) {
       return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%200&$orderby=StopSequence&$format=JSON`, { headers: GetAuthorizationHeader() })
         .then((response) => response.json())
         .then((json) => json)
     },
-    checkStatus (data) {
-      if (data.EstimateTime === undefined) {
-        if (data.nextTime) {
-          console.log('下班發車時間：' + data.NextBusTime)
-          const nextTime = new Date(data.NextBusTime)
-          const hours = nextTime.getHours()
-          const minutes = nextTime.getMinutes()
-          console.log(nextTime.toLocaleTimeString('en-US'))
-          return String(hours) + ':' + (minutes < 10 ? '0' + minutes : String(minutes))
-        } else {
-          return '尚未發車'
-        }
-      } else if (data.EstimateTime === 0) {
-        return '進站中'
-      } else if ((data.EstimateTime / 60) < 4) {
-        return '即將進站'
-      } else {
-        return data.EstimateTime / 60 + '分'
+    fetchBackDistanceData (city, routeUID) {
+      return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%201&$orderby=StopSequence&$format=JSON`, { headers: GetAuthorizationHeader() })
+        .then((response) => response.json())
+        .then((json) => json)
+    },
+    statusMessage (data) {
+      switch (data.StopStatus) {
+        // 正常
+        case 0:
+          // 預估時間為 0 時
+          if (data.EstimateTime === 0) {
+            return '進站中'
+            // 預估時間小於等於三分鐘時
+          } else if (Math.ceil(data.EstimateTime / 60) <= 2) {
+            return '即將進站'
+            // 大於三分鐘，回傳預估時間
+          } else {
+            return Math.ceil(data.EstimateTime / 60) + '分'
+          }
+        // 尚未發車
+        case 1:
+          // 檢查資料是否有 nextTime 或 NextBusTime
+          if (data.nextTime) {
+            // 建立時間物件
+            const nextTime = new Date(data.nextTime)
+            // 取得小時數
+            const hours = nextTime.getHours()
+            // 取得分鐘數
+            const minutes = nextTime.getMinutes()
+            // 回傳時間訊息
+            return String(hours) + ':' + (minutes < 10 ? '0' + minutes : String(minutes))
+          } else if (data.NextBusTime) {
+            // 建立時間物件
+            const nextTime = new Date(data.NextBusTime)
+            // 取得小時數
+            const hours = nextTime.getHours()
+            // 取得分鐘數
+            const minutes = nextTime.getMinutes()
+            // 回傳時間訊息
+            return String(hours) + ':' + (minutes < 10 ? '0' + minutes : String(minutes))
+          } else {
+            return '尚未發車'
+          }
+        // 交管不停靠
+        case 2:
+          return '交管不停'
+        // 末班車已過
+        case 3:
+          return '末班駛離'
+        // 今日未營運
+        case 4:
+          return '未營運'
       }
+    },
+    statusStyleCheck (data) {
+      switch (data.StopStatus) {
+        // 回傳值代碼
+        // 0：未營運
+        // 1：進站中 / 即將進站
+        // 2：尚未發車
+        // 3：末班車已過
+        // 4：交管不停靠
+        // 5：顯示時間
+        // 狀態：正常
+        case 0:
+          // 預估時間小於等於兩分鐘時
+          if (Math.ceil(data.EstimateTime / 60) <= 2) {
+            return 1
+          } else {
+            return 5
+          }
+        // 狀態：尚未發車
+        case 1:
+          // 存在下一班公車的時間資料
+          if (data.nextTime || data.NextBusTime) {
+            return 5
+          } else {
+            return 2
+          }
+        // 狀態：交管不停靠
+        case 2:
+          return 4
+        // 狀態：末班車已過
+        case 3:
+          return 3
+        // 狀態：今日未營運
+        case 4:
+          return 0
+      }
+    },
+    checkAccessibility (data) {
+      // 根據車牌前後綴做檢查（僅限桃園、台中、高雄）
+      if (/FT|FV|FR|FZ|FX|FY|FW|U5|U6|U7|U8|U9|V3|FAG|FAD|FAE|EAL|EAA|KKA/.test(data.PlateNumb)) {
+        return 1
+      } else {
+        return 0
+      }
+    },
+    randomKey () {
+      // 回傳目前時間毫秒數（自1970）
+      return Date.now()
+    },
+    reLoading () {
+      window.setInterval(async () => {
+        this.timer -= 1
+        if (this.timer === 0) {
+          // 顯示 loading 畫面
+          this.loader.isLoading = true
+          // 利用路由參數發送請求（去程資料）
+          this.goDistanceData = await this.fetchGoDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+          // 利用路由參數發送請求（返程資料）
+          this.backDistanceData = await this.fetchBackDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+          // 關閉 loading 畫面
+          this.loader.isLoading = false
+          this.timer = 30
+        }
+      }, 1000)
     }
   },
   async created () {
+    // 顯示 loading 畫面
     this.loader.isLoading = true
-    console.log(this.$route.params.City)
-    console.log(this.$route.params.RouteUID)
-    this.stops = await this.fetchData(this.$route.params.City, this.$route.params.RouteUID)
-    this.departureStop = this.stops[0].StopName.Zh_tw
-    this.destinationStop = this.stops[this.stops.length - 1].StopName.Zh_tw
+    // 利用路由參數發送請求（去程資料）
+    this.goDistanceData = await this.fetchGoDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+    // 利用路由參數發送請求（返程資料）
+    this.backDistanceData = await this.fetchBackDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+    // 關閉 loading 畫面
+    this.loader.isLoading = false
+    // // 查詢車種資料（去程）
+    // this.goDistanceData.forEach((item) => {
+    //   // console.log('去程車牌資料：', item.PlateNumb)
+    //   // 沒有資料的話，在陣列中 push 0
+    //   if (item.PlateNumb === '' || item.PlateNumb === undefined) {
+    //     // console.log('沒有資料的數量（去程）')
+    //     this.goDistancevehicleData.push(0)
+    //   // 有資料的話，發送請求查詢車輛資訊
+    //   } else {
+    //     fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Vehicle/City/${this.$route.params.City}?$filter=PlateNumb%20eq%20'${item.PlateNumb}'&$format=JSON`)
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         // 是否為無障礙車種
+    //         if (data[0].VehicleType === 1) {
+    //           // 是的話，在陣列中 push 1
+    //           this.goDistancevehicleData.push(1)
+    //         } else {
+    //           // 不是的話，在陣列中 push 0
+    //           this.goDistancevehicleData.push(0)
+    //         }
+    //       })
+    //   }
+    // })
+    // // 查詢車種資料（返程）
+    // this.asyncForEach(this.backDistanceData, (item, index) => {
+    //   console.log(`第${index}筆資料的車牌資料：${item.PlateNumb}`)
+    //   // 沒有資料的話，在陣列中 push 0
+    //   if (item.PlateNumb === '' || item.PlateNumb === undefined) {
+    //     console.log(`第${index}筆資料的車牌為空字串或不存在，資料值為：${item.PlateNumb}，準備在陣列推入 0 `)
+    //     this.backDistancevehicleData.push(0)
+    //     console.log('推入完畢')
+    //   } else {
+    //     console.log(`第${index}筆資料的車牌存在，準備發送請求`)
+    //     fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Vehicle/City/${this.$route.params.City}?$filter=PlateNumb%20eq%20'${item.PlateNumb}'&$format=JSON`)
+    //       .then((response) => response.json())
+    //       .then((json) => {
+    //         console.log(`完成取得第${index}筆資料的請求，準備進行檢測`)
+    //         console.log('取得的資料為：')
+    //         console.log(json)
+    //         // 是否為無障礙車種
+    //         if (json[0].VehicleType === 1) {
+    //           console.log(`第${index}筆資料的車種為：${json[0].VehicleType}，標註為無障礙`)
+    //           // 是的話，在陣列中 push 1
+    //           this.backDistancevehicleData.push(1)
+    //           // 不是的話，在陣列中 push 0
+    //         } else {
+    //           this.backDistancevehicleData.push(0)
+    //         }
+    //       })
+    //   }
+    // })
+    // 儲存站牌名稱
+    this.routeName = this.goDistanceData[0].RouteName.Zh_tw
+    // 儲存起點站牌名稱
+    this.departureStop = this.goDistanceData[0].StopName.Zh_tw
+    // 儲存終點站牌名稱
+    this.destinationStop = this.goDistanceData[this.goDistanceData.length - 1].StopName.Zh_tw
+    // 執行更新刷新頁面
+    this.reLoading()
+    // 關閉 loading 畫面
     this.loader.isLoading = false
   }
 }

@@ -449,6 +449,16 @@
       margin: auto;
     }
   }
+  .heading {
+    text-align: center;
+    margin-bottom: 10px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    @include mediaQuery-pc {
+      font-size: 2rem;
+    }
+  }
   .header {
     padding: 25px 25px 0;
     background-color: var(--black);
@@ -475,8 +485,11 @@
     &__button {
       position: relative;
       width: 50%;
-      padding: 15px 0;
+      padding: 15px;
       text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       @include mediaQuery-tablet {
         width: 41.5365%;
       }
@@ -538,10 +551,20 @@
     align-items: center;
     &__status {
       order: -1;
+      flex-shrink: 0;
+    }
+    &__name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-right: auto;
+    }
+    &__icon {
+      color: var(--blue);
     }
     &__plateNumb {
       color: var(--blue);
-      margin-left: auto;
+      margin-left: 10px;
     }
     &:first-child .stop__dot {
       transform: translateY(0px);

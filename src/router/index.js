@@ -7,6 +7,7 @@ import Users from '../views/Users.vue'
 import User from '../views/User.vue'
 import TestUser from '../views/TestUser.vue'
 
+import button from '../components/button.vue'
 import EstimatedTimeOfArrival from '../components/EstimatedTimeOfArrival.vue'
 
 const routes = [
@@ -14,6 +15,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/button',
+    name: 'button',
+    component: button
   },
   {
     path: '/Search-LocalBus',

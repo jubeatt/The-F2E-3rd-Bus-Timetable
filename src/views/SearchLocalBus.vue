@@ -243,7 +243,7 @@
     </div>
   </div>
 
-  <router-view v-if="!isOnSearching" @backToPreviousPage="showSearchPage"></router-view>
+  <router-view v-if="!isOnSearching" @backToPreviousPage="showSearchPage" :key="randomKey()"></router-view>
 </template>
 
 <script>
@@ -439,6 +439,10 @@ export default {
     },
     showSearchPage () {
       this.isOnSearching = true
+    },
+    randomKey () {
+      // 回傳目前時間毫秒數（自1970）
+      return Date.now()
     }
   },
   computed: {
