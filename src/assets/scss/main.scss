@@ -312,14 +312,14 @@
         border-radius: 20px;
         background-color: transparent;
       }
-  
+
       &::-webkit-scrollbar {
         width: 9px;
         height: 9px;
         background-color: transparent;
         box-shadow: var(--box-shadow-01);
       }
-  
+
       &::-webkit-scrollbar-thumb {
         border-radius: 20px;
         background-color: #555;
@@ -453,12 +453,34 @@
     }
   }
   .heading {
-    text-align: center;
+    position: relative;
     margin-bottom: 10px;
     text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    @include mediaQuery-pc {
+    &__text {
+      display: inline-block;
+      max-width: 9em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    &__button-reload {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 30px;
+      height: 30px;
+      transform: translateY(-5px);
+      &--disabled {
+        color: var(--red);
+      }
+      @include mediaQuery-tablet {
+        transform: translateY(-2.5px);
+      }
+    }
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
+    // overflow: hidden;
+    @include mediaQuery-tablet {
       font-size: 2rem;
     }
   }
@@ -519,7 +541,7 @@
     &__button--current::after {
       opacity: 1;
     }
-    &__button::first-letter{
+    &__button::first-letter {
       color: var(--blue);
       margin-right: 5px;
     }
@@ -527,6 +549,36 @@
   .content {
     background-color: var(--gray);
     padding: 25px 0;
+    @include mediaQuery-tablet {
+    }
+  }
+  .content > .container {
+    height: calc(100vh - 231px);
+    overflow-y: auto;
+    // 不喜歡的話，可改用原本的滾軸模式
+    // overflow-y: visible
+    // height: auto;
+    &::-webkit-scrollbar-track {
+      border-radius: 20px;
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar {
+      width: 9px;
+      height: 9px;
+      background-color: transparent;
+      box-shadow: var(--box-shadow-01);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      background-color: #555;
+    }
+    @include mediaQuery-tablet {
+      height: calc(100vh - 252px);
+      // 不喜歡的話，可改用原本的滾軸模式
+      // height: auto;
+    }
   }
   .update-msg {
     margin-bottom: 10px;
@@ -590,5 +642,42 @@
         box-shadow: var(--shadow-button);
       }
     }
+  }
+}
+
+/*
+===============================
+  附近站牌頁面（SearchNearby）
+===============================
+*/
+.search-nearby {
+  .container {
+    @include mediaQuery-pc {
+      width: 1080px;
+      margin: auto;
+    }
+  }
+  .header {
+    margin-bottom: 25px;
+    &__container {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      @include mediaQuery-tablet {
+        padding: 25px;
+      }
+      @include mediaQuery-pc {
+        padding: 25px 0;
+      }
+    }
+    &__heading {
+      margin-left: auto;
+      @include mediaQuery-tablet {
+        font-size: 2rem;
+      }
+    }
+  }
+  .content {
+    padding: 0 15px 15px;
   }
 }

@@ -9,6 +9,7 @@ import TestUser from '../views/TestUser.vue'
 
 import button from '../components/button.vue'
 import EstimatedTimeOfArrival from '../components/EstimatedTimeOfArrival.vue'
+import Navigator from '../views/Navigator.vue'
 
 const routes = [
   {
@@ -20,6 +21,11 @@ const routes = [
     path: '/button',
     name: 'button',
     component: button
+  },
+  {
+    path: '/Navigator',
+    name: 'Navigator',
+    component: Navigator
   },
   {
     path: '/Search-LocalBus',

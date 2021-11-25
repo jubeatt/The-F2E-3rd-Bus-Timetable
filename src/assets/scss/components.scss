@@ -53,8 +53,12 @@
   padding: 12px 15px;
   border-radius: 6px;
   &__title {
+    font-size: 1.8rem;
     color: var(--blue);
     margin-bottom: 5px;
+  }
+  &__description {
+    line-height: 2;
   }
   &__middle-text {
     margin: 0 15px;
@@ -92,7 +96,7 @@
   margin-right: 15px;
   text-align: center;
   &--close {
-    background-color: #142F43;
+    background-color: #142f43;
     color: #f5f5f5;
   }
   &--active {
@@ -100,11 +104,11 @@
     color: var(--black);
   }
   &--last {
-    background-color: #FFAB4C;
+    background-color: #ffab4c;
     color: var(--black);
   }
   &--traffic {
-    background-color: #F6416C;
+    background-color: #f6416c;
     color: #f5f5f5;
   }
   &--driving {
@@ -113,7 +117,7 @@
     box-shadow: var(--shadow-button);
   }
   &--not-yet {
-    background-color: var(--gray-light);;
+    background-color: var(--gray-light);
     color: var(--white);
   }
 }

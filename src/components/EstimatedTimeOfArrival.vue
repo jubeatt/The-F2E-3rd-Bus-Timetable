@@ -43,7 +43,13 @@
           </router-link>
           <button class="main-buttons__button-map"><i class="fas fa-map-marked-alt"></i></button>
         </div>
-        <h2 class="heading">{{ routeName }}</h2>
+        <div class="heading">
+          <h2 class="heading__text">{{ routeName }}</h2>
+          <button @click="reLoading" class="heading__button-reload" :class="{ 'heading__button-reload--disabled' : !isClickable }">
+            <span v-if="isClickable"><i class="fas fa-redo-alt"></i></span>
+            <span v-if="!isClickable"><i class="fas fa-ban"></i></span>
+          </button>
+        </div>
         <div class="direction">
           <button
             class="direction__button"
@@ -56,7 +62,7 @@
         </div>
       </div>
     </header>
-    <main v-if="direction" class="content" :key="randomKey()">
+    <main v-if="direction" class="content" :key="1">
       <div class="container">
         <p class="update-msg text-color-blue">*於 {{ timer }} 秒後自動更新</p>
         <div class="stops">
@@ -80,7 +86,7 @@
       </div>
     </main>
 
-    <main v-if="!direction" class="content" :key="randomKey() + 1">
+    <main v-if="!direction" class="content" :key="2">
       <div class="container">
         <p class="update-msg text-color-blue">*於 {{ timer }} 秒後自動更新</p>
         <div class="stops">
@@ -135,6 +141,7 @@ export default {
       },
       direction: 1,
       timer: 30,
+      isClickable: true,
       goDistanceData: [],
       backDistanceData: [],
       routeName: '',
@@ -255,7 +262,8 @@ export default {
       // 回傳目前時間毫秒數（自1970）
       return Date.now()
     },
-    reLoading () {
+    setAutoReLoading () {
+      // 每 1 秒執行一次
       window.setInterval(async () => {
         this.timer -= 1
         if (this.timer === 0) {
@@ -267,9 +275,33 @@ export default {
           this.backDistanceData = await this.fetchBackDistanceData(this.$route.params.City, this.$route.params.RouteUID)
           // 關閉 loading 畫面
           this.loader.isLoading = false
+          // 重新設定秒數
           this.timer = 30
         }
       }, 1000)
+    },
+    async reLoading () {
+      // 避免連續點擊
+      if (this.isClickable) {
+        // 禁用按鈕
+        this.isClickable = false
+        // 顯示 loading 畫面
+        this.loader.isLoading = true
+        // 利用路由參數發送請求（去程資料）
+        this.goDistanceData = await this.fetchGoDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+        // 利用路由參數發送請求（返程資料）
+        this.backDistanceData = await this.fetchBackDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+        // 關閉 loading 畫面
+        this.loader.isLoading = false
+        // 重新設定秒數
+        this.timer = 30
+        // 5 秒後進行按鈕初始化
+        window.setTimeout(() => {
+          this.isClickable = true
+        }, 5000)
+      } else {
+        console.log('還不可以點擊...')
+      }
     }
   },
   async created () {
@@ -338,8 +370,8 @@ export default {
     this.departureStop = this.goDistanceData[0].StopName.Zh_tw
     // 儲存終點站牌名稱
     this.destinationStop = this.goDistanceData[this.goDistanceData.length - 1].StopName.Zh_tw
-    // 執行更新刷新頁面
-    this.reLoading()
+    // 啟動自動更新
+    this.setAutoReLoading()
     // 關閉 loading 畫面
     this.loader.isLoading = false
   }
