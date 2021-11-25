@@ -42,8 +42,24 @@
 ## 2021/11/23
 
 1. 再次重新規劃路由設定
-2. 完成公車動態頁面 UI（RWD）
-3. 公車動態 API 資料串接（尚未完成）
+2. SCSS 檔案優化（原本是一個頁面對應一支檔案、現在統一整合在 main.scss 中） 
+3. 完成公車動態頁面 UI（RWD）
+4. 公車動態 API 資料串接（尚未完成）
+
+## 2021/11/24
+
+1. 處理進入公車動態頁面的Bug
+   - Bug點：每次進入頁面時會顯示上一筆動態資料，而不是當前的動態資料。
+   - 解決方式：因為公車動態頁面是透過 `v-if` 來打開或隱藏畫面，而 `v-if` 會有節能機制的問題。為了確保每一次進入時都重新渲染，必須在該元件加上 `:key` 屬性來處理。（註：每一次key的值都必須不同）
+2. 處理顯示公車狀態的 CSS（即將到站、進站中、預估時間等）
+3. 完成公車動態 API 資料串接（去程、返程）
+4. 公車動態部分修正（過長文字、優化動態判定，例如「尚未發車」或「顯示下一班時間」
+5. 車種辨識問題無法解決。本來想用 `forEach` 發送查詢車種的請求，但會碰到「同步 / 非同步」之間的問題。目前是使用 `regexp` 來從資料字串中來辨識是否為無障礙車種。
+6. 新增每30秒自動更新功能
+
+## 2021/11/24
+
+
 
 ## 總覽
 
@@ -93,3 +109,17 @@
 - [Vue3.0 官方文檔](https://v3.vuejs.org/guide/introduction.html)
 - [重新認識 Vue.js](https://book.vue.tw/)
 - [The New CSS Reset](https://elad.medium.com/the-new-css-reset-53f41f13282e)
+- [The New CSS Reset](https://elad.medium.com/the-new-css-reset-53f41f13282e)
+- [[Vue.js] 簡單登入頁面路由part1](https://yuugou727.github.io/blog/2017/11/11/vue-login-practice/)
+- [Leo Lin-Vue Router](https://linwei5316.medium.com/vue-router-4c2aad1cc352)
+- [Vue.js - 使用 ESLint + Prettier 整理程式碼](https://ithelp.ithome.com.tw/articles/10231505)
+- [input / button elements not shrinking in a flex container](https://stackoverflow.com/questions/42421361/input-button-elements-not-shrinking-in-a-flex-container)
+- [在 JavaScript 中從字串中刪除最後一個字元](https://www.delftstack.com/zh-tw/howto/javascript/remove-last-character-from-javascript/)
+- [colorhunt](https://colorhunt.co/palettes/popular)
+- [Vue.js操作或取得DOM的資訊-refs用法](https://tools.wingzero.tw/article/sn/97)
+- [Vue Loading Overlay Component](https://www.npmjs.com/package/vue-loading-overlay)
+- [Using the Vue loading overlay plugin in your Vue apps](https://blog.logrocket.com/using-the-vue-loading-overlay-plugin-in-your-vue-apps/)
+- [Router 基本入門 Day 9](https://ithelp.ithome.com.tw/articles/10223518)
+- [emits选项](https://v3.cn.vuejs.org/guide/migration/emits-option.html#_2-x-%E7%9A%84%E8%A1%8C%E4%B8%BA)
+- [why component is not destroyed under v-if](https://stackoverflow.com/questions/53085722/why-component-is-not-destroyed-under-v-if/53085867)
+- [遇到 async，別用 forEach](https://medium.com/@steven234/%E9%81%87%E5%88%B0-async-%E5%88%A5%E7%94%A8-foreach-7cea84f4242f)

@@ -235,13 +235,16 @@
 }
 // 裝飾泡泡
 .bubble-4 {
-  position: absolute;
-  bottom: 60px;
-  right: 100px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.5);
+  display: none;
+  @include mediaQuery-tablet {
+    position: absolute;
+    bottom: 60px;
+    right: 100px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.5);
+  }
   @include mediaQuery-pc {
     width: 131px;
     height: 131px;
