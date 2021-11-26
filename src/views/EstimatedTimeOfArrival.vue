@@ -3,7 +3,7 @@
     <header class="header">
       <div class="container">
         <div class="main-buttons">
-          <button @click="$emit('backToPreviousPage')" class="main-buttons__button-prev"><i class="fas fa-chevron-left"></i></button>
+          <button @click="redirectToPreviousPage" class="main-buttons__button-prev"><i class="fas fa-chevron-left"></i></button>
           <router-link to="/">
             <svg
               width="93"
@@ -122,12 +122,13 @@
 </template>
 
 <script>
+import router from '../router'
 import GetAuthorizationHeader from '../lib/Authorization.js'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
 export default {
   name: 'EstimatedTimeOfArrival',
-  emits: ['backToPreviousPage'],
+  emits: ['backToSearchPage'],
   data () {
     return {
       loader: {
@@ -141,6 +142,7 @@ export default {
       },
       direction: 1,
       timer: 30,
+      timerID: '',
       isClickable: true,
       goDistanceData: [],
       backDistanceData: [],
@@ -155,16 +157,19 @@ export default {
     Loading
   },
   methods: {
+    // 取得去程資料
     fetchGoDistanceData (city, routeUID) {
       return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%200&$orderby=StopSequence&$format=JSON`, { headers: GetAuthorizationHeader() })
         .then((response) => response.json())
         .then((json) => json)
     },
+    // 取得返程資料
     fetchBackDistanceData (city, routeUID) {
       return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%201&$orderby=StopSequence&$format=JSON`, { headers: GetAuthorizationHeader() })
         .then((response) => response.json())
         .then((json) => json)
     },
+    // 設定狀態文字
     statusMessage (data) {
       switch (data.StopStatus) {
         // 正常
@@ -214,6 +219,7 @@ export default {
           return '未營運'
       }
     },
+    // 設定狀態樣式
     statusStyleCheck (data) {
       switch (data.StopStatus) {
         // 回傳值代碼
@@ -262,9 +268,10 @@ export default {
       // 回傳目前時間毫秒數（自1970）
       return Date.now()
     },
+    // 設置倒數計時器
     setAutoReLoading () {
       // 每 1 秒執行一次
-      window.setInterval(async () => {
+      this.timerID = window.setInterval(async () => {
         this.timer -= 1
         if (this.timer === 0) {
           // 顯示 loading 畫面
@@ -280,6 +287,7 @@ export default {
         }
       }, 1000)
     },
+    // 重新整理功能
     async reLoading () {
       // 避免連續點擊
       if (this.isClickable) {
@@ -302,6 +310,10 @@ export default {
       } else {
         console.log('還不可以點擊...')
       }
+    },
+    // 重新導向
+    redirectToPreviousPage () {
+      router.push({ path: '/Search-LocalBus' })
     }
   },
   async created () {
@@ -374,6 +386,14 @@ export default {
     this.setAutoReLoading()
     // 關閉 loading 畫面
     this.loader.isLoading = false
+  },
+  beforeRouteLeave (to, from, next) {
+    // 清除計數器
+    window.clearInterval(this.timerID)
+    // 觸發父層事件
+    this.$emit('backToSearchPage')
+    // 上面的事情都做完後，才進行頁面跳轉
+    next()
   }
 }
 </script>

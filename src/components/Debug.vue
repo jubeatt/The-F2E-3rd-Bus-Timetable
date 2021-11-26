@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isOnSearching" class="search-local-bus">
-    <div class="container">
+  <div class="search-local-bus">
+    <div v-if="onSearching" class="container">
       <!-- 側邊攔 -->
       <div class="sidebar container__sidebar">
         <!-- 側邊欄（搜尋列） -->
@@ -61,7 +61,7 @@
             </button>
             <button @click="focusOnInput" class="button text-color-blue">手動輸入</button>
             <button @click="closePanel" class="button">
-              <i class="fas fa-chevron-down"></i>
+              <i class="icon-arrow fas fa-chevron-up"></i>
             </button>
             <button @click="inputValue('紅')" class="button text-color-blue">紅</button>
             <button @click="inputValue('藍')" class="button text-color-blue">藍</button>
@@ -215,22 +215,18 @@
         </button>
       </div>
       <!-- 搜尋結果 -->
-      <div class="container__search-result">
+      <!-- <div class="container__search-result">
         <h2 class="heading"><i class="icon-position fas fa-map-marker-alt"></i>{{ currentCity }}</h2>
-        <p v-if="userInput" class="mb-s">搜尋：{{ userInput }}</p>
         <p v-if="warningMsg" class="hint-text"><span class="icon-warn"><i class="fas fa-exclamation-triangle"></i></span>請先選擇縣市</p>
         <p v-if="noResultMsg">找不到搜尋結果</p>
         <template v-for="(item, index) of routeData" :key="index">
-           <router-link
-             :to="`/Search-LocalBus/EstimatedTimeOfArrival/${this.selectedCity}/${item.RouteUID}`"
-             class="card-info"
-             @click="toNextPage"
-             >
+           <router-link :to="`/Include/Detail/${this.selectedCity}/${item.RouteUID}`" class="card-info">
             <h3 class="card-info__title">{{ item.RouteName.Zh_tw }}</h3>
             <p class="card-info__text">{{ item.DepartureStopNameZh }}<span class="card-info__middle-text">往</span>{{ item.DestinationStopNameZh }}</p>
           </router-link>
         </template>
-      </div>
+      </div> -->
+      <router-view name="DebugChildren1" :route-data="routeData"></router-view>
       <!-- loading -->
       <loading
         :active="loader.isLoading"
@@ -242,16 +238,15 @@
         :is-full-page="loader.fullPage"/>
     </div>
   </div>
-
-  <router-view v-if="!isOnSearching" @backToSearchPage="showSearchPage" :key="randomKey()"></router-view>
 </template>
 
 <script>
+import router from '../router'
 import GetAuthorizationHeader from '../lib/Authorization.js'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
 export default {
-  name: 'SearchLocalBus',
+  name: 'Debug',
   data () {
     return {
       loader: {
@@ -263,7 +258,7 @@ export default {
         isLoading: false,
         fullPage: true
       },
-      isOnSearching: true,
+      onSearching: true,
       isPanelActive: true,
       mainBoard: true,
       cityBoard: false,
@@ -320,6 +315,8 @@ export default {
         this.warningMsg = false
         // 根據縣市發送請求
         this.routeData = await this.fetchRoute(this.selectedCity)
+        // 進到巢狀路由 /Debug/Children1/:City
+        router.push(`/Debug/${this.selectedCity}`)
         // 關閉 loading 畫面
         this.loader.isLoading = false
         // 拷貝資料（過濾用）
@@ -340,16 +337,12 @@ export default {
       this.userInput += value
     },
     removeLastChar () {
-      if (this.userInput) {
-        // 移除最後一個字元
-        this.userInput = this.userInput.slice(0, -1)
-      }
+      // 移除最後一個字元
+      this.userInput = this.userInput.slice(0, -1)
     },
     clearInput () {
-      if (this.userInput) {
-        // 清空所有內容
-        this.userInput = ''
-      }
+      // 清空所有內容
+      this.userInput = ''
     },
     fetchRoute (cityName) {
       return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${cityName}?$format=JSON`, { headers: GetAuthorizationHeader() })
@@ -430,19 +423,8 @@ export default {
     },
     searchData (array, string) {
       return array.filter(function (item) {
-        return item.RouteName.Zh_tw.includes(string.toUpperCase())
+        return item.RouteName.Zh_tw.includes(string)
       })
-    },
-    toNextPage () {
-      // 隱藏搜尋頁面
-      this.isOnSearching = false
-    },
-    showSearchPage () {
-      this.isOnSearching = true
-    },
-    randomKey () {
-      // 回傳目前時間毫秒數（自1970）
-      return Date.now()
     }
   },
   computed: {
@@ -457,12 +439,8 @@ export default {
         // 顯示提示文字
         this.warningMsg = true
       } else {
-        // 打開 loading 畫面
-        this.loader.isLoading = true
         // 過濾顯示資料
         this.routeData = this.searchData(this.tempData, val)
-        // 關閉 Loading 畫面
-        this.loader.isLoading = false
       }
     },
     // 當資料改變時，檢查該資料的長度

@@ -290,14 +290,16 @@
   .container {
     padding-bottom: 330px;
     @include mediaQuery-pc {
-      padding-bottom: 0;
-      width: 1080px;
+      // padding-bottom: 0;
+      padding: 0 15px;
+      max-width: 1080px;
       margin: auto;
       display: flex;
       align-items: flex-start;
     }
     &__sidebar {
       @include mediaQuery-pc {
+        flex-shrink: 0;
         width: 33%;
         height: 100vh;
         margin-right: 40px;
@@ -314,8 +316,8 @@
       }
 
       &::-webkit-scrollbar {
-        width: 9px;
-        height: 9px;
+        width: 4px;
+        height: 4px;
         background-color: transparent;
         box-shadow: var(--box-shadow-01);
       }
@@ -323,6 +325,7 @@
       &::-webkit-scrollbar-thumb {
         border-radius: 20px;
         background-color: #555;
+        background-color: var(--blue);
       }
       @include mediaQuery-pc {
         width: 67%;
@@ -448,7 +451,7 @@
 .estimated-time-of-arrival {
   .container {
     @include mediaQuery-pc {
-      width: 1080px;
+      max-width: 1080px;
       margin: auto;
     }
   }
@@ -553,7 +556,7 @@
     }
   }
   .content > .container {
-    height: calc(100vh - 231px);
+    height: calc(100vh - 236px);
     overflow-y: auto;
     // 不喜歡的話，可改用原本的滾軸模式
     // overflow-y: visible
@@ -564,8 +567,8 @@
     }
 
     &::-webkit-scrollbar {
-      width: 9px;
-      height: 9px;
+      width: 4px;
+      height: 4px;
       background-color: transparent;
       box-shadow: var(--box-shadow-01);
     }
@@ -573,9 +576,10 @@
     &::-webkit-scrollbar-thumb {
       border-radius: 20px;
       background-color: #555;
+      background-color: var(--blue);
     }
     @include mediaQuery-tablet {
-      height: calc(100vh - 252px);
+      height: calc(100vh - 259px);
       // 不喜歡的話，可改用原本的滾軸模式
       // height: auto;
     }
@@ -653,13 +657,13 @@
 .search-nearby {
   .container {
     @include mediaQuery-pc {
-      width: 1080px;
+      max-width: 1080px;
       margin: auto;
     }
   }
   .header {
     margin-bottom: 25px;
-    &__container {
+    .heading {
       display: flex;
       align-items: center;
       padding: 15px;
@@ -668,6 +672,12 @@
       }
       @include mediaQuery-pc {
         padding: 25px 0;
+      }
+      &__text {
+        margin-left: auto;
+        @include mediaQuery-tablet {
+          font-size: 2rem;
+        }
       }
     }
     &__heading {
