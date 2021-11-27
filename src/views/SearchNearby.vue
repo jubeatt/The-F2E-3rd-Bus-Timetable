@@ -1,5 +1,5 @@
 <template>
-  <div class="search-nearby">
+  <div v-if="isOnSearching" class="search-nearby">
     <header class="header">
       <div class="container">
         <div class="heading">
@@ -40,7 +40,7 @@
               />
             </svg>
           </router-link>
-          <h2 class="heading__text"><span class="icon-position"><i class="fas fa-map-marker-alt"></i></span>{{ currentCity }}，我的附近</h2>
+          <h2 class="heading__text"><span class="icon-position"><i class="fas fa-map-marker-alt"></i></span>{{ currentCity }} / 我的附近</h2>
         </div>
       </div>
     </header>
@@ -48,7 +48,11 @@
     <main class="content">
       <div class="container">
         <template v-for="(station, index) in stations" :key="index">
-          <router-link :to="`/Search-Nearby/${station.StationName.Zh_tw}`" class="card-info">
+          <router-link
+            :to="`/Search-Nearby/${station.StationName.Zh_tw}`"
+            class="card-info"
+            @click="toStationPage"
+            >
             <h3 class="card-info__title">{{ station.StationName.Zh_tw }}</h3>
             <p class="card-info__description">{{ findRouterNames(station.Stops) }}</p>
           </router-link>
@@ -57,7 +61,11 @@
     </main>
   </div>
 
-  <router-view :current-city="currentCityEn"></router-view>
+  <router-view
+    v-if="!isOnSearching"
+    :current-city="currentCityEn"
+    @toPreviousPage="showNearbyPage"
+    ></router-view>
 </template>
 
 <script>
@@ -66,23 +74,70 @@ export default {
   name: 'SearchNearby',
   data () {
     return {
+      tempStation: [],
       stations: [],
       currentLatitude: '',
       currentLongitude: '',
       currentAddress: '',
       currentCity: '',
       currentCityEn: '',
+      data: '',
       distance: 500,
-      data: ''
+      isOnSearching: true
     }
   },
   methods: {
+    getCoordinate () {
+      // 檢查  navigator API 可否使用
+      if (navigator.geolocation) {
+        return new Promise((resolve, reject) => {
+          // 取得使用者的座標（非同步函式）
+          navigator.geolocation.getCurrentPosition((position, error) => {
+            if (error) {
+              reject(error)
+            } else {
+              resolve(position)
+            }
+          })
+        })
+      } else {
+        // 若無法，彈出提醒視窗
+        alert('Sorry, 你的瀏覽器不支援')
+      }
+    },
+    async getAddress () {
+      const data = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${this.currentLatitude},${this.currentLongitude}&key=AIzaSyBDCCU5i73ygOg0SVW0ulO4icYw7Rf58e4`)
+      const json = await data.json()
+      return json
+    },
+    async getNearbyStation () {
+      const data = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Station/City/${this.transferToEn(this.currentCity)}?$spatialFilter=nearby(${this.currentLatitude}%2C${this.currentLongitude}%2C%20${this.distance})&$format=JSON`, { headers: GetAuthorizationHeader() })
+      const json = await data.json()
+      return json
+    },
     findRouterNames (array) {
+      // 用來儲存過濾後的資料陣列
       const tempArray = []
-      array.forEach((item) => {
-        tempArray.push(item.RouteName.Zh_tw)
-      })
+      for (let i = 0; i < array.length; i++) {
+        // 第一筆資料不做檢測
+        if (i !== 0) {
+          // 若目前資料值與前一筆資料值不相等，才 push 到陣列中
+          if (array[i].RouteName.Zh_tw !== array[i - 1].RouteName.Zh_tw) {
+            tempArray.push(array[i].RouteName.Zh_tw)
+          }
+        } else {
+          // 把第一筆資料 push 到陣列中
+          tempArray.push(array[i].RouteName.Zh_tw)
+        }
+      }
+      // 利用過濾後的陣列，回傳字串
       return tempArray.join(', ')
+    },
+    toStationPage () {
+      this.isOnSearching = false
+    },
+    showNearbyPage () {
+      this.isOnSearching = true
     },
     transferToEn (string) {
       let result = ''
@@ -158,48 +213,39 @@ export default {
     }
   },
   async created () {
-    // 取得使用者目前所在的位置（經緯度）
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        this.currentLatitude = position.coords.latitude
-        this.currentLongitude = position.coords.longitude
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${this.currentLatitude},${this.currentLongitude}&key=AIzaSyBDCCU5i73ygOg0SVW0ulO4icYw7Rf58e4`
-        // 發送請求，取得所在位置資料（地址）
-        const responseOfPosition = await fetch(url)
-        // 解析資料
-        const dataOfPosition = await responseOfPosition.json()
-        // 取出地址名稱
-        const address = dataOfPosition.results[0].formatted_address
-        // 儲存到元件中
-        this.currentAddress = address
-        // 擷取出縣市名稱
-        const city = address.slice(address.match(/[縣市]/).index - 2, address.match(/[縣市]/).index + 1)
-        // 儲存到元件中
-        this.currentCity = city
-        this.currentCityEn = this.transferToEn(city)
-        // 發送請求，取得所在位置的附近站牌
-        const responseOfNearByStation = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Station/City/${this.transferToEn(this.currentCity)}?$spatialFilter=nearby(${this.currentLatitude}%2C${this.currentLongitude}%2C%20${this.distance})&$format=JSON`, { headers: GetAuthorizationHeader() })
-        // 解析資料
-        const dataOfNearByStation = await responseOfNearByStation.json()
-        // 過濾掉重複項目的資料
-        const filterData = dataOfNearByStation.filter((item, index, originalArray) => {
-          // 撇除第一筆資料
-          if (index !== 0) {
-            // 若目前資料跟上一筆資料的值不同，才會回傳
-            return originalArray[index].StationName.Zh_tw !== originalArray[index - 1].StationName.Zh_tw
-          } else {
-            // 回傳第一筆資料
-            return item
-          }
-        })
-        // 儲存到元件中
-        this.stations = [...filterData]
-      }, (error) => {
-        alert(error)
-      })
-    } else {
-      alert('不支援')
-    }
+    // 取得座標資料
+    const coordinate = await this.getCoordinate()
+    // 儲存資料到元件中
+    this.currentLatitude = coordinate.coords.latitude
+    this.currentLongitude = coordinate.coords.longitude
+    // this.currentLatitude = 22.6748517
+    // this.currentLongitude = 120.2834639
+
+    // 取得地址資料
+    const position = await this.getAddress()
+    const address = position.results[0].formatted_address
+    // 擷取出縣市名稱
+    const city = address.slice(address.match(/[縣市]/).index - 2, address.match(/[縣市]/).index + 1)
+    // 儲存到元件中
+    this.currentCity = city
+    this.currentCityEn = this.transferToEn(city)
+    // 取得附近的站牌
+    const stations = await this.getNearbyStation()
+    // 拷貝一份資料到元件中（Debug用）
+    this.tempStation = [...stations]
+    // 過濾掉重複的站牌資料
+    const filterData = stations.filter((item, index, originalArray) => {
+      // 撇除第一筆資料
+      if (index !== 0) {
+        // 若目前資料跟上一筆資料的值不同，才會回傳
+        return originalArray[index].StationName.Zh_tw !== originalArray[index - 1].StationName.Zh_tw
+      } else {
+        // 回傳第一筆資料
+        return item
+      }
+    })
+    // 儲存到元件中
+    this.stations = [...filterData]
   }
 }
 </script>

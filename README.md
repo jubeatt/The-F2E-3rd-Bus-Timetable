@@ -66,6 +66,42 @@
 
 ## 2021/11/24
 
+1. 處理進入公車動態頁面的 Bug
+   - Bug 點：每次進入頁面時會顯示上一筆動態資料，而不是當前的動態資料。
+   - 解決方式：因為公車動態頁面是透過 `v-if` 來打開或隱藏畫面，而 `v-if` 會有節能機制的問題。為了確保每一次進入時都重新渲染，必須在該元件加上 `:key` 屬性來處理。（註：每一次 key 的值都必須不同）
+2. 處理顯示公車狀態的 CSS（即將到站、進站中、預估時間等）
+3. 完成公車動態頁面（去程、返程）
+4. 公車動態部分修正（過長文字、優化動態判定，例如「尚未發車」或「顯示下一班時間」
+5. 車種辨識問題無法解決。本來想用 `forEach` 發送查詢車種的請求，但會碰到「同步 / 非同步」之間的問題。目前是使用 `regexp` 來從資料字串中來辨識是否為無障礙車種。
+6. 新增每 30 秒自動更新功能
+
+## 2021/11/25
+
+1. 公車動態 UI 介面優化（將內容更改為固定高度，超出的部分改用滾軸呈現）
+2. 新增手動重新整理功能（有避免連續點擊）
+3. 搜尋附近站牌 UI 完成
+4. 搜尋附近站牌 API 串接（仍在處理）
+5. 使用 `geolocation` 要注意一些安全性的問題（詳情參考[這裡](https://kknews.cc/zh-tw/tech/4qgkxq2.html)）
+
+## 2021/11/26
+
+1. 處理 `setInterval` 的 Bug
+   - Bug 點：點擊自製的返回按鈕時，URL 會停留在原本的狀態（`/Search-LocalBus/EstimatedTimeOfArrival/:City/:RouteUID`）。正確的情況應該要顯示 `/SearchLocalBus`。
+     這個問題會跟直接按下「上一頁」時發生衝突，導致倒數計數器沒辦法正確的清除。
+   - 原本的思路：按下返回鈕時，清除計數器，向父層傳遞事件。
+   - 新的思路：按下返回鈕時，透過 `router.push()` 導向 `/SearchLocalBus`，此舉會觸發路由鉤子中的 `beforeRouteLeave` 事件，接著在藉由該 handler 做以下處理：
+     - `window.clearInterval(timerId)`清除計數器
+     - 向父層傳遞事件（為了更新元件的隱藏與顯示）
+     - 執行`next()`（進行跳轉）
+2. 做個筆記：使用 `v-if` 的元件，都會在隱藏的時候被摧毀。不希望元件被摧毀的話，可以改用 `v-show`（原理是透過更改`display`值來顯示或隱藏）
+
+## 2021/11/27
+
+1. 完成定位功能、顯示附近站牌
+2. 程式碼優化（使用 async / await 改寫，使程式碼更易讀）
+3. 完成附近站牌的公車路線頁面及資料串接（有夠搞剛）
+4. 避免掉產生重複資料的 Bug（已進行過濾）
+
 ## 總覽
 
 ### 關於這份挑戰
@@ -91,6 +127,8 @@
 
 - [Vue.js (3.0)](https://v3.vuejs.org/guide/introduction.html)
 - [Loading Overlay](https://www.npmjs.com/package/vue-loading-overlay)
+- [TDX API](https://ptx.transportdata.tw/MOTC)
+- [Geocoding API](https://developers.google.com/maps/documentation/geocoding/overview)
 - CSS Flex-box
 - CSS Grid-box
 - SCSS
@@ -98,7 +136,6 @@
 - ES6
 - RWD
 - AJAX
-- API（TDX 資料串接）
 
 ## 關於作者
 
