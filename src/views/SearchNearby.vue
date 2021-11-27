@@ -40,7 +40,7 @@
               />
             </svg>
           </router-link>
-          <h2 class="heading__text">我的附近</h2>
+          <h2 class="heading__text"><span class="icon-position"><i class="fas fa-map-marker-alt"></i></span>{{ currentCity }}，我的附近</h2>
         </div>
       </div>
     </header>
@@ -48,7 +48,7 @@
     <main class="content">
       <div class="container">
         <template v-for="(station, index) in stations" :key="index">
-          <router-link to="#" class="card-info">
+          <router-link :to="`/Search-Nearby/${station.StationName.Zh_tw}`" class="card-info">
             <h3 class="card-info__title">{{ station.StationName.Zh_tw }}</h3>
             <p class="card-info__description">{{ findRouterNames(station.Stops) }}</p>
           </router-link>
@@ -56,6 +56,8 @@
       </div>
     </main>
   </div>
+
+  <router-view :current-city="currentCityEn"></router-view>
 </template>
 
 <script>
@@ -64,55 +66,140 @@ export default {
   name: 'SearchNearby',
   data () {
     return {
-      stations: []
+      stations: [],
+      currentLatitude: '',
+      currentLongitude: '',
+      currentAddress: '',
+      currentCity: '',
+      currentCityEn: '',
+      distance: 500,
+      data: ''
     }
   },
   methods: {
-    findRouterNames (data) {
-      // 儲存整理好的路線文字
-      let resultString = null
-      // 用來取出資料的陣列
-      const routeNames = []
-      // 迭代傳入的資料
-      for (let i = 0; i < data.length; i++) {
-        // 取出資料中的每一個路線名稱，push 到陣列暫存
-        routeNames.push(data[i].RouteName.Zh_tw)
-      }
-      // 建立文字內容
-      resultString = routeNames.join(', ')
-      return resultString
+    findRouterNames (array) {
+      const tempArray = []
+      array.forEach((item) => {
+        tempArray.push(item.RouteName.Zh_tw)
+      })
+      return tempArray.join(', ')
     },
-    getPosition () {
-      if (navigator.geolocation) {
-        console.log('存在')
-        navigator.geolocation.getCurrentPosition((position) => {
-          console.log('緯度：', position.coords.latitude)
-          console.log('經度：', position.coords.longitude)
-        })
-      } else {
-        alert('Sorry, 你的瀏覽器不支援定位功能')
+    transferToEn (string) {
+      let result = ''
+      switch (string) {
+        case '台北市':
+          result = 'Taipei'
+          break
+        case '新北市':
+          result = 'NewTaipei'
+          break
+        case '基隆市':
+          result = 'Keelung'
+          break
+        case '桃園市':
+          result = 'Taoyuan'
+          break
+        case '新竹市':
+          result = 'Hsinchu'
+          break
+        case '新竹縣':
+          result = 'HsinchuCounty'
+          break
+        case '苗栗縣':
+          result = 'MiaoliCounty'
+          break
+        case '台中市':
+          result = 'Taichung'
+          break
+        case '南投縣':
+          result = 'NantouCounty'
+          break
+        case '彰化縣':
+          result = 'ChanghuaCounty'
+          break
+        case '雲林縣':
+          result = 'YunlinCounty'
+          break
+        case '嘉義市':
+          result = 'Chiayi'
+          break
+        case '嘉義縣':
+          result = 'ChiayiCounty'
+          break
+        case '台南市':
+          result = 'Tainan'
+          break
+        case '高雄市':
+          result = 'Kaohsiung'
+          break
+        case '屏東縣':
+          result = 'PingtungCounty'
+          break
+        case '台東縣':
+          result = 'TaitungCounty'
+          break
+        case '花蓮縣':
+          result = 'HualienCounty'
+          break
+        case '宜蘭縣':
+          result = 'YilanCounty'
+          break
+        case '澎湖縣':
+          result = 'PenghuCounty'
+          break
+        case '金門縣':
+          result = 'KinmenCounty'
+          break
+        case '連江縣':
+          result = 'LienchiangCounty'
+          break
       }
+      return result
     }
   },
   async created () {
-    this.getPosition()
-    // 儲存原始資料
-    const sourceData = await fetch('https://ptx.transportdata.tw/MOTC/v2/Bus/Station/City/Kaohsiung?$spatialFilter=nearby(22.6050276%2C120.2976925%2C%201000)&$format=JSON', { headers: GetAuthorizationHeader() })
-      .then((response) => response.json())
-      .then((json) => json)
-    // console.log(sourceData)
-    // 過濾掉重複項目的資料
-    const filterData = sourceData.filter((item, index, originalArray) => {
-      // 撇除第一筆資料
-      if (index !== 0) {
-        // 若目前資料跟上一筆資料的值不同，才會回傳
-        return originalArray[index].StationName.Zh_tw !== originalArray[index - 1].StationName.Zh_tw
-      } else {
-        // 回傳第一筆資料
-        return item
-      }
-    })
-    this.stations = [...filterData]
+    // 取得使用者目前所在的位置（經緯度）
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        this.currentLatitude = position.coords.latitude
+        this.currentLongitude = position.coords.longitude
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${this.currentLatitude},${this.currentLongitude}&key=AIzaSyBDCCU5i73ygOg0SVW0ulO4icYw7Rf58e4`
+        // 發送請求，取得所在位置資料（地址）
+        const responseOfPosition = await fetch(url)
+        // 解析資料
+        const dataOfPosition = await responseOfPosition.json()
+        // 取出地址名稱
+        const address = dataOfPosition.results[0].formatted_address
+        // 儲存到元件中
+        this.currentAddress = address
+        // 擷取出縣市名稱
+        const city = address.slice(address.match(/[縣市]/).index - 2, address.match(/[縣市]/).index + 1)
+        // 儲存到元件中
+        this.currentCity = city
+        this.currentCityEn = this.transferToEn(city)
+        // 發送請求，取得所在位置的附近站牌
+        const responseOfNearByStation = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Station/City/${this.transferToEn(this.currentCity)}?$spatialFilter=nearby(${this.currentLatitude}%2C${this.currentLongitude}%2C%20${this.distance})&$format=JSON`, { headers: GetAuthorizationHeader() })
+        // 解析資料
+        const dataOfNearByStation = await responseOfNearByStation.json()
+        // 過濾掉重複項目的資料
+        const filterData = dataOfNearByStation.filter((item, index, originalArray) => {
+          // 撇除第一筆資料
+          if (index !== 0) {
+            // 若目前資料跟上一筆資料的值不同，才會回傳
+            return originalArray[index].StationName.Zh_tw !== originalArray[index - 1].StationName.Zh_tw
+          } else {
+            // 回傳第一筆資料
+            return item
+          }
+        })
+        // 儲存到元件中
+        this.stations = [...filterData]
+      }, (error) => {
+        alert(error)
+      })
+    } else {
+      alert('不支援')
+    }
   }
 }
 </script>

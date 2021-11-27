@@ -5,6 +5,7 @@ import SearchLocalBus from '../views/SearchLocalBus.vue'
 import SearchGlobalBus from '../views/SearchGlobalBus.vue'
 import EstimatedTimeOfArrival from '../views/EstimatedTimeOfArrival.vue'
 import Navigator from '../views/Navigator.vue'
+import Station from '../views/Station.vue'
 
 const routes = [
   {
@@ -37,7 +38,14 @@ const routes = [
   {
     path: '/Search-Nearby',
     name: 'Search-Nearby',
-    component: SearchNearby
+    component: SearchNearby,
+    children: [
+      {
+        path: ':Station',
+        name: 'Station',
+        component: Station
+      }
+    ]
   }
 ]
 
