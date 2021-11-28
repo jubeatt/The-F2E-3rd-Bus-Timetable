@@ -158,14 +158,36 @@ export default {
       // 利用過濾後的陣列，回傳字串
       return tempArray.join(', ')
     },
-    calculateDistance (array) {
+    // 計算兩緯度之間的直線距離
+    calCulateDistance (lat1, lon1, lat2, lon2, unit) {
+      if ((lat1 === lat2) && (lon1 === lon2)) {
+        return 0
+      } else {
+        var radlat1 = Math.PI * lat1 / 180
+        var radlat2 = Math.PI * lat2 / 180
+        var theta = lon1 - lon2
+        var radtheta = Math.PI * theta / 180
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta)
+        if (dist > 1) {
+          dist = 1
+        }
+        dist = Math.acos(dist)
+        dist = dist * 180 / Math.PI
+        dist = dist * 60 * 1.1515
+        if (unit === 'K') { dist = dist * 1.609344 }
+        if (unit === 'N') { dist = dist * 0.8684 }
+        return dist
+      }
+    },
+    // 計算兩點之間的步行距離（Google API）
+    calculateDistanceFromGoogle (array) {
       return new Promise((resolve, reject) => {
         (async () => {
           // 取得距離與時間資料（非同步）
           try {
             for (let i = 0; i < array.length; i++) {
               // 發出請求
-              const response = await fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.currentLatitude},${this.currentLongitude}&destinations=${array[i].StationPosition.PositionLat},${array[i].StationPosition.PositionLon}&mode=walking&key=AIzaSyBDCCU5i73ygOg0SVW0ulO4icYw7Rf58e4`)
+              const response = await fetch(`api/distancematrix/json?origins=${this.currentLatitude},${this.currentLongitude}&destinations=${array[i].StationPosition.PositionLat},${array[i].StationPosition.PositionLon}&mode=walking&key=AIzaSyBDCCU5i73ygOg0SVW0ulO4icYw7Rf58e4`)
               // 解析資料
               const data = await response.json()
               // （查看用）
@@ -281,8 +303,9 @@ export default {
     // 儲存資料到元件中
     this.currentLatitude = coordinate.coords.latitude
     this.currentLongitude = coordinate.coords.longitude
-    // this.currentLatitude = 22.6394924
-    // this.currentLongitude = 120.3003943
+    // 測試用經緯度
+    // this.currentLatitude = 22.5949798
+    // this.currentLongitude = 120.3048368
 
     // 取得地址資料
     const position = await this.getAddress()
@@ -307,24 +330,37 @@ export default {
         return item
       }
     })
-    // 取得距離資料
-    try {
-      // 發出請求，並做資料處理
-      const fetchDistance = await this.calculateDistance(filterData)
-      // 顯示處理完後的結果（應該要顯示「成功取得資料」的訊息）
-      console.log(fetchDistance)
-      // 關閉 loading 畫面
-      this.loader.isLoading = false
-    } catch (err) {
-      // 若上面發生錯誤，顯示錯誤訊息
-      console.log(err)
-      // 關閉 loading 畫面
-      this.loader.isLoading = false
-      // 顯示提示訊息
-      alert('抱歉，在取得資料時發生了一點錯誤(╥﹏╥)，所以無法顯示您與站牌之間的大約距離。')
-      // 將備用方案指定給站牌資料
-      this.stations = [...filterData]
-    }
+
+    // 取得距離資料（使用 google API）。因為不開放跨來源，所以沒辦法在生產環境上使用）
+    // try {
+    //   // 發出請求，並做資料處理
+    //   const fetchDistance = await this.calculateDistanceFromGoogle(filterData)
+    //   // 顯示處理完後的結果（應該要顯示「成功取得資料」的訊息）
+    //   console.log(fetchDistance)
+    //   // 關閉 loading 畫面
+    //   this.loader.isLoading = false
+    // } catch (err) {
+    //   // 若上面發生錯誤，顯示錯誤訊息
+    //   console.log(err)
+    //   // 關閉 loading 畫面
+    //   this.loader.isLoading = false
+    //   // 顯示提示訊息
+    //   alert('抱歉，發生了一點錯誤(╥﹏╥)，所以無法顯示您與站牌之間的大約距離。')
+    //   // 將備用方案指定給站牌資料
+    //   this.stations = [...filterData]
+    // }
+
+    // 計算出兩點的直線距離（因為是直線距離，所以可能沒有 google 的 API 那麼精準）
+    filterData.forEach((item) => {
+      const distance = this.calCulateDistance(this.currentLatitude, this.currentLongitude, item.StationPosition.PositionLat, item.StationPosition.PositionLon, 'K')
+      // 在原資料中加入距離
+      // 回傳值為公里，所以用無條件進位排除掉小數點
+      item.Distance = Math.ceil(distance * 1000)
+    })
+    // 將處理好的資料存入元件中
+    this.stations = [...filterData]
+    // 關閉 loading 畫面
+    this.loader.isLoading = false
   }
 }
 </script>
