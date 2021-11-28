@@ -162,8 +162,8 @@ export default {
       return new Promise((resolve, reject) => {
         (async () => {
           // 取得距離與時間資料（非同步）
-          for (let i = 0; i < array.length; i++) {
-            try {
+          try {
+            for (let i = 0; i < array.length; i++) {
               // 發出請求
               const response = await fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.currentLatitude},${this.currentLongitude}&destinations=${array[i].StationPosition.PositionLat},${array[i].StationPosition.PositionLon}&mode=walking&key=AIzaSyBDCCU5i73ygOg0SVW0ulO4icYw7Rf58e4`)
               // 解析資料
@@ -178,10 +178,10 @@ export default {
               // array[i].Duration = data.rows[0].elements[0].duration.text
               // 在原資料中加入距離
               array[i].Distance = data.rows[0].elements[0].distance.value
-            } catch {
-              // 結束迴圈
-              break
             }
+          } catch (err) {
+            console.log('發生錯誤，跳出迴圈')
+            console.log(err)
           }
           // 檢查資料是否有正確寫入
           if (array[0].Distance) {
@@ -311,7 +311,7 @@ export default {
     try {
       // 發出請求，並做資料處理
       const fetchDistance = await this.calculateDistance(filterData)
-      // 顯示處理完後的結果（應該要顯示取得成功的訊息）
+      // 顯示處理完後的結果（應該要顯示「成功取得資料」的訊息）
       console.log(fetchDistance)
       // 關閉 loading 畫面
       this.loader.isLoading = false

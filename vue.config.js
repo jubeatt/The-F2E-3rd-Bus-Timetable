@@ -35,14 +35,14 @@ module.exports = {
       msTileImage: 'favicon.jpg'
     }
   },
-  // devServer: {
-  //   proxy: {
-  //     '/api': {
-  //       target: 'https://maps.googleapis.com/maps/api/',
-  //       pathRewrite: {'^/api' : ''},
-  //       changeOrigin: true,
-  //       ws: true
-  //     }
-  //   }
-  // }
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'https://maps.googleapis.com/maps/api/',
+        pathRewrite: {'^/api' : ''},
+        changeOrigin: true,
+        ws: true
+      }
+    }
+  }
 }
