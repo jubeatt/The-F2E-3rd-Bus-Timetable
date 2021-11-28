@@ -21,7 +21,7 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = '全台公車動態時刻查詢應用服務'
+        args[0].title = 'PeaNu\'s Bus Searching App❤'
         return args
       })
   },
@@ -35,6 +35,7 @@ module.exports = {
       msTileImage: 'favicon.jpg'
     }
   },
+  // 設定代理伺服器（跨網域請求資料時會用到）
   // devServer: {
   //   proxy: {
   //     '/api': {

@@ -127,7 +127,7 @@ export default {
         })
       } else {
         // 若無法，彈出提醒視窗
-        alert('Sorry, 你的瀏覽器不支援')
+        alert('Sorry, 你的瀏覽器不支援定位功能')
       }
     },
     async getAddress () {
@@ -299,6 +299,7 @@ export default {
     // 顯示 loading 畫面
     this.loader.isLoading = true
     // 取得座標資料
+    // （這邊之後最好補上錯誤處理，當有取得座標時才會接著做其他動作，否則使用者會不知所措）
     const coordinate = await this.getCoordinate()
     // 儲存資料到元件中
     this.currentLatitude = coordinate.coords.latitude
@@ -306,7 +307,6 @@ export default {
     // 測試用經緯度
     // this.currentLatitude = 22.5949798
     // this.currentLongitude = 120.3048368
-
     // 取得地址資料
     const position = await this.getAddress()
     const address = position.results[0].formatted_address

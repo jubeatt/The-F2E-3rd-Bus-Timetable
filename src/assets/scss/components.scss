@@ -50,6 +50,7 @@
 }
 // 公車資訊卡片
 .card-info {
+  display: block;
   padding: 12px 15px;
   border-radius: 6px;
   &__title {
@@ -82,7 +83,7 @@
   }
   &--selected {
     background-color: var(--blue);
-    color: var(--black);
+    color: var(--black) !important;
   }
   &:not(label):active {
     background-color: var(--light-blue);

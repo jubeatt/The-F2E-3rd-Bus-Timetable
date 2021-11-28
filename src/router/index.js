@@ -4,20 +4,20 @@ import SearchNearby from '../views/SearchNearby.vue'
 import SearchLocalBus from '../views/SearchLocalBus.vue'
 import SearchGlobalBus from '../views/SearchGlobalBus.vue'
 import EstimatedTimeOfArrival from '../views/EstimatedTimeOfArrival.vue'
-import Navigator from '../views/Navigator.vue'
 import Station from '../views/Station.vue'
 import EstimatedTimeOfArrivalFromNearbyStation from '../views/EstimatedTimeOfArrivalFromNearbyStation.vue'
+import Map from '../views/Map.vue'
 
 const routes = [
+  {
+    path: '/Map',
+    name: 'Map',
+    component: Map
+  },
   {
     path: '/',
     name: 'Home',
     component: Home
-  },
-  {
-    path: '/Navigator',
-    name: 'Navigator',
-    component: Navigator
   },
   {
     path: '/Search-LocalBus',

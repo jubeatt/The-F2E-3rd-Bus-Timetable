@@ -452,6 +452,7 @@
   .container {
     max-width: 1080px;
     margin: auto;
+    position: relative;
   }
   .heading {
     position: relative;
@@ -553,6 +554,11 @@
   .content > .container {
     height: calc(100vh - 237px);
     overflow-y: auto;
+    @include mediaQuery-tablet {
+      height: calc(100vh - 259px);
+      // 不喜歡的話，可改用原本的滾軸模式
+      // height: auto;
+    }
     // 不喜歡的話，可改用原本的滾軸模式
     // overflow-y: visible
     // height: auto;
@@ -573,10 +579,15 @@
       background-color: #555;
       background-color: var(--blue);
     }
+  }
+  .map {
+    width: 100%;
+    height: calc(100vh - 237px);
+    // visibility: hidden;
+    // opacity: 0;
+    // background-color: rgba(255, 0, 0, 0.3);
     @include mediaQuery-tablet {
       height: calc(100vh - 259px);
-      // 不喜歡的話，可改用原本的滾軸模式
-      // height: auto;
     }
   }
   .update-msg {
@@ -900,6 +911,16 @@
       height: calc(100vh - 259px);
       // 不喜歡的話，可改用原本的滾軸模式
       // height: auto;
+    }
+  }
+  .map {
+    width: 100%;
+    height: calc(100vh - 237px);
+    // visibility: hidden;
+    // opacity: 0;
+    // background-color: rgba(255, 0, 0, 0.3);
+    @include mediaQuery-tablet {
+      height: calc(100vh - 259px);
     }
   }
   .update-msg {
