@@ -55,12 +55,22 @@
             >
             <h3 class="card-info__title">{{ station.StationName.Zh_tw }}</h3>
             <p class="card-info__description">{{ findRouterNames(station.Stops) }}</p>
+            <p class="estimated-info"><span class="icon-walk"><i class="fas fa-walking"></i></span>{{ station.Distance }} 公尺</p>
           </router-link>
         </template>
       </div>
     </main>
   </div>
-
+  <!-- loading -->
+  <loading
+    :active="loader.isLoading"
+    :loader="loader.style"
+    :color="loader.color"
+    :opacity="loader.opacity"
+    :background-color="loader.background"
+    :blur="loader.blur"
+    :is-full-page="loader.fullPage"/>
+  <!-- Next page -->
   <router-view
     v-if="!isOnSearching"
     :current-city="currentCityEn"
@@ -70,21 +80,36 @@
 
 <script>
 import GetAuthorizationHeader from '../lib/Authorization.js'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 export default {
   name: 'SearchNearby',
   data () {
     return {
+      loader: {
+        style: 'dots',
+        color: '#1cc8ee',
+        background: '#fff',
+        opacity: 0.08,
+        blur: null,
+        isLoading: false,
+        fullPage: true
+      },
       tempStation: [],
       stations: [],
+      backupStations: [],
       currentLatitude: '',
       currentLongitude: '',
       currentAddress: '',
       currentCity: '',
       currentCityEn: '',
       data: '',
-      distance: 500,
+      distance: 1000,
       isOnSearching: true
     }
+  },
+  components: {
+    Loading
   },
   methods: {
     getCoordinate () {
@@ -132,6 +157,37 @@ export default {
       }
       // 利用過濾後的陣列，回傳字串
       return tempArray.join(', ')
+    },
+    calculateDistance (array) {
+      return new Promise((resolve, reject) => {
+        (async () => {
+          // 取得距離與時間資料（非同步）
+          for (let i = 0; i < array.length; i++) {
+            // 發出請求
+            const response = await fetch(`/api/distancematrix/json?origins=${this.currentLatitude},${this.currentLongitude}&destinations=${array[i].StationPosition.PositionLat},${array[i].StationPosition.PositionLon}&mode=walking&key=AIzaSyBDCCU5i73ygOg0SVW0ulO4icYw7Rf58e4`)
+            // 解析資料
+            const data = await response.json()
+            // （查看用）
+            // console.log(data)
+            // console.log(`跟第${i}個站牌的距離：${data.rows[0].elements[0].distance.text}`)
+            // console.log(`跟第${i}個站牌的距離：${data.rows[0].elements[0].distance.value}（公尺）`)
+            // console.log(`到第${i}個站牌的所需時間：${data.rows[0].elements[0].duration.text}`)
+            // console.log('準備加入')
+            // 在原資料中加入步行時間（目前不採用）
+            // array[i].Duration = data.rows[0].elements[0].duration.text
+            // 在原資料中加入距離
+            array[i].Distance = data.rows[0].elements[0].distance.value
+          }
+          // 確認是否有正確取得資料
+          if (array[0].Distance) {
+            // 把資料寫入到元件中
+            this.stations = [...array]
+            resolve('成功取得距離資料')
+          } else {
+            reject(new Error())
+          }
+        })()
+      })
     },
     toStationPage () {
       this.isOnSearching = false
@@ -213,13 +269,15 @@ export default {
     }
   },
   async created () {
+    // 顯示 loading 畫面
+    this.loader.isLoading = true
     // 取得座標資料
     const coordinate = await this.getCoordinate()
     // 儲存資料到元件中
     this.currentLatitude = coordinate.coords.latitude
     this.currentLongitude = coordinate.coords.longitude
-    // this.currentLatitude = 22.6748517
-    // this.currentLongitude = 120.2834639
+    // this.currentLatitude = 22.6394924
+    // this.currentLongitude = 120.3003943
 
     // 取得地址資料
     const position = await this.getAddress()
@@ -230,11 +288,11 @@ export default {
     this.currentCity = city
     this.currentCityEn = this.transferToEn(city)
     // 取得附近的站牌
-    const stations = await this.getNearbyStation()
+    const tempData = await this.getNearbyStation()
     // 拷貝一份資料到元件中（Debug用）
-    this.tempStation = [...stations]
+    this.tempStation = [...tempData]
     // 過濾掉重複的站牌資料
-    const filterData = stations.filter((item, index, originalArray) => {
+    const filterData = tempData.filter((item, index, originalArray) => {
       // 撇除第一筆資料
       if (index !== 0) {
         // 若目前資料跟上一筆資料的值不同，才會回傳
@@ -244,8 +302,26 @@ export default {
         return item
       }
     })
-    // 儲存到元件中
-    this.stations = [...filterData]
+    // 儲存一筆備用方案資料
+    this.backupStations = [...filterData]
+    // 取得距離資料
+    try {
+      // 發出請求，並做資料處理
+      const fetchDistance = await this.calculateDistance(filterData)
+      // 顯示處理完後的結果
+      console.log(fetchDistance)
+      // 關閉 loading 畫面
+      this.loader.isLoading = false
+    } catch (err) {
+      // 若上面發生錯誤，顯示錯誤訊息
+      console.log(err)
+      // 關閉 loading 畫面
+      this.loader.isLoading = false
+      // 顯示提示訊息
+      alert('抱歉，在取得資料時發生了一點錯誤，所以無法顯示您與站牌之間的大約距離。')
+      // 將備用方案指定給站牌資料
+      this.stations = [...this.backupStations]
+    }
   }
 }
 </script>

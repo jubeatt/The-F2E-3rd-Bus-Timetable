@@ -656,10 +656,8 @@
 */
 .search-nearby {
   .container {
-    @include mediaQuery-pc {
-      max-width: 1080px;
-      margin: auto;
-    }
+    max-width: 1080px;
+    margin: auto;
   }
   .header {
     margin-bottom: 25px;
@@ -687,11 +685,89 @@
       }
     }
   }
+  .estimated-info {
+    text-align: right;
+    margin-top: 5px;
+  }
+  .icon-walk {
+    margin-right: 5px;
+    color: var(--blue);
+  }
   .content {
     padding: 0 15px 15px;
   }
   // 圖標獨立設定
   .icon-position {
     margin-right: 10px;
+  }
+}
+
+/*
+================================
+  站點的經過站牌頁面（Station）
+================================
+*/
+.station {
+  .header {
+    padding: 25px;
+    .container {
+      max-width: 1080px;
+      margin: auto;
+    }
+    .top-nav {
+      position: relative;
+      text-align: center;
+      &__button-prev {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+      }
+      &__logo {
+        display: inline-block;
+      }
+    }
+  }
+  .content {
+    padding: 15px;
+    .container {
+      max-width: 1080px;
+      height: calc(100vh - 196px);
+      overflow-y: auto;
+      margin: auto;
+      @include mediaQuery-tablet {
+        height: calc(100vh - 211px);
+      }
+      // 不喜歡的話，可改用原本的滾軸模式
+      // overflow-y: visible
+      // height: auto;
+      &::-webkit-scrollbar-track {
+        border-radius: 20px;
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+        background-color: transparent;
+        box-shadow: var(--box-shadow-01);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 20px;
+        background-color: #555;
+        background-color: var(--blue);
+      }
+    }
+    .heading {
+      margin-bottom: 25px;
+      text-align: center;
+      font-size: 1.8rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }

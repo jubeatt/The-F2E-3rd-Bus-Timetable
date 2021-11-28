@@ -11,7 +11,7 @@
               viewBox="0 0 93 39"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              class="svg-logo search-bar__logo"
+              class="svg-logo"
             >
               <path
                 class="svg-t"

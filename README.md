@@ -102,6 +102,12 @@
 3. 完成附近站牌的公車路線頁面及資料串接（有夠搞剛）
 4. 避免掉產生重複資料的 Bug（已進行過濾）
 
+## 2021/11/28
+
+1. 完成附近站牌的 UI
+2. 新增附近站牌與使用者所在位置的距離
+3. 程式碼優化（為避免在取得距離時出錯，在請求失敗時會採用備用資料）
+
 ## 總覽
 
 ### 關於這份挑戰
@@ -129,6 +135,7 @@
 - [Loading Overlay](https://www.npmjs.com/package/vue-loading-overlay)
 - [TDX API](https://ptx.transportdata.tw/MOTC)
 - [Geocoding API](https://developers.google.com/maps/documentation/geocoding/overview)
+- [Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/overview)
 - CSS Flex-box
 - CSS Grid-box
 - SCSS
