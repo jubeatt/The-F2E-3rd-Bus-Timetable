@@ -163,26 +163,31 @@ export default {
         (async () => {
           // 取得距離與時間資料（非同步）
           for (let i = 0; i < array.length; i++) {
-            // 發出請求
-            const response = await fetch(`/api/distancematrix/json?origins=${this.currentLatitude},${this.currentLongitude}&destinations=${array[i].StationPosition.PositionLat},${array[i].StationPosition.PositionLon}&mode=walking&key=AIzaSyBDCCU5i73ygOg0SVW0ulO4icYw7Rf58e4`)
-            // 解析資料
-            const data = await response.json()
-            // （查看用）
-            // console.log(data)
-            // console.log(`跟第${i}個站牌的距離：${data.rows[0].elements[0].distance.text}`)
-            // console.log(`跟第${i}個站牌的距離：${data.rows[0].elements[0].distance.value}（公尺）`)
-            // console.log(`到第${i}個站牌的所需時間：${data.rows[0].elements[0].duration.text}`)
-            // console.log('準備加入')
-            // 在原資料中加入步行時間（目前不採用）
-            // array[i].Duration = data.rows[0].elements[0].duration.text
-            // 在原資料中加入距離
-            array[i].Distance = data.rows[0].elements[0].distance.value
+            try {
+              // 發出請求
+              const response = await fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.currentLatitude},${this.currentLongitude}&destinations=${array[i].StationPosition.PositionLat},${array[i].StationPosition.PositionLon}&mode=walking&key=AIzaSyBDCCU5i73ygOg0SVW0ulO4icYw7Rf58e4`)
+              // 解析資料
+              const data = await response.json()
+              // （查看用）
+              // console.log(data)
+              // console.log(`跟第${i}個站牌的距離：${data.rows[0].elements[0].distance.text}`)
+              // console.log(`跟第${i}個站牌的距離：${data.rows[0].elements[0].distance.value}（公尺）`)
+              // console.log(`到第${i}個站牌的所需時間：${data.rows[0].elements[0].duration.text}`)
+              // console.log('準備加入')
+              // 在原資料中加入步行時間（目前不採用）
+              // array[i].Duration = data.rows[0].elements[0].duration.text
+              // 在原資料中加入距離
+              array[i].Distance = data.rows[0].elements[0].distance.value
+            } catch {
+              // 結束迴圈
+              break
+            }
           }
-          // 確認是否有正確取得資料
+          // 檢查資料是否有正確寫入
           if (array[0].Distance) {
+            resolve('成功取得資料')
             // 把資料寫入到元件中
             this.stations = [...array]
-            resolve('成功取得距離資料')
           } else {
             reject(new Error())
           }
@@ -291,7 +296,7 @@ export default {
     const tempData = await this.getNearbyStation()
     // 拷貝一份資料到元件中（Debug用）
     this.tempStation = [...tempData]
-    // 過濾掉重複的站牌資料
+    // 將過濾掉重複的站牌資料儲存
     const filterData = tempData.filter((item, index, originalArray) => {
       // 撇除第一筆資料
       if (index !== 0) {
@@ -302,13 +307,11 @@ export default {
         return item
       }
     })
-    // 儲存一筆備用方案資料
-    this.backupStations = [...filterData]
     // 取得距離資料
     try {
       // 發出請求，並做資料處理
       const fetchDistance = await this.calculateDistance(filterData)
-      // 顯示處理完後的結果
+      // 顯示處理完後的結果（應該要顯示取得成功的訊息）
       console.log(fetchDistance)
       // 關閉 loading 畫面
       this.loader.isLoading = false
@@ -318,9 +321,9 @@ export default {
       // 關閉 loading 畫面
       this.loader.isLoading = false
       // 顯示提示訊息
-      alert('抱歉，在取得資料時發生了一點錯誤，所以無法顯示您與站牌之間的大約距離。')
+      alert('抱歉，在取得資料時發生了一點錯誤(╥﹏╥)，所以無法顯示您與站牌之間的大約距離。')
       // 將備用方案指定給站牌資料
-      this.stations = [...this.backupStations]
+      this.stations = [...filterData]
     }
   }
 }
