@@ -1,5 +1,5 @@
 <template>
-  <div class="station">
+  <div v-if="isOnStationPage" class="station">
     <header class="header">
       <div class="container">
         <div class="top-nav">
@@ -55,17 +55,25 @@
       <h2 class="heading">{{ $route.params.Station }}</h2>
       <div class="container">
         <template v-for="(stop, index) in stops" :key="index">
-          <router-link to="#" class="card-info">
+          <router-link
+            :to="`/Search-Nearby/${$route.params.Station}/${currentCity}/${stop.RouteUID}`"
+            @click="toNextPage"
+            class="card-info">
             <h3 class="card-info__title">{{ stop.RouteName }}</h3>
             <p class="card-info__text">
-              {{ stop.DepartureStops }}<span class="card-info__middle-text">往</span
-              >{{ stop.DestinationStops }}
+              {{ stop.DepartureStop }}<span class="card-info__middle-text">往</span
+              >{{ stop.DestinationStop }}
             </p>
           </router-link>
         </template>
       </div>
     </div>
   </div>
+  <!-- 預估到站頁面 -->
+  <router-view
+    v-if="!isOnStationPage"
+    @backToPreviousPage="showStationPage"
+    ></router-view>
   <!-- loading -->
   <loading
     :active="loader.isLoading"
@@ -95,14 +103,14 @@ export default {
         isLoading: false,
         fullPage: true
       },
+      isOnStationPage: true,
       station: [],
       stops: [],
       routeLength: 0,
       routeNames: [],
       routeUIDs: [],
       departureStops: [],
-      destinationStops: [],
-      stationsInfo: []
+      destinationStops: []
     }
   },
   emits: ['toPreviousPage'],
@@ -127,7 +135,13 @@ export default {
       return json
     },
     backToPrevious () {
-      router.push('/Search-Nearby')
+      router.back()
+    },
+    toNextPage () {
+      this.isOnStationPage = false
+    },
+    showStationPage () {
+      this.isOnStationPage = true
     }
   },
   components: {
@@ -158,8 +172,8 @@ export default {
       }
     })
     // 儲存資料的數量
-    this.routeLength = this.routeNames.length
-    ;(async () => {
+    this.routeLength = this.routeNames.length;
+    (async () => {
       // 發送請求，取得每一個路線的資料（非同步）
       for (let i = 0; i < this.routeUIDs.length; i++) {
         const routeInfo = await this.getRouteInfo(this.routeUIDs[i])
@@ -170,9 +184,9 @@ export default {
       for (let i = 0; i < this.routeLength; i++) {
         this.stops.push({
           RouteName: this.routeNames[i],
-          RouteUIDs: this.routeUIDs[i],
-          DepartureStops: this.departureStops[i],
-          DestinationStops: this.destinationStops[i]
+          RouteUID: this.routeUIDs[i],
+          DepartureStop: this.departureStops[i],
+          DestinationStop: this.destinationStops[i]
         })
       }
     })()

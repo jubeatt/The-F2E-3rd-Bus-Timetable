@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import SearchNearby from '../views/SearchNearby.vue'
 import SearchLocalBus from '../views/SearchLocalBus.vue'
@@ -6,6 +6,7 @@ import SearchGlobalBus from '../views/SearchGlobalBus.vue'
 import EstimatedTimeOfArrival from '../views/EstimatedTimeOfArrival.vue'
 import Navigator from '../views/Navigator.vue'
 import Station from '../views/Station.vue'
+import EstimatedTimeOfArrivalFromNearbyStation from '../views/EstimatedTimeOfArrivalFromNearbyStation.vue'
 
 const routes = [
   {
@@ -43,14 +44,21 @@ const routes = [
       {
         path: ':Station',
         name: 'Station',
-        component: Station
+        component: Station,
+        children: [
+          {
+            path: ':City/:RouteUID',
+            name: 'EstimatedTimeOfArrivalFromNearbyStation',
+            component: EstimatedTimeOfArrivalFromNearbyStation
+          }
+        ]
       }
     ]
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes
 })
 

@@ -63,22 +63,22 @@
             <button @click="closePanel" class="button">
               <i class="fas fa-chevron-down"></i>
             </button>
-            <button @click="inputValue('紅')" class="button text-color-blue">紅</button>
-            <button @click="inputValue('藍')" class="button text-color-blue">藍</button>
+            <button @click="userInput='紅'" class="button text-color-blue">紅</button>
+            <button @click="userInput='藍'" class="button text-color-blue">藍</button>
             <button @click="inputValue('1')" class="button">1</button>
             <button @click="inputValue('2')" class="button">2</button>
             <button @click="inputValue('3')" class="button">3</button>
-            <button @click="inputValue('綠')" class="button text-color-blue">綠</button>
-            <button @click="inputValue('棕')" class="button text-color-blue">棕</button>
+            <button @click="userInput='綠'" class="button text-color-blue">綠</button>
+            <button @click="userInput='棕'" class="button text-color-blue">棕</button>
             <button @click="inputValue('4')" class="button">4</button>
             <button @click="inputValue('5')" class="button">5</button>
             <button @click="inputValue('6')" class="button">6</button>
-            <button @click="inputValue('橘')" class="button text-color-blue">橘</button>
-            <button @click="inputValue('小')" class="button text-color-blue">小</button>
+            <button @click="userInput='橘'" class="button text-color-blue">橘</button>
+            <button @click="userInput='小'" class="button text-color-blue">小</button>
             <button @click="inputValue('7')" class="button">7</button>
             <button @click="inputValue('8')" class="button">8</button>
             <button @click="inputValue('9')" class="button">9</button>
-            <button @click="inputValue('幹線')" class="button text-color-blue">幹線</button>
+            <button @click="userInput='幹線'" class="button text-color-blue">幹線</button>
             <button @click="openMoreBoard" class="button text-color-blue">更多</button>
             <button @click="clearInput" class="button text-color-blue">C</button>
             <button @click="inputValue('0')" class="button">0</button>
@@ -194,18 +194,18 @@
           </form>
           <!-- 更多選擇 -->
           <div v-if="moreBoard" class="more-board">
-            <button @click="inputValue('F')" class="button text-color-blue">F</button>
-            <button @click="inputValue('R')" class="button text-color-blue">R</button>
-            <button @click="inputValue('T')" class="button text-color-blue">T</button>
-            <button @click="inputValue('快')" class="button text-color-blue">快</button>
-            <button @click="inputValue('內科')" class="button text-color-blue">內科</button>
-            <button @click="inputValue('跳蛙')" class="button text-color-blue">跳蛙</button>
-            <button @click="inputValue('通勤')" class="button text-color-blue">通勤</button>
-            <button @click="inputValue('南軟')" class="button text-color-blue">南軟</button>
-            <button @click="inputValue('先導')" class="button text-color-blue">先導</button>
-            <button @click="inputValue('夜間')" class="button text-color-blue">夜間</button>
-            <button @click="inputValue('市民')" class="button text-color-blue">市民</button>
-            <button @click="inputValue('其他')" class="button text-color-blue">其他</button>
+            <button @click="userInput='F'" class="button text-color-blue">F</button>
+            <button @click="userInput='R'" class="button text-color-blue">R</button>
+            <button @click="userInput='T'" class="button text-color-blue">T</button>
+            <button @click="userInput='快'" class="button text-color-blue">快</button>
+            <button @click="userInput='內科'" class="button text-color-blue">內科</button>
+            <button @click="userInput='跳蛙'" class="button text-color-blue">跳蛙</button>
+            <button @click="userInput='通勤'" class="button text-color-blue">通勤</button>
+            <button @click="userInput='南軟'" class="button text-color-blue">南軟</button>
+            <button @click="userInput='先導'" class="button text-color-blue">先導</button>
+            <button @click="userInput='夜間'" class="button text-color-blue">夜間</button>
+            <button @click="userInput='市民'" class="button text-color-blue">市民</button>
+            <button @click="userInput='其他'" class="button text-color-blue">其他</button>
             <button @click="closeMoreBoaard" class="button text-color-blue">回上一頁</button>
           </div>
         </div>

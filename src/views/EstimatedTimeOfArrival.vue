@@ -3,7 +3,7 @@
     <header class="header">
       <div class="container">
         <div class="main-buttons">
-          <button @click="redirectToPreviousPage" class="main-buttons__button-prev"><i class="fas fa-chevron-left"></i></button>
+          <button @click="backToPrevious" class="main-buttons__button-prev"><i class="fas fa-chevron-left"></i></button>
           <router-link to="/">
             <svg
               width="93"
@@ -109,7 +109,7 @@
         </div>
       </div>
     </main>
-     <!-- loading -->
+    <!-- loading -->
     <loading
       :active="loader.isLoading"
       :loader="loader.style"
@@ -158,16 +158,22 @@ export default {
   },
   methods: {
     // 取得去程資料
-    fetchGoDistanceData (city, routeUID) {
-      return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%200&$orderby=StopSequence&$format=JSON`, { headers: GetAuthorizationHeader() })
-        .then((response) => response.json())
-        .then((json) => json)
+    async fetchGoDistanceData (city, routeUID) {
+      // 送出請求
+      const data = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%200&$orderby=StopSequence&$format=JSON`, { headers: GetAuthorizationHeader() })
+      // 解析資料
+      const json = await data.json()
+      // 回傳解析完成的資料
+      return json
     },
     // 取得返程資料
-    fetchBackDistanceData (city, routeUID) {
-      return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%201&$orderby=StopSequence&$format=JSON`, { headers: GetAuthorizationHeader() })
-        .then((response) => response.json())
-        .then((json) => json)
+    async fetchBackDistanceData (city, routeUID) {
+      // 送出請求
+      const data = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%201&$orderby=StopSequence&$format=JSON`, { headers: GetAuthorizationHeader() })
+      // 解析資料
+      const json = data.json()
+      // 回傳解析完成的資料
+      return json
     },
     // 設定狀態文字
     statusMessage (data) {
@@ -264,10 +270,6 @@ export default {
         return 0
       }
     },
-    randomKey () {
-      // 回傳目前時間毫秒數（自1970）
-      return Date.now()
-    },
     // 設置倒數計時器
     setAutoReLoading () {
       // 每 1 秒執行一次
@@ -312,8 +314,9 @@ export default {
       }
     },
     // 重新導向
-    redirectToPreviousPage () {
-      router.push({ path: '/Search-LocalBus' })
+    backToPrevious () {
+      // 回上一頁
+      router.back()
     }
   },
   async created () {
@@ -323,8 +326,6 @@ export default {
     this.goDistanceData = await this.fetchGoDistanceData(this.$route.params.City, this.$route.params.RouteUID)
     // 利用路由參數發送請求（返程資料）
     this.backDistanceData = await this.fetchBackDistanceData(this.$route.params.City, this.$route.params.RouteUID)
-    // 關閉 loading 畫面
-    this.loader.isLoading = false
     // // 查詢車種資料（去程）
     // this.goDistanceData.forEach((item) => {
     //   // console.log('去程車牌資料：', item.PlateNumb)

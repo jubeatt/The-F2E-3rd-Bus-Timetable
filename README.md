@@ -109,6 +109,8 @@
 3. 程式碼優化（為避免在取得距離時出錯，在請求失敗時會採用備用資料）
 4. 程式碼修正（因為 Distance Matrix API 不開放跨來源請求，故目前改用兩點直線距離公式來取代）
 5. 修復 favicon 未正確顯示的問題（public/index.html 中的 href 位址沒寫好）
+6. 完成附近站牌的預估到站頁面
+7. 使用者體驗優化（輸入面板調整。當按下紅、藍等路線時，不是直接添加到輸入框，而是整筆覆寫。）
 
 ## 總覽
 
@@ -157,11 +159,8 @@
 
 ## 參考資料
 
-- [Vue3.0 官方文檔](https://v3.vuejs.org/guide/introduction.html)
-- [重新認識 Vue.js](https://book.vue.tw/)
 - [The New CSS Reset](https://elad.medium.com/the-new-css-reset-53f41f13282e)
-- [The New CSS Reset](https://elad.medium.com/the-new-css-reset-53f41f13282e)
-- [[Vue.js] 簡單登入頁面路由 part1](https://yuugou727.github.io/blog/2017/11/11/vue-login-practice/)
+- [Vue.js 簡單登入頁面路由 part1](https://yuugou727.github.io/blog/2017/11/11/vue-login-practice/)
 - [Leo Lin-Vue Router](https://linwei5316.medium.com/vue-router-4c2aad1cc352)
 - [Vue.js - 使用 ESLint + Prettier 整理程式碼](https://ithelp.ithome.com.tw/articles/10231505)
 - [input / button elements not shrinking in a flex container](https://stackoverflow.com/questions/42421361/input-button-elements-not-shrinking-in-a-flex-container)
@@ -174,3 +173,13 @@
 - [emits 选项](https://v3.cn.vuejs.org/guide/migration/emits-option.html#_2-x-%E7%9A%84%E8%A1%8C%E4%B8%BA)
 - [why component is not destroyed under v-if](https://stackoverflow.com/questions/53085722/why-component-is-not-destroyed-under-v-if/53085867)
 - [遇到 async，別用 forEach](https://medium.com/@steven234/%E9%81%87%E5%88%B0-async-%E5%88%A5%E7%94%A8-foreach-7cea84f4242f)
+- [使用 HTML5 地理位置定位到城市的方法及注意事項](https://kknews.cc/zh-tw/tech/4qgkxq2.html)
+- [談談 JavaScript 的 setTimeout 與 setInterval](https://kuro.tw/posts/2019/02/23/%E8%AB%87%E8%AB%87-JavaScript-%E7%9A%84-setTimeout-%E8%88%87-setInterval/)
+- [在 vue 中使用 setTimeout 與 setInterval](https://medium.com/%E5%86%8D%E4%B8%8D%E5%AF%AB%E5%B0%B1%E8%A6%81%E5%BF%98%E4%BA%86/%E5%9C%A8vue%E4%B8%AD%E4%BD%BF%E7%94%A8settimeout%E8%88%87setinterval-5b760e05ee2f)
+- [經緯度查完整地理資訊 - Opencube - 開放資料平台](https://opencube.tw/location)
+- [教學－如何使用 JavaScript Promise 簡化非同步流程](https://shubo.io/javascript-promise/)
+- [Google Maps API 學習筆記 – 5：抓目前位置、計算到各點距離](https://www.letswrite.tw/google-map-api-distance-matrix/)
+- [開發時的跨網域存取 - proxy-devServer](https://book.vue.tw/CH3/3-3-vue-dev-server-build.html#%E9%96%8B%E7%99%BC%E6%99%82%E7%9A%84%E8%B7%A8%E7%B6%B2%E5%9F%9F%E5%AD%98%E5%8F%96-proxy-devserver)
+- [Vue Axios 開發環境、生產環境跨域問題解決](https://www.uj5u.com/qita/1309.html)
+- [使用 javascript 計算兩個經緯度間的距離](https://tools.wingzero.tw/article/sn/72)
+- [解決 Vue-cli 打包後，無法顯示 Favicon 的問題](https://smlpoints.com/notes-vue-cli-no-favicon-after-doing-webpack.html)
