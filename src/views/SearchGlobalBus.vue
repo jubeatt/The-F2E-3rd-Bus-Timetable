@@ -1,6 +1,6 @@
 <template>
   <div class="global-bus">
-    <h1 class="global-bus__text">那個客運頁面...(｡ŏ﹏ŏ)<br>再給我一點時間！我一定能完成的(•ө•)♡</h1>
+    <h1 class="global-bus__text">那個客運頁面...(｡ŏ﹏ŏ)<br>再給我一點時間！我一定能完成的！</h1>
   </div>
 </template>
 
