@@ -185,11 +185,6 @@ export default {
         this.noResultMsg = false
       }
     }
-  },
-  beforeRouteLeave (to, from) {
-    console.log('即將離開目前的元件，跳轉到下一個路由')
-    console.log(to)
-    console.log(from)
   }
 }
 </script>

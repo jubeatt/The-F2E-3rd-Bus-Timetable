@@ -189,9 +189,9 @@ export default {
           DestinationStop: this.destinationStops[i]
         })
       }
+      // 隱藏 loading 畫面
+      this.loader.isLoading = false
     })()
-    // 隱藏 loading 畫面
-    this.loader.isLoading = false
   },
   beforeRouteLeave (to, from, next) {
     // 觸發父層事件

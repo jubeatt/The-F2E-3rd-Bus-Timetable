@@ -6,14 +6,8 @@ import SearchGlobalBus from '../views/SearchGlobalBus.vue'
 import EstimatedTimeOfArrival from '../views/EstimatedTimeOfArrival.vue'
 import Station from '../views/Station.vue'
 import EstimatedTimeOfArrivalFromNearbyStation from '../views/EstimatedTimeOfArrivalFromNearbyStation.vue'
-import Map from '../views/Map.vue'
 
 const routes = [
-  {
-    path: '/Map',
-    name: 'Map',
-    component: Map
-  },
   {
     path: '/',
     name: 'Home',

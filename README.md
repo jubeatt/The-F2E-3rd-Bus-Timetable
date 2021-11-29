@@ -5,30 +5,58 @@
 ## 大綱
 
 - [總覽](#總覽)
+  - [公告消息](#公告消息)
   - [關於這份挑戰](#關於這份挑戰)
   - [螢幕截圖](#螢幕截圖)
   - [網站連結](#網站連結)
 - [使用的工具](#使用的工具)
+- [資料夾架構](#資料夾架構)
 - [開發紀錄](#開發紀錄)
+- [未來持續開發目標](#未來持續開發目標)
 - [關於作者](#關於作者)
 - [致謝](#致謝)
 - [參考資料](#參考資料)
 
 ## 總覽
 
+### 公告消息
+
+#### 2021/11/29
+
+為了確保各位有良好的使用體驗，這邊先做個置頂說明。
+
+目前可以使用的功能：
+
+- 查詢公車的路線
+- 查詢公車的預估到站時間
+- 查詢公車的地圖（路線圖）
+- 查詢自己附近的公車站牌（預設範圍為 1 公里）
+- 顯示附近站牌與自己的距離
+
+目前不可以使用的功能：
+
+- 客運相關的頁面、資料都尚未開始動工。
+- 透過動態資料，查看公車是否為無障礙車種（這部分的資料還沒處理完善，所以目前顯示的並不是正確的結果）
+
 ### 關於這份挑戰
 
-這份挑戰是要製作一個台灣公車動態時刻查詢的網站，使用者應該要能夠：
+這份挑戰是要製作一個台灣公車/客運動態時刻及相關資訊的查詢網站，使用者應該要能夠：
 
 - 在各種裝置上都能夠瀏覽該網站（手機、平板、電腦）
 - 透過動態時刻表，來得知公車大約什麼時候到站
-- 透過路線時刻表，來查看公車的路線圖
+- 透過定位功能，來查看自己附近有哪些公車站牌
+- 透過地圖功能，來更精準查看公車的行經路線及動態
+- 透過搜索功能，來搜索想要了解的公車資訊
 
 ### 螢幕截圖
 
 **🖥 桌機版：**
 
+![screen-shot-desktop](src/README-IMG/screen-shot-desktop.jpg)
+
 **📱 手機版：**
+
+![screen-shot-mobile](src/README-IMG/screen-shot-mobile.jpg)
 
 ### 網站連結
 
@@ -42,6 +70,7 @@
 - [TDX API](https://ptx.transportdata.tw/MOTC)
 - [Geocoding API](https://developers.google.com/maps/documentation/geocoding/overview)
 - [Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/overview)
+- [Leaflet](https://leafletjs.com/reference.html#tooltip)
 - CSS Flex-box
 - CSS Grid-box
 - SCSS
@@ -50,7 +79,39 @@
 - RWD
 - AJAX
 
+### 資料夾架構
+
+- public 存放經過打包後的程式碼
+  - favicon.jpg 可愛的 PeaNu 頭像
+  - index.html 最後產生的 HTML 檔案
+- src 儲存所有撰寫的原始碼
+  - assets 只放我寫的 SCSS
+    - components.scss 會重複使用的樣式元件
+    - global.scss 基本全域樣式設定（文字、Hover 效果、背景色等）
+    - mixin.scss 使用 `@mixin`撰寫的內容（目前只有 `media queries`）
+    - reset.scss 讓瀏覽器統一並且重製的樣式（採用的是 [eric](https://meyerweb.com/eric/tools/css/reset/) 加上一點個人習慣的設定）
+    - utilities.scss 單一功能性的樣式（文字色彩、大小、間距等等）
+    - main.scss 每個頁面的樣式都寫在這隻檔案裡，裡面有加上註解來劃分每個頁面，不用怕找不到。
+  - components 儲存 Vue 的單一元件檔案（基本上沒有用到，多半是我拿來測試或練習時所遺留的檔案而已）
+  - lib 我自己寫的簡短函式庫
+    - Authorization.js 用來設定發送 TDX API 時，需要帶上的相關 `header`
+  - README-IMG 儲存 README 用到的圖片
+  - router Vue 的路由相關設定
+  - views 儲存所有頁面的 Vue 單一元件檔案
+    - EstimatedTimeOfArrival.vue 預估到站頁面的內容（它是 `/SearchLocalBus` 下的子路由）
+    - EstimatedTimeOfArrivalFromNearbyStation 預估到站頁面的內容（它是 `/SearchNearby` 下的子路由）
+    - Home.vue 首頁的頁面
+    - SearchGlobalBus.vue 查詢客運的頁面（目前還沒做完）
+    - SearchLocalBus.vue 查詢公車的頁面
+    - SearchNearby.vue 查詢附近站牌的頁面
+    - SearchResult.vue 顯示查詢結果的頁面（它是 `/SearchLocalBus` 下的子路由）
+    - Station.vue 某站牌所經過的所有公車的頁面（它是 `/SearchNearby` 下的子路由）
+  - App.vue 用來包整個元件的根元件
+  - main.js 整個程式的進入點
+
 ## 開發紀錄
+
+純粹是紀錄自己每一天做了什麼，還有一些小筆記。有興趣的人可以看看～
 
 ### 2021/11/17
 
@@ -85,7 +146,7 @@
 ### 2021/11/24
 
 1. 處理進入公車動態頁面的 Bug
-   - Bug 點：每次進入頁面時會顯示上一筆動態資料，而不是當前的動態資料。
+   - Bug 點：每次進入頁面時會顯示上一筆動態資料，而不是當前的動態資料
    - 解決方式：因為公車動態頁面是透過 `v-if` 來打開或隱藏畫面，而 `v-if` 會有節能機制的問題。為了確保每一次進入時都重新渲染，必須在該元件加上 `:key` 屬性來處理。（註：每一次 key 的值都必須不同）
 2. 處理顯示公車狀態的 CSS（即將到站、進站中、預估時間等）
 3. 完成公車動態 API 資料串接（去程、返程）
@@ -103,7 +164,7 @@
 ### 2021/11/24
 
 1. 處理進入公車動態頁面的 Bug
-   - Bug 點：每次進入頁面時會顯示上一筆動態資料，而不是當前的動態資料。
+   - Bug 點：每次進入頁面時會顯示上一筆動態資料，而不是當前的動態資料
    - 解決方式：因為公車動態頁面是透過 `v-if` 來打開或隱藏畫面，而 `v-if` 會有節能機制的問題。為了確保每一次進入時都重新渲染，必須在該元件加上 `:key` 屬性來處理。（註：每一次 key 的值都必須不同）
 2. 處理顯示公車狀態的 CSS（即將到站、進站中、預估時間等）
 3. 完成公車動態頁面（去程、返程）
@@ -152,20 +213,38 @@
 
 1. 完成地圖功能（顯示該公車的路線地圖）
 2. 部分樣式微調整
+3. README 撰寫
+
+## 未來持續開發目標
+
+1. 收藏功能。使用者可以把自己常用的車牌列入收藏，方便下次使用。
+2. 計算距離功能優化。除了顯示與附近站牌距離之外，希望可以將附近站牌做「由近到遠」的排序顯示，讓使用者更一目了然。
+3. 地圖功能優化。目前只能做出靜態站牌、介面也頗陽春。期望技術越來越好時，能搭配公車動態做同步顯示效果。
+4. 個人化主題設定。使用者可以根據自己的喜好，切換至自己喜歡的主題色彩。
+5. 提升穩定性。當請求失敗或資料發生錯誤時，可採取備用方案，而不是整個網站直接掛掉。
+6. 將客運頁面資料完成，把還沒完成的坑給填完。
+
+## 致謝
+
+首先要謝謝的是六角學院，舉辦了這個有趣又刺激的競賽活動。雖然我只參與了第一週與第三週，但我學到的事情遠比我一開始預期中來得多。在經過了第一週的洗禮後，我變得更能活用 Vue，這個我一直很想學好的框架。
+
+原本的我只會用 CDN 來玩一些基礎的操作（資料綁定、資料渲染、更新狀態等），到現在已經進階到能用 Vue-Cli 來建立一個正式的網站或 App。可以看到自己的成長，相信是比什麼都還讓人感到到開心的事。
+
+雖然，這個過程中少不了各種有（痛）趣（苦）的事情：花了整整一個下午的時間，只為了除掉一隻 Bug、開發時用代理伺服器串 API 串的很開心，結果到生產環境時才發現這支 API 不開放跨網域請求、發現 API 的資料格式不是自己想要的，硬是用上各種迴圈加非同步請求來手工整理出自己想要的資料內容；還有天都已經亮了，而我還在這裡打心得感想 😂
+
+另外，也要向同為參賽者的 UI 設計師[KT](https://www.behance.net/KT_Designer)說聲謝謝。我想每一個網站的背後都埋藏了許多前端工程師、後端工程師、UI 設計師及各種團隊成員的心血。雖然我知道自己還沒有把所有的功能都給做齊全，不過還是希望當妳看到這份作品，心中是感到滿意的。
+
+最後想說，不論你是工程師、設計師，還是只是剛好路過的無名氏。希望你們品嘗這份作品時，能夠感到「哇，這個還不錯」、「這還蠻好用的」，這樣對我來說就是一份最大的鼓勵跟回報了 😊。當然，如果你有什麼想要建議的新功能，還是發現哪裡有什麼問題或 Bug，都很歡迎你透過[寄信](mailto:jimdevelopesite@gmail.com)、或其他聯繫方式來跟我泡茶聊天；還有，謝謝把這份 README 讀到最後的你 / 妳。
 
 ## 關於作者
 
 - Website - [PeaNu's Paradise](https://jubeatt.github.io/)
 - Facebook - [個人臉書](https://www.facebook.com/profile.php?id=100003593580513)
 
-## 致謝
-
-...
-
 ## 參考資料
 
 - [The New CSS Reset](https://elad.medium.com/the-new-css-reset-53f41f13282e)
-- [Vue.js 簡單登入頁面路由 part1](https://yuugou727.github.io/blog/2017/11/11/vue-login-practice/)
+- [[Vue.js] 簡單登入頁面路由 part1](https://yuugou727.github.io/blog/2017/11/11/vue-login-practice/)
 - [Leo Lin-Vue Router](https://linwei5316.medium.com/vue-router-4c2aad1cc352)
 - [Vue.js - 使用 ESLint + Prettier 整理程式碼](https://ithelp.ithome.com.tw/articles/10231505)
 - [input / button elements not shrinking in a flex container](https://stackoverflow.com/questions/42421361/input-button-elements-not-shrinking-in-a-flex-container)
@@ -188,3 +267,8 @@
 - [Vue Axios 開發環境、生產環境跨域問題解決](https://www.uj5u.com/qita/1309.html)
 - [使用 javascript 計算兩個經緯度間的距離](https://tools.wingzero.tw/article/sn/72)
 - [解決 Vue-cli 打包後，無法顯示 Favicon 的問題](https://smlpoints.com/notes-vue-cli-no-favicon-after-doing-webpack.html)
+- [Leaflet tiles are not loading for multiple Bootstrap tabs](https://gis.stackexchange.com/questions/349295/leaflet-tiles-are-not-loading-for-multiple-bootstrap-tabs)
+- [Vue.js 新手如何製作口罩地圖？一起來貢獻小小力量吧！](https://5xruby.tw/posts/how-to-create-maskmap-by-vuejs-and-osm)
+- [Vue nextTick 處理完成後就換我!](https://ithelp.ithome.com.tw/articles/10240669)
+- [06. Leaflet_Raster Layers](https://ithelp.ithome.com.tw/articles/10204277)
+- [leafletjs](https://leafletjs.com/)
