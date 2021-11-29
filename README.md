@@ -60,7 +60,7 @@
 
 ### 網站連結
 
-- The-F2E 挑戰連結：[靜候佳音](#)
+- The-F2E 挑戰連結：[這裡](https://2021.thef2e.com/users/6296432819610583076?week=3&type=2)
 - Demo 網站連結：[這裡](https://jubeatt.github.io/The-F2E-3rd-Bus-Timetable/)
 
 ### 使用的工具
