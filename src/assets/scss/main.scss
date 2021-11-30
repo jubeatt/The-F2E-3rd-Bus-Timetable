@@ -104,7 +104,7 @@
   z-index: 2;
   a {
     display: inline-block;
-    color: var(--blue);
+    color: var(--yellow);
   }
   @include mediaQuery-pc {
     right: auto;
@@ -161,7 +161,7 @@
     }
   }
   &--blue {
-    border: 1px solid var(--blue);
+    border: 1px solid #1cc8ee;
   }
   &--blue &__bg {
     background-color: rgba(28, 200, 238, 0.06);
@@ -325,7 +325,7 @@
       &::-webkit-scrollbar-thumb {
         border-radius: 20px;
         background-color: #555;
-        background-color: var(--blue);
+        background-color: var(--yellow);
       }
       @include mediaQuery-pc {
         width: 67%;
@@ -532,7 +532,7 @@
       bottom: 0;
       width: 100%;
       height: 2px;
-      background-color: var(--blue);
+      background-color: var(--yellow);
       box-shadow: var(--shadow-button);
       border-radius: 50px;
       transition: opacity 0.3s;
@@ -541,7 +541,7 @@
       opacity: 1;
     }
     &__button::first-letter {
-      color: var(--blue);
+      color: var(--yellow);
       margin-right: 5px;
     }
   }
@@ -577,7 +577,7 @@
     &::-webkit-scrollbar-thumb {
       border-radius: 20px;
       background-color: #555;
-      background-color: var(--blue);
+      background-color: var(--yellow);
     }
   }
   .map {
@@ -606,7 +606,7 @@
       right: 22px;
       width: 1px;
       height: calc(100% - 60px);
-      background-color: var(--blue);
+      background-color: var(--yellow);
       box-shadow: var(--shadow-button);
     }
   }
@@ -625,19 +625,12 @@
       margin-right: auto;
     }
     &__icon {
-      color: var(--blue);
+      color: var(--yellow);
     }
     &__plateNumb {
-      color: var(--blue);
+      color: var(--yellow);
       margin-left: 10px;
     }
-    &:first-child .stop__dot {
-      transform: translateY(0px);
-    }
-    &:last-child .stop__dot {
-      transform: translateY(0px);
-    }
-
     &__dot {
       position: relative;
       z-index: 1;
@@ -646,9 +639,9 @@
       margin-left: 20px;
       border-radius: 50%;
       background-color: var(--black);
-      border: 2px solid var(--blue);
+      border: 2px solid var(--yellow);
       &--on {
-        background-color: var(--blue);
+        background-color: var(--yellow);
         box-shadow: var(--shadow-button);
       }
     }
@@ -697,7 +690,7 @@
   }
   .icon-walk {
     margin-right: 5px;
-    color: var(--blue);
+    color: var(--yellow);
   }
   .content {
     padding: 0 15px 15px;
@@ -764,7 +757,7 @@
       &::-webkit-scrollbar-thumb {
         border-radius: 20px;
         background-color: #555;
-        background-color: var(--blue);
+        background-color: var(--yellow);
       }
     }
     .heading {
@@ -774,216 +767,6 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-  }
-}
-/*
-=======================================================================
-  附近站牌的預估到站時間頁面（EstimatedTimeOfArrivalFromNearbyStation）
-=======================================================================
-*/
-.EstimatedTimeOfArrivalFromNearbyStation {
-  .container {
-    max-width: 1080px;
-    margin: auto;
-  }
-  .heading {
-    position: relative;
-    margin-bottom: 10px;
-    text-align: center;
-    &__text {
-      display: inline-block;
-      max-width: 9em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      @include mediaQuery-tablet {
-        font-size: 2rem;
-      }
-    }
-    &__button-reload {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 30px;
-      height: 30px;
-      transform: translateY(-5px);
-      &--disabled {
-        color: var(--red);
-      }
-      @include mediaQuery-tablet {
-        transform: translateY(-2.5px);
-      }
-    }
-  }
-  .header {
-    padding: 25px 25px 0;
-    background-color: var(--black);
-  }
-  .main-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    &__button-prev,
-    &__button-map {
-      font-size: 2rem;
-      width: 30px;
-      height: 30px;
-    }
-  }
-  .direction {
-    margin-left: -25px;
-    margin-right: -25px;
-    @include mediaQuery-tablet {
-      display: flex;
-      justify-content: space-around;
-    }
-    &__button {
-      position: relative;
-      width: 50%;
-      padding: 15px;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      @include mediaQuery-tablet {
-        width: 41.5365%;
-      }
-    }
-    &__button:hover::after {
-      @media (hover: hover) {
-        opacity: 1;
-      }
-    }
-
-    &__button::after {
-      opacity: 0;
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 2px;
-      background-color: var(--blue);
-      box-shadow: var(--shadow-button);
-      border-radius: 50px;
-      transition: opacity 0.3s;
-    }
-    &__button--current::after {
-      opacity: 1;
-    }
-    &__button::first-letter {
-      color: var(--blue);
-      margin-right: 5px;
-    }
-  }
-  .content {
-    background-color: var(--gray);
-    padding: 25px 0;
-    @include mediaQuery-tablet {
-    }
-  }
-  .content > .container {
-    height: calc(100vh - 237px);
-    overflow-y: auto;
-    // 不喜歡的話，可改用原本的滾軸模式
-    // overflow-y: visible
-    // height: auto;
-    &::-webkit-scrollbar-track {
-      border-radius: 20px;
-      background-color: transparent;
-    }
-
-    &::-webkit-scrollbar {
-      width: 4px;
-      height: 4px;
-      background-color: transparent;
-      box-shadow: var(--box-shadow-01);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 20px;
-      background-color: #555;
-      background-color: var(--blue);
-    }
-    @include mediaQuery-tablet {
-      height: calc(100vh - 259px);
-      // 不喜歡的話，可改用原本的滾軸模式
-      // height: auto;
-    }
-  }
-  .map {
-    width: 100%;
-    height: calc(100vh - 237px);
-    // visibility: hidden;
-    // opacity: 0;
-    // background-color: rgba(255, 0, 0, 0.3);
-    @include mediaQuery-tablet {
-      height: calc(100vh - 259px);
-    }
-  }
-  .update-msg {
-    margin-bottom: 10px;
-    padding-right: 15px;
-    text-align: right;
-  }
-  .stops {
-    position: relative;
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      margin: auto;
-      right: 22px;
-      width: 1px;
-      height: calc(100% - 60px);
-      background-color: var(--blue);
-      box-shadow: var(--shadow-button);
-    }
-  }
-  .stop {
-    position: relative;
-    display: flex;
-    align-items: center;
-    &__status {
-      order: -1;
-      flex-shrink: 0;
-    }
-    &__name {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-right: auto;
-    }
-    &__icon {
-      color: var(--blue);
-    }
-    &__plateNumb {
-      color: var(--blue);
-      margin-left: 10px;
-    }
-    &:first-child .stop__dot {
-      transform: translateY(0px);
-    }
-    &:last-child .stop__dot {
-      transform: translateY(0px);
-    }
-
-    &__dot {
-      position: relative;
-      z-index: 1;
-      width: 15px;
-      height: 15px;
-      margin-left: 20px;
-      border-radius: 50%;
-      background-color: var(--black);
-      border: 2px solid var(--blue);
-      &--on {
-        background-color: var(--blue);
-        box-shadow: var(--shadow-button);
-      }
     }
   }
 }

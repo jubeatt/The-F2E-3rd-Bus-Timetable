@@ -1,49 +1,41 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import SearchNearby from '../views/SearchNearby.vue'
+import SearchNearbyStations from '../views/SearchNearbyStations.vue'
 import SearchLocalBus from '../views/SearchLocalBus.vue'
 import SearchGlobalBus from '../views/SearchGlobalBus.vue'
-import EstimatedTimeOfArrival from '../views/EstimatedTimeOfArrival.vue'
-import Station from '../views/Station.vue'
-import EstimatedTimeOfArrivalFromNearbyStation from '../views/EstimatedTimeOfArrivalFromNearbyStation.vue'
+import SingleStation from '../views/SingleStation.vue'
+import EstimatedTimeOfArrival from '../components/EstimatedTimeOfArrival.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
     component: Home
   },
   {
     path: '/Search-LocalBus',
-    name: 'Search-LocalBus',
     component: SearchLocalBus,
     children: [
       {
         path: 'EstimatedTimeOfArrival/:City/:RouteUID',
-        name: 'EstimatedTimeOfArrival',
         component: EstimatedTimeOfArrival
       }
     ]
   },
   {
     path: '/Search-GlobalBus',
-    name: 'Search-GlobalBus',
     component: SearchGlobalBus
   },
   {
-    path: '/Search-Nearby',
-    name: 'Search-Nearby',
-    component: SearchNearby,
+    path: '/Search-Nearby-Stations',
+    component: SearchNearbyStations,
     children: [
       {
         path: ':Station',
-        name: 'Station',
-        component: Station,
+        component: SingleStation,
         children: [
           {
-            path: ':City/:RouteUID',
-            name: 'EstimatedTimeOfArrivalFromNearbyStation',
-            component: EstimatedTimeOfArrivalFromNearbyStation
+            path: 'EstimatedTimeOfArrival/:City/:RouteUID',
+            component: EstimatedTimeOfArrival
           }
         ]
       }

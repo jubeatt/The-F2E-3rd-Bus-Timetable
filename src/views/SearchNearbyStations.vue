@@ -35,6 +35,7 @@
                 stroke-dasharray="2 4"
               />
               <path
+                class="svg-text"
                 d="M64.416 8.748H61.512V6.012H64.416V8.748ZM60.66 5.208V9.54H65.292V5.208H60.66ZM58.932 11.424V3.348H67.032V11.424H58.932ZM58.032 2.46V12.912H58.932V12.264H67.032V12.912H67.98V2.46H58.032ZM78.048 7.524H71.928V6.336H78.048V7.524ZM71.928 11.448V10.176H78.048V11.448H71.928ZM78.048 9.468H71.928V8.244H78.048V9.468ZM80.34 4.44V3.612H77.316C77.676 3.204 78.06 2.7 78.384 2.196L77.412 1.944C77.148 2.436 76.704 3.12 76.32 3.612H73.152L73.668 3.336C73.452 2.928 72.972 2.34 72.54 1.92L71.76 2.256C72.132 2.664 72.54 3.204 72.78 3.612H69.684V4.44H74.484C74.412 4.788 74.304 5.196 74.196 5.544H71.052V12.924H71.928V12.24H78.048V12.924H78.96V5.544H75.144C75.288 5.208 75.408 4.824 75.54 4.44H80.34ZM90.096 6.288H84.072V5.196H90.096V6.288ZM90.096 8.064H84.072V6.96H90.096V8.064ZM90.096 9.852H84.072V8.748H90.096V9.852ZM83.16 4.488V10.572H91.044V4.488H87.144C87.264 4.152 87.384 3.768 87.492 3.396H91.956V2.58H82.008V3.396H86.472C86.412 3.756 86.316 4.152 86.22 4.488H83.16ZM85.332 10.704C84.504 11.256 82.872 11.88 81.588 12.216C81.792 12.408 82.056 12.72 82.2 12.912C83.484 12.552 85.092 11.916 86.136 11.292L85.332 10.704ZM87.876 11.352C89.28 11.832 90.696 12.456 91.548 12.924L92.376 12.312C91.44 11.844 89.916 11.232 88.512 10.764L87.876 11.352Z"
                 fill="#1CC8EE"
               />
@@ -49,7 +50,7 @@
       <div class="container">
         <template v-for="(station, index) in stations" :key="index">
           <router-link
-            :to="`/Search-Nearby/${station.StationName.Zh_tw}`"
+            :to="`/Search-Nearby-Stations/${station.StationName.Zh_tw}`"
             class="card-info"
             @click="toStationPage"
             >
@@ -61,6 +62,12 @@
       </div>
     </main>
   </div>
+  <!-- 預估到站時間的頁面 -->
+  <router-view
+    v-if="!isOnSearching"
+    :current-city="currentCityEn"
+    @toPreviousPage="showNearbyPage"
+    ></router-view>
   <!-- loading -->
   <loading
     :active="loader.isLoading"
@@ -70,12 +77,6 @@
     :background-color="loader.background"
     :blur="loader.blur"
     :is-full-page="loader.fullPage"/>
-  <!-- Next page -->
-  <router-view
-    v-if="!isOnSearching"
-    :current-city="currentCityEn"
-    @toPreviousPage="showNearbyPage"
-    ></router-view>
 </template>
 
 <script>
@@ -88,7 +89,7 @@ export default {
     return {
       loader: {
         style: 'dots',
-        color: '#1cc8ee',
+        color: '#fcd42c',
         background: '#fff',
         opacity: 0.08,
         blur: null,

@@ -31,7 +31,7 @@ export default {
     return {
       loader: {
         style: 'dots',
-        color: '#1cc8ee',
+        color: '#fcd42c',
         background: '#fff',
         opacity: 0.08,
         blur: null,

@@ -12,7 +12,7 @@
   justify-content: center;
   align-items: center;
   &__text {
-    color: var(--blue);
+    color: var(--yellow);
     font-size: 2rem;
     line-height: 2;
     text-align: center;

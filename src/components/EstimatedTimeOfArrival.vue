@@ -3,8 +3,8 @@
     <header class="header">
       <div class="container">
         <div class="main-buttons">
-          <button @click="backToPrevious" class="main-buttons__button-prev"><i class="fas fa-chevron-left"></i></button>
-          <router-link to="/">
+          <button @click="toPrevious" class="main-buttons__button-prev"><i class="fas fa-chevron-left"></i></button>
+          <router-link to="/" class="link">
             <svg
               width="93"
               height="39"
@@ -36,6 +36,7 @@
                 stroke-dasharray="2 4"
               />
               <path
+                class="svg-text"
                 d="M64.416 8.748H61.512V6.012H64.416V8.748ZM60.66 5.208V9.54H65.292V5.208H60.66ZM58.932 11.424V3.348H67.032V11.424H58.932ZM58.032 2.46V12.912H58.932V12.264H67.032V12.912H67.98V2.46H58.032ZM78.048 7.524H71.928V6.336H78.048V7.524ZM71.928 11.448V10.176H78.048V11.448H71.928ZM78.048 9.468H71.928V8.244H78.048V9.468ZM80.34 4.44V3.612H77.316C77.676 3.204 78.06 2.7 78.384 2.196L77.412 1.944C77.148 2.436 76.704 3.12 76.32 3.612H73.152L73.668 3.336C73.452 2.928 72.972 2.34 72.54 1.92L71.76 2.256C72.132 2.664 72.54 3.204 72.78 3.612H69.684V4.44H74.484C74.412 4.788 74.304 5.196 74.196 5.544H71.052V12.924H71.928V12.24H78.048V12.924H78.96V5.544H75.144C75.288 5.208 75.408 4.824 75.54 4.44H80.34ZM90.096 6.288H84.072V5.196H90.096V6.288ZM90.096 8.064H84.072V6.96H90.096V8.064ZM90.096 9.852H84.072V8.748H90.096V9.852ZM83.16 4.488V10.572H91.044V4.488H87.144C87.264 4.152 87.384 3.768 87.492 3.396H91.956V2.58H82.008V3.396H86.472C86.412 3.756 86.316 4.152 86.22 4.488H83.16ZM85.332 10.704C84.504 11.256 82.872 11.88 81.588 12.216C81.792 12.408 82.056 12.72 82.2 12.912C83.484 12.552 85.092 11.916 86.136 11.292L85.332 10.704ZM87.876 11.352C89.28 11.832 90.696 12.456 91.548 12.924L92.376 12.312C91.44 11.844 89.916 11.232 88.512 10.764L87.876 11.352Z"
                 fill="#1CC8EE"
               />
@@ -62,7 +63,7 @@
         </div>
       </div>
     </header>
-    <main class="content" :key="1">
+    <main class="content">
       <div class="container">
         <!-- 地圖 -->
         <div
@@ -73,7 +74,7 @@
           ></div>
         <!-- 去程 -->
         <div v-if="direction && !isShowMap" :key="1">
-          <p class="update-msg text-color-blue">*於 {{ timer }} 秒後自動更新</p>
+          <p class="update-msg text-color-yellow">*於 {{ timer }} 秒後自動更新</p>
           <div class="stops">
             <template v-for="(stop, index) in goDistanceData" :key="index">
               <section class="stop">
@@ -95,7 +96,7 @@
         </div>
         <!-- 返程 -->
         <div v-if="!direction && !isShowMap" :key="2">
-          <p class="update-msg text-color-blue">*於 {{ timer }} 秒後自動更新</p>
+          <p class="update-msg text-color-yellow">*於 {{ timer }} 秒後自動更新</p>
           <div class="stops">
             <template v-for="(stop, index) in backDistanceData" :key="index">
               <section class="stop">
@@ -137,13 +138,13 @@ import 'vue-loading-overlay/dist/vue-loading.css'
 import L from 'leaflet'
 let openStreetMap = {}
 export default {
-  name: 'EstimatedTimeOfArrival',
-  emits: ['backToSearchPage'],
+  emits: ['backToPreviousPage'],
+  name: 'EstimatedTimeOfArrivalA',
   data () {
     return {
       loader: {
         style: 'dots',
-        color: '#1cc8ee',
+        color: '#fcd42c',
         background: '#fff',
         opacity: 0.08,
         blur: null,
@@ -257,7 +258,7 @@ export default {
     // 設定狀態樣式
     statusStyleCheck (data) {
       switch (data.StopStatus) {
-        // 回傳值代碼
+        // 回傳值代碼（各自代表的狀態）
         // 0：未營運
         // 1：進站中 / 即將進站
         // 2：尚未發車
@@ -291,6 +292,7 @@ export default {
           return 0
       }
     },
+    // 檢查是否為無障礙車種（這是不準確的做法，待修復）
     checkAccessibility (data) {
       // 根據車牌前後綴做檢查（僅限桃園、台中、高雄）
       if (/FT|FV|FR|FZ|FX|FY|FW|U5|U6|U7|U8|U9|V3|FAG|FAD|FAE|EAL|EAA|KKA/.test(data.PlateNumb)) {
@@ -304,6 +306,7 @@ export default {
       // 每 1 秒執行一次
       this.timerID = window.setInterval(async () => {
         this.timer -= 1
+        // 當 timer 為 0 時，重新發送請求。
         if (this.timer === 0) {
           // 顯示 loading 畫面
           this.loader.isLoading = true
@@ -361,28 +364,34 @@ export default {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 20
           }).addTo(openStreetMap)
+
           // 指標（起始站）
           L.circleMarker([this.stopRouteData[0].Stops[0].StopPosition.PositionLat, this.stopRouteData[0].Stops[0].StopPosition.PositionLon], {
             radius: 15,
             color: '#B91646',
             className: 'custom-marker'
           }).addTo(openStreetMap).bindPopup(`<p style="font-size: 18px;">起始站：${this.stopRouteData[0].Stops[0].StopName.Zh_tw}</p>`)
+
           // 繪製出每個站牌的 Marker
           this.stopRouteData[0].Stops.forEach((item, index) => {
             if (index !== 0) {
               L.marker([
                 item.StopPosition.PositionLat,
                 item.StopPosition.PositionLon
+                // 綁定 popup 提示框
               ]).addTo(openStreetMap).bindPopup(`
               <p style="font-size: 18px;">${item.StopName.Zh_tw}</p>
               `)
             }
           })
-          // 繪製路線（暫存陣列）
+          // 暫存陣列（繪製路線所需的參數）
           const tempArray = []
+          // 儲存每一個站牌的經緯度資料
           this.stopRouteData[0].Stops.forEach((item) => {
+            // 將資料 push 到暫存陣列
             tempArray.push([item.StopPosition.PositionLat, item.StopPosition.PositionLon])
           })
+          // 繪製站牌與站牌之間的路線
           L.polyline([tempArray], {
             color: '#B91646',
             weight: 5
@@ -392,8 +401,7 @@ export default {
         })
       }
     },
-    // 重新導向
-    backToPrevious () {
+    toPrevious () {
       // 回上一頁
       router.back()
     }
@@ -477,7 +485,7 @@ export default {
     // 清除計數器
     window.clearInterval(this.timerID)
     // 觸發父層事件
-    this.$emit('backToSearchPage')
+    this.$emit('backToPreviousPage')
     // 上面的事情都做完後，才進行頁面跳轉
     next()
   }

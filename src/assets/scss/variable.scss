@@ -5,11 +5,11 @@
   /* Basic colors */
   --white: #f5f5f5;
   --black: #131414;
-  --red: #F90716;
+  --red: #f90716;
 
   /* Project colors */
-  --blue: #1cc8ee;
-  --light-blue: rgba(28,200,238,0.5);
+  --yellow: #fcd42c;
+  --light-blue: rgba(28, 200, 238, 0.5);
   --gray: #1c1d1d;
   --gray-light: #414242;
 
@@ -26,7 +26,7 @@
   );
 
   /* box-shadow */
-  --shadow-button: 0px 0px 6px #1cc8ee, 0px 0px 2px #1cc8ee;
+  --shadow-button: 0px 0px 6px var(--yellow), 0px 0px 2px var(--yellow);
   --shadow-line: 0px 0px 5px #1cc8ee;
   --shadow-header: 0px 4px 5px rgba(0, 0, 0, 0.5);
 }

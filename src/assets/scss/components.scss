@@ -25,13 +25,27 @@
     height: 55px;
   }
 }
+// logo 的 svg 全域樣式設定
+// 文字（T）
+.svg-t {
+  fill: var(--yellow);
+}
+// 文字（回首頁）
+.svg-text {
+  fill: var(--yellow);
+}
+// 輸入框的按鈕（x）
+.svg-x {
+  fill: var(--yellow);
+}
+
 // 輸入框
 .input {
   width: 100%;
   padding: 10px 12px;
   border-radius: 6px;
   background-color: var(--gray);
-  color: var(--blue);
+  color: var(--yellow);
   &::-webkit-input-placeholder {
     color: var(--gray-light);
   }
@@ -55,7 +69,7 @@
   border-radius: 6px;
   &__title {
     font-size: 1.8rem;
-    color: var(--blue);
+    color: var(--yellow);
     margin-bottom: 5px;
   }
   &__description {
@@ -63,7 +77,7 @@
   }
   &__middle-text {
     margin: 0 15px;
-    color: var(--blue);
+    color: var(--yellow);
   }
   &:nth-child(even) {
     background-color: var(--gray);
@@ -74,7 +88,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid var(--blue);
+  border: 1px solid var(--yellow);
   border-radius: 9px;
   padding: 10px 5px;
   cursor: pointer;
@@ -82,7 +96,7 @@
     font-size: 1.4rem;
   }
   &--selected {
-    background-color: var(--blue);
+    background-color: var(--yellow);
     color: var(--black) !important;
   }
   &:not(label):active {
@@ -101,7 +115,7 @@
     color: #f5f5f5;
   }
   &--active {
-    background-color: var(--blue);
+    background-color: var(--yellow);
     color: var(--black);
   }
   &--last {
@@ -114,7 +128,7 @@
   }
   &--driving {
     background-color: var(--black);
-    color: var(--blue);
+    color: var(--yellow);
     box-shadow: var(--shadow-button);
   }
   &--not-yet {

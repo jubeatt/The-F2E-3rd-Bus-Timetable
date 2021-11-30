@@ -37,6 +37,7 @@
                 stroke-dasharray="2 4"
               />
               <path
+                class="svg-text"
                 d="M64.416 8.748H61.512V6.012H64.416V8.748ZM60.66 5.208V9.54H65.292V5.208H60.66ZM58.932 11.424V3.348H67.032V11.424H58.932ZM58.032 2.46V12.912H58.932V12.264H67.032V12.912H67.98V2.46H58.032ZM78.048 7.524H71.928V6.336H78.048V7.524ZM71.928 11.448V10.176H78.048V11.448H71.928ZM78.048 9.468H71.928V8.244H78.048V9.468ZM80.34 4.44V3.612H77.316C77.676 3.204 78.06 2.7 78.384 2.196L77.412 1.944C77.148 2.436 76.704 3.12 76.32 3.612H73.152L73.668 3.336C73.452 2.928 72.972 2.34 72.54 1.92L71.76 2.256C72.132 2.664 72.54 3.204 72.78 3.612H69.684V4.44H74.484C74.412 4.788 74.304 5.196 74.196 5.544H71.052V12.924H71.928V12.24H78.048V12.924H78.96V5.544H75.144C75.288 5.208 75.408 4.824 75.54 4.44H80.34ZM90.096 6.288H84.072V5.196H90.096V6.288ZM90.096 8.064H84.072V6.96H90.096V8.064ZM90.096 9.852H84.072V8.748H90.096V9.852ZM83.16 4.488V10.572H91.044V4.488H87.144C87.264 4.152 87.384 3.768 87.492 3.396H91.956V2.58H82.008V3.396H86.472C86.412 3.756 86.316 4.152 86.22 4.488H83.16ZM85.332 10.704C84.504 11.256 82.872 11.88 81.588 12.216C81.792 12.408 82.056 12.72 82.2 12.912C83.484 12.552 85.092 11.916 86.136 11.292L85.332 10.704ZM87.876 11.352C89.28 11.832 90.696 12.456 91.548 12.924L92.376 12.312C91.44 11.844 89.916 11.232 88.512 10.764L87.876 11.352Z"
                 fill="#1CC8EE"
               />
@@ -59,28 +60,28 @@
             <button @click="openCityBoard" class="button">
               <i class="icon-position fas fa-map-marker-alt"></i>選擇縣市
             </button>
-            <button @click="focusOnInput" class="button text-color-blue">手動輸入</button>
+            <button @click="focusOnInput" class="button text-color-yellow">手動輸入</button>
             <button @click="closePanel" class="button">
               <i class="fas fa-chevron-down"></i>
             </button>
-            <button @click="userInput='紅'" class="button text-color-blue">紅</button>
-            <button @click="userInput='藍'" class="button text-color-blue">藍</button>
+            <button @click="userInput='紅'" class="button text-color-yellow">紅</button>
+            <button @click="userInput='藍'" class="button text-color-yellow">藍</button>
             <button @click="inputValue('1')" class="button">1</button>
             <button @click="inputValue('2')" class="button">2</button>
             <button @click="inputValue('3')" class="button">3</button>
-            <button @click="userInput='綠'" class="button text-color-blue">綠</button>
-            <button @click="userInput='棕'" class="button text-color-blue">棕</button>
+            <button @click="userInput='綠'" class="button text-color-yellow">綠</button>
+            <button @click="userInput='棕'" class="button text-color-yellow">棕</button>
             <button @click="inputValue('4')" class="button">4</button>
             <button @click="inputValue('5')" class="button">5</button>
             <button @click="inputValue('6')" class="button">6</button>
-            <button @click="userInput='橘'" class="button text-color-blue">橘</button>
-            <button @click="userInput='小'" class="button text-color-blue">小</button>
+            <button @click="userInput='橘'" class="button text-color-yellow">橘</button>
+            <button @click="userInput='小'" class="button text-color-yellow">小</button>
             <button @click="inputValue('7')" class="button">7</button>
             <button @click="inputValue('8')" class="button">8</button>
             <button @click="inputValue('9')" class="button">9</button>
-            <button @click="userInput='幹線'" class="button text-color-blue">幹線</button>
-            <button @click="openMoreBoard" class="button text-color-blue">更多</button>
-            <button @click="clearInput" class="button text-color-blue">C</button>
+            <button @click="userInput='幹線'" class="button text-color-yellow">幹線</button>
+            <button @click="openMoreBoard" class="button text-color-yellow">更多</button>
+            <button @click="clearInput" class="button text-color-yellow">C</button>
             <button @click="inputValue('0')" class="button">0</button>
             <button @click="removeLastChar" class="button">
               <svg
@@ -101,112 +102,112 @@
           <!-- 縣市選擇 -->
           <form v-if="cityBoard" class="form-city">
             <input v-model="selectedCity" value="Taipei" class="hide" type="radio" id="key1" />
-            <label :class="{'button--selected' : selectedCity === 'Taipei' }" class="button button--small-text text-color-blue" for="key1"
+            <label :class="{'button--selected' : selectedCity === 'Taipei' }" class="button button--small-text text-color-yellow" for="key1"
               >台北市</label
             >
             <input v-model="selectedCity" value="NewTaipei" class="hide" type="radio" id="key2" />
-            <label :class="{'button--selected' : selectedCity === 'NewTaipei' }" class="button button--small-text text-color-blue" for="key2"
+            <label :class="{'button--selected' : selectedCity === 'NewTaipei' }" class="button button--small-text text-color-yellow" for="key2"
               >新北市</label
             >
             <input v-model="selectedCity" value="Keelung" class="hide" type="radio" id="key3" />
-            <label :class="{'button--selected' : selectedCity === 'Keelung' }" class="button button--small-text text-color-blue" for="key3"
+            <label :class="{'button--selected' : selectedCity === 'Keelung' }" class="button button--small-text text-color-yellow" for="key3"
               >基隆市</label
             >
             <input v-model="selectedCity" value="Taoyuan" class="hide" type="radio" id="key4" />
-            <label :class="{'button--selected' : selectedCity === 'Taoyuan' }" class="button button--small-text text-color-blue" for="key4"
+            <label :class="{'button--selected' : selectedCity === 'Taoyuan' }" class="button button--small-text text-color-yellow" for="key4"
               >桃園市</label
             >
             <input v-model="selectedCity" value="Hsinchu" class="hide" type="radio" id="key5" />
-            <label :class="{'button--selected' : selectedCity === 'Hsinchu' }" class="button button--small-text text-color-blue" for="key5"
+            <label :class="{'button--selected' : selectedCity === 'Hsinchu' }" class="button button--small-text text-color-yellow" for="key5"
               >新竹市</label
             >
             <input v-model="selectedCity" value="HsinchuCounty" class="hide" type="radio" id="key6" />
-            <label :class="{'button--selected' : selectedCity === 'HsinchuCounty' }" class="button button--small-text text-color-blue" for="key6"
+            <label :class="{'button--selected' : selectedCity === 'HsinchuCounty' }" class="button button--small-text text-color-yellow" for="key6"
               >新竹縣</label
             >
             <input v-model="selectedCity" value="MiaoliCounty" class="hide" type="radio" id="key7" />
-            <label :class="{'button--selected' : selectedCity === 'MiaoliCounty' }" class="button button--small-text text-color-blue" for="key7"
+            <label :class="{'button--selected' : selectedCity === 'MiaoliCounty' }" class="button button--small-text text-color-yellow" for="key7"
               >苗栗縣</label
             >
             <input v-model="selectedCity" value="Taichung" class="hide" type="radio" id="key8" />
-            <label :class="{'button--selected' : selectedCity === 'Taichung' }" class="button button--small-text text-color-blue" for="key8"
+            <label :class="{'button--selected' : selectedCity === 'Taichung' }" class="button button--small-text text-color-yellow" for="key8"
               >台中市</label
             >
             <input v-model="selectedCity" value="NantouCounty" class="hide" type="radio" id="key9" />
-            <label :class="{'button--selected' : selectedCity === 'NantouCounty' }" class="button button--small-text text-color-blue" for="key9"
+            <label :class="{'button--selected' : selectedCity === 'NantouCounty' }" class="button button--small-text text-color-yellow" for="key9"
               >南投縣</label
             >
             <input v-model="selectedCity" value="ChanghuaCounty" class="hide" type="radio" id="key10" />
-            <label :class="{'button--selected' : selectedCity === 'ChanghuaCounty' }" class="button button--small-text text-color-blue" for="key10"
+            <label :class="{'button--selected' : selectedCity === 'ChanghuaCounty' }" class="button button--small-text text-color-yellow" for="key10"
               >彰化縣</label
             >
             <input v-model="selectedCity" value="YunlinCounty" class="hide" type="radio" id="key11" />
-            <label :class="{'button--selected' : selectedCity === 'YunlinCounty' }" class="button button--small-text text-color-blue" for="key11"
+            <label :class="{'button--selected' : selectedCity === 'YunlinCounty' }" class="button button--small-text text-color-yellow" for="key11"
               >雲林縣</label
             >
             <input v-model="selectedCity" value="Chiayi" class="hide" type="radio" id="key12" />
-            <label :class="{'button--selected' : selectedCity === 'Chiayi' }" class="button button--small-text text-color-blue" for="key12"
+            <label :class="{'button--selected' : selectedCity === 'Chiayi' }" class="button button--small-text text-color-yellow" for="key12"
               >嘉義市</label
             >
             <input v-model="selectedCity" value="ChiayiCounty" class="hide" type="radio" id="key13" />
-            <label :class="{'button--selected' : selectedCity === 'ChiayiCounty' }" class="button button--small-text text-color-blue" for="key13"
+            <label :class="{'button--selected' : selectedCity === 'ChiayiCounty' }" class="button button--small-text text-color-yellow" for="key13"
               >嘉義縣</label
             >
             <input v-model="selectedCity" value="Tainan" class="hide" type="radio" id="key14" />
-            <label :class="{'button--selected' : selectedCity === 'Tainan' }" class="button button--small-text text-color-blue" for="key14"
+            <label :class="{'button--selected' : selectedCity === 'Tainan' }" class="button button--small-text text-color-yellow" for="key14"
               >台南市</label
             >
             <input v-model="selectedCity" value="Kaohsiung" class="hide" type="radio" id="key15" />
-            <label :class="{'button--selected' : selectedCity === 'Kaohsiung' }" class="button button--small-text text-color-blue" for="key15"
+            <label :class="{'button--selected' : selectedCity === 'Kaohsiung' }" class="button button--small-text text-color-yellow" for="key15"
               >高雄市</label
             >
             <input v-model="selectedCity" value="PingtungCounty" class="hide" type="radio" id="key16" />
-            <label :class="{'button--selected' : selectedCity === 'PingtungCounty' }" class="button button--small-text text-color-blue" for="key16"
+            <label :class="{'button--selected' : selectedCity === 'PingtungCounty' }" class="button button--small-text text-color-yellow" for="key16"
               >屏東縣</label
             >
             <input v-model="selectedCity" value="TaitungCounty" class="hide" type="radio" id="key17" />
-            <label :class="{'button--selected' : selectedCity === 'TaitungCounty' }" class="button button--small-text text-color-blue" for="key17"
+            <label :class="{'button--selected' : selectedCity === 'TaitungCounty' }" class="button button--small-text text-color-yellow" for="key17"
               >台東縣</label
             >
             <input v-model="selectedCity" value="HualienCounty" class="hide" type="radio" id="key18" />
-            <label :class="{'button--selected' : selectedCity === 'HualienCounty' }" class="button button--small-text text-color-blue" for="key18"
+            <label :class="{'button--selected' : selectedCity === 'HualienCounty' }" class="button button--small-text text-color-yellow" for="key18"
               >花蓮縣</label
             >
             <input v-model="selectedCity" value="YilanCounty" class="hide" type="radio" id="key19" />
-            <label :class="{'button--selected' : selectedCity === 'YilanCounty' }" class="button button--small-text text-color-blue" for="key19"
+            <label :class="{'button--selected' : selectedCity === 'YilanCounty' }" class="button button--small-text text-color-yellow" for="key19"
               >宜蘭縣</label
             >
             <input v-model="selectedCity" value="PenghuCounty" class="hide" type="radio" id="key20" />
-            <label :class="{'button--selected' : selectedCity === 'PenghuCounty' }" class="button button--small-text text-color-blue" for="key20"
+            <label :class="{'button--selected' : selectedCity === 'PenghuCounty' }" class="button button--small-text text-color-yellow" for="key20"
               >澎湖縣</label
             >
             <input v-model="selectedCity" value="KinmenCounty" class="hide" type="radio" id="key21" />
-            <label :class="{'button--selected' : selectedCity === 'KinmenCounty' }" class="button button--small-text text-color-blue" for="key21"
+            <label :class="{'button--selected' : selectedCity === 'KinmenCounty' }" class="button button--small-text text-color-yellow" for="key21"
               >金門縣</label
             >
             <input v-model="selectedCity" value="LienchiangCounty" class="hide" type="radio" id="key22" />
-            <label :class="{'button--selected' : selectedCity === 'LienchiangCounty' }" class="button button--small-text text-color-blue" for="key22"
+            <label :class="{'button--selected' : selectedCity === 'LienchiangCounty' }" class="button button--small-text text-color-yellow" for="key22"
               >連江縣</label
             >
-            <button @click.prevent="finishChoose" class="button button--small-text text-color-blue">
+            <button @click.prevent="finishChoose" class="button button--small-text text-color-yellow">
               設定
             </button>
           </form>
           <!-- 更多選擇 -->
           <div v-if="moreBoard" class="more-board">
-            <button @click="userInput='F'" class="button text-color-blue">F</button>
-            <button @click="userInput='R'" class="button text-color-blue">R</button>
-            <button @click="userInput='T'" class="button text-color-blue">T</button>
-            <button @click="userInput='快'" class="button text-color-blue">快</button>
-            <button @click="userInput='內科'" class="button text-color-blue">內科</button>
-            <button @click="userInput='跳蛙'" class="button text-color-blue">跳蛙</button>
-            <button @click="userInput='通勤'" class="button text-color-blue">通勤</button>
-            <button @click="userInput='南軟'" class="button text-color-blue">南軟</button>
-            <button @click="userInput='先導'" class="button text-color-blue">先導</button>
-            <button @click="userInput='夜間'" class="button text-color-blue">夜間</button>
-            <button @click="userInput='市民'" class="button text-color-blue">市民</button>
-            <button @click="userInput='其他'" class="button text-color-blue">其他</button>
-            <button @click="closeMoreBoaard" class="button text-color-blue">回上一頁</button>
+            <button @click="userInput='F'" class="button text-color-yellow">F</button>
+            <button @click="userInput='R'" class="button text-color-yellow">R</button>
+            <button @click="userInput='T'" class="button text-color-yellow">T</button>
+            <button @click="userInput='快'" class="button text-color-yellow">快</button>
+            <button @click="userInput='內科'" class="button text-color-yellow">內科</button>
+            <button @click="userInput='跳蛙'" class="button text-color-yellow">跳蛙</button>
+            <button @click="userInput='通勤'" class="button text-color-yellow">通勤</button>
+            <button @click="userInput='南軟'" class="button text-color-yellow">南軟</button>
+            <button @click="userInput='先導'" class="button text-color-yellow">先導</button>
+            <button @click="userInput='夜間'" class="button text-color-yellow">夜間</button>
+            <button @click="userInput='市民'" class="button text-color-yellow">市民</button>
+            <button @click="userInput='其他'" class="button text-color-yellow">其他</button>
+            <button @click="closeMoreBoaard" class="button text-color-yellow">回上一頁</button>
           </div>
         </div>
         <!-- 輸入面板開關 -->
@@ -231,19 +232,19 @@
           </router-link>
         </template>
       </div>
-      <!-- loading -->
-      <loading
-        :active="loader.isLoading"
-        :loader="loader.style"
-        :color="loader.color"
-        :opacity="loader.opacity"
-        :background-color="loader.background"
-        :blur="loader.blur"
-        :is-full-page="loader.fullPage"/>
     </div>
   </div>
-
-  <router-view v-if="!isOnSearching" @backToSearchPage="showSearchPage" :key="randomKey()"></router-view>
+  <!-- 預估到站時間的頁面 -->
+  <router-view v-if="!isOnSearching" @backToPreviousPage="showSearchPage" :key="randomKey()"></router-view>
+  <!-- loading -->
+  <loading
+    :active="loader.isLoading"
+    :loader="loader.style"
+    :color="loader.color"
+    :opacity="loader.opacity"
+    :background-color="loader.background"
+    :blur="loader.blur"
+    :is-full-page="loader.fullPage"/>
 </template>
 
 <script>
@@ -256,7 +257,7 @@ export default {
     return {
       loader: {
         style: 'dots',
-        color: '#1cc8ee',
+        color: '#fcd42c',
         background: '#fff',
         opacity: 0.08,
         blur: null,
