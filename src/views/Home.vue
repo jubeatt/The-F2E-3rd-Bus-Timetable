@@ -1,35 +1,34 @@
 <template>
-  <main class="main">
-    <button v-if="!isShowPannel" @click.prevent="togglePannel" class="button-switch"><i class="fas fa-sliders-h"></i></button>
-    <form v-if="isShowPannel" class="radio-container">
-      <button @click.prevent="togglePannel" class="radio-container__button-close">
-        <i class="fas fa-times"></i>
-      </button>
+<!-- 切換主題面板 -->
+  <form v-if="isShowPannel" class="theme-select-box">
+    <label class="radio">
+      <input class="radio__input" type="radio" v-model="theme" value="1">
+      <span class="radio__text">主題一</span>
+    </label>
       <label class="radio">
-        <input class="radio__input" type="radio" v-model="theme" value="1">
-        <span class="radio__text">主題一</span>
-      </label>
-       <label class="radio">
-        <input class="radio__input" type="radio" v-model="theme" value="2">
-        <span class="radio__text">主題二</span>
-      </label>
-       <label class="radio">
-        <input class="radio__input" type="radio" v-model="theme" value="3">
-        <span class="radio__text">主題三</span>
-      </label>
-       <label class="radio">
-        <input class="radio__input" type="radio" v-model="theme" value="4">
-        <span class="radio__text">主題四</span>
-      </label>
-       <label class="radio">
-        <input class="radio__input" type="radio" v-model="theme" value="5">
-        <span class="radio__text">主題五</span>
-      </label>
-       <label class="radio">
-        <input class="radio__input" type="radio" v-model="theme" value="6">
-        <span class="radio__text">主題六</span>
-      </label>
-    </form>
+      <input class="radio__input" type="radio" v-model="theme" value="2">
+      <span class="radio__text">主題二</span>
+    </label>
+      <label class="radio">
+      <input class="radio__input" type="radio" v-model="theme" value="3">
+      <span class="radio__text">主題三</span>
+    </label>
+      <label class="radio">
+      <input class="radio__input" type="radio" v-model="theme" value="4">
+      <span class="radio__text">主題四</span>
+    </label>
+      <label class="radio">
+      <input class="radio__input" type="radio" v-model="theme" value="5">
+      <span class="radio__text">主題五</span>
+    </label>
+      <label class="radio">
+      <input class="radio__input" type="radio" v-model="theme" value="6">
+      <span class="radio__text">主題六</span>
+    </label>
+  </form>
+  <!-- 主題面板開關按鈕 -->
+  <button v-if="!isShowPannel" @click.prevent="togglePannel" class="button-switch"><i class="fas fa-sliders-h"></i></button>
+  <main class="main" @click="closePannel">
     <h1 class="hide">全台公車動態時刻查詢應用服務</h1>
     <div class="logo">
       <svg
@@ -130,7 +129,12 @@ export default {
   },
   methods: {
     togglePannel () {
+      // 收合主題設定面板
       this.isShowPannel = !this.isShowPannel
+    },
+    closePannel () {
+      // 關閉主題設定面板
+      this.isShowPannel = false
     }
   },
   watch: {
