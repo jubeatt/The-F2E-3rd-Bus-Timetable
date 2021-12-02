@@ -1,5 +1,35 @@
 <template>
   <main class="main">
+    <button v-if="!isShowPannel" @click.prevent="togglePannel" class="button-switch"><i class="fas fa-sliders-h"></i></button>
+    <form v-if="isShowPannel" class="radio-container">
+      <button @click.prevent="togglePannel" class="radio-container__button-close">
+        <i class="fas fa-times"></i>
+      </button>
+      <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="1">
+        <span class="radio__text">主題一</span>
+      </label>
+       <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="2">
+        <span class="radio__text">主題二</span>
+      </label>
+       <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="3">
+        <span class="radio__text">主題三</span>
+      </label>
+       <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="4">
+        <span class="radio__text">主題四</span>
+      </label>
+       <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="5">
+        <span class="radio__text">主題五</span>
+      </label>
+       <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="6">
+        <span class="radio__text">主題六</span>
+      </label>
+    </form>
     <h1 class="hide">全台公車動態時刻查詢應用服務</h1>
     <div class="logo">
       <svg
@@ -38,7 +68,7 @@
     <nav>
       <ul>
         <li class="nav-nearby-station nav-item scale">
-          <div class="circle circle--large circle--blue">
+          <div class="circle circle--large circle--main">
             <div class="circle__bg"></div>
             <router-link class="circle__inner" to="/Search-Nearby-Stations">
               <div class="nav-item__content">
@@ -88,7 +118,50 @@
 </template>
 
 <script>
+// 取得 <html>
+const html = document.getElementsByTagName('html')[0]
 export default {
-  name: 'Home'
+  name: 'Home',
+  data () {
+    return {
+      isShowPannel: false,
+      theme: '1'
+    }
+  },
+  methods: {
+    togglePannel () {
+      this.isShowPannel = !this.isShowPannel
+    }
+  },
+  watch: {
+    theme: function (val) {
+      switch (val) {
+        case '1':
+          // 設定 html 標籤的 class
+          html.setAttribute('class', 'theme-1')
+          break
+        case '2':
+          // 設定 html 標籤的 class
+          html.setAttribute('class', 'theme-2')
+          break
+        case '3':
+          // 設定 html 標籤的 class
+          html.setAttribute('class', 'theme-3')
+          break
+        case '4':
+          // 設定 html 標籤的 class
+          html.setAttribute('class', 'theme-4')
+          break
+        case '5':
+          // 設定 html 標籤的 class
+          html.setAttribute('class', 'theme-5')
+          break
+        case '6':
+          // 設定 html 標籤的 class
+          html.setAttribute('class', 'theme-6')
+          break
+      }
+    }
+  }
 }
 </script>

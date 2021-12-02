@@ -89,7 +89,7 @@ export default {
     return {
       loader: {
         style: 'dots',
-        color: '#fcd42c',
+        color: '#fff',
         background: '#fff',
         opacity: 0.08,
         blur: null,

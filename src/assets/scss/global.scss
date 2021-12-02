@@ -29,6 +29,32 @@ a {
   display: inline-block;
 }
 
+/* 主題切換功能 */
+.theme-1 {
+  --main-color: var(--yellow);
+  --main-light-color: var(--light-yellow);
+}
+.theme-2 {
+  --main-color: var(--blue);
+  --main-light-color: var(--light-blue);
+}
+.theme-3 {
+  --main-color: var(--red);
+  --main-light-color: var(--light-red);
+}
+.theme-4 {
+  --main-color: var(--purple);
+  --main-light-color: var(--light-purple);
+}
+.theme-5 {
+  --main-color: var(--orange);
+  --main-light-color: var(--light-orange);
+}
+.theme-6 {
+  --main-color: var(--dark-blue);
+  --main-light-color: var(--light-dark-blue);
+}
+
 /* Hovers */
 @media (hover: hover) {
   .scale {
@@ -46,13 +72,13 @@ a {
   }
   .link:hover {
     .svg-t {
-      fill: #fcd42c;
+      fill: var(--white);
     }
   }
   .button {
     transition: background-color 0.3s, color 0.3s;
     &:hover {
-      background-color: var(--yellow);
+      background-color: var(--main-color);
       color: var(--black);
       .svg-x {
         fill: var(--black);

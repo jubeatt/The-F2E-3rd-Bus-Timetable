@@ -74,7 +74,7 @@
           ></div>
         <!-- 去程 -->
         <div v-if="direction && !isShowMap" :key="1">
-          <p class="update-msg text-color-yellow">*於 {{ timer }} 秒後自動更新</p>
+          <p class="update-msg text-color-main">*於 {{ timer }} 秒後自動更新</p>
           <div class="stops">
             <template v-for="(stop, index) in goDistanceData" :key="index">
               <section class="stop">
@@ -96,7 +96,7 @@
         </div>
         <!-- 返程 -->
         <div v-if="!direction && !isShowMap" :key="2">
-          <p class="update-msg text-color-yellow">*於 {{ timer }} 秒後自動更新</p>
+          <p class="update-msg text-color-main">*於 {{ timer }} 秒後自動更新</p>
           <div class="stops">
             <template v-for="(stop, index) in backDistanceData" :key="index">
               <section class="stop">
@@ -144,7 +144,7 @@ export default {
     return {
       loader: {
         style: 'dots',
-        color: '#fcd42c',
+        color: '#fff',
         background: '#fff',
         opacity: 0.08,
         blur: null,

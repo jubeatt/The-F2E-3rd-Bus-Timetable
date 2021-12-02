@@ -92,7 +92,7 @@
     - reset.scss 讓瀏覽器統一並且重製的樣式（採用的是 [eric](https://meyerweb.com/eric/tools/css/reset/) 加上一點個人習慣的設定）
     - utilities.scss 單一功能性的樣式（文字色彩、大小、間距等等）
     - main.scss 每個頁面的樣式都寫在這隻檔案裡，裡面有加上註解來劃分每個頁面，不用怕找不到。
-  - components 儲存 Vue 的單一元件檔案（基本上沒有用到，多半是我拿來測試或練習時所遺留的檔案而已）
+  - components 儲存 Vue 的單一元件檔案（主要的檔案為 `EstimatedTimeOfArrival` ，其他多半是我拿來測試或練習時所遺留的檔案）
   - lib 我自己寫的簡短函式庫
     - Authorization.js 用來設定發送 TDX API 時，需要帶上的相關 `header`
   - README-IMG 儲存 README 用到的圖片
@@ -261,3 +261,4 @@
 - [Vue nextTick 處理完成後就換我!](https://ithelp.ithome.com.tw/articles/10240669)
 - [06. Leaflet_Raster Layers](https://ithelp.ithome.com.tw/articles/10204277)
 - [leafletjs](https://leafletjs.com/)
+- [radio-button](https://codepen.io/havardob/pen/dyYXBBr?editors=1100)
