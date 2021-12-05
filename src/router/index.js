@@ -5,8 +5,13 @@ import SearchLocalBus from '../views/SearchLocalBus.vue'
 import SearchGlobalBus from '../views/SearchGlobalBus.vue'
 import SingleStation from '../views/SingleStation.vue'
 import EstimatedTimeOfArrival from '../components/EstimatedTimeOfArrival.vue'
+import Transition from '../views/Transition.vue'
 
 const routes = [
+  {
+    path: '/Transition',
+    component: Transition
+  },
   {
     path: '/',
     component: Home

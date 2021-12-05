@@ -1,0 +1,40 @@
+/*
+=============
+  滑動轉場
+=============
+*/
+// 進場前的樣式，退場後的樣式
+.slide-enter-from,
+.slide-leave-to {
+  right: -200px;
+}
+// 進場後的樣式，退場前的樣式
+.slide-enter-to,
+.slide-leave-from {
+  right: 0px;
+}
+// 進/退場的過程
+.slide-enter-active,
+.slide-leave-active {
+  transition: right 0.5s;
+}
+/*
+================
+  淡入淡出轉場
+================
+*/
+// 進場前的樣式，退場後的樣式
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+// 進場後的樣式，退場前的樣式
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+// 進/退場的過程
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}

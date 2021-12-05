@@ -1,33 +1,38 @@
 <template>
-<!-- 切換主題面板 -->
-  <form v-if="isShowPannel" class="theme-select-box">
-    <label class="radio">
-      <input class="radio__input" type="radio" v-model="theme" value="1">
-      <span class="radio__text">主題一</span>
-    </label>
+  <transition name="slide">
+    <!-- 切換主題面板 -->
+    <form v-if="isShowPannel" class="theme-select-box">
       <label class="radio">
-      <input class="radio__input" type="radio" v-model="theme" value="2">
-      <span class="radio__text">主題二</span>
-    </label>
-      <label class="radio">
-      <input class="radio__input" type="radio" v-model="theme" value="3">
-      <span class="radio__text">主題三</span>
-    </label>
-      <label class="radio">
-      <input class="radio__input" type="radio" v-model="theme" value="4">
-      <span class="radio__text">主題四</span>
-    </label>
-      <label class="radio">
-      <input class="radio__input" type="radio" v-model="theme" value="5">
-      <span class="radio__text">主題五</span>
-    </label>
-      <label class="radio">
-      <input class="radio__input" type="radio" v-model="theme" value="6">
-      <span class="radio__text">主題六</span>
-    </label>
-  </form>
+        <input class="radio__input" type="radio" v-model="theme" value="1">
+        <span class="radio__text">主題一</span>
+      </label>
+        <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="2">
+        <span class="radio__text">主題二</span>
+      </label>
+        <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="3">
+        <span class="radio__text">主題三</span>
+      </label>
+        <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="4">
+        <span class="radio__text">主題四</span>
+      </label>
+        <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="5">
+        <span class="radio__text">主題五</span>
+      </label>
+        <label class="radio">
+        <input class="radio__input" type="radio" v-model="theme" value="6">
+        <span class="radio__text">主題六</span>
+      </label>
+    </form>
+  </transition>
   <!-- 主題面板開關按鈕 -->
-  <button v-if="!isShowPannel" @click.prevent="togglePannel" class="button-switch"><i class="fas fa-sliders-h"></i></button>
+  <transition name="fade">
+    <button v-if="!isShowPannel" @click.prevent="togglePannel" class="button-switch"><i class="fas fa-sliders-h"></i></button>
+  </transition>
+  <!-- 導覽列選單 -->
   <main class="main" @click="closePannel">
     <h1 class="hide">全台公車動態時刻查詢應用服務</h1>
     <div class="logo">
@@ -109,6 +114,7 @@
     <span class="bubble-5"></span>
     <span class="bubble-6"></span>
   </main>
+  <!-- 頁尾 -->
   <footer class="copyright">
     Taiwan Bus © Code:
     <a href="https://github.com/jubeatt/" target="_blank">PeaNu</a> / Design:
