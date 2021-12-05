@@ -322,7 +322,6 @@
     background-color: #d6d6e5;
     color: #00005c;
     &::before {
-      // box-shadow: inset 0 0 0 0.4375em #00005c;
       border: 0.4375em solid #00005c;
     }
   }
@@ -345,7 +344,6 @@
       border-radius: 50%;
       margin-right: 0.375em;
       transition: border 0.25s ease;
-      // box-shadow: inset 0 0 0 0.125em #00005c;
       border: 0.125em solid #00005c;
     }
   }
