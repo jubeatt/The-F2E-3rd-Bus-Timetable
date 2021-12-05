@@ -29,7 +29,7 @@
     </form>
   </transition>
   <!-- 主題面板開關按鈕 -->
-  <transition name="fade">
+  <transition name="fade-effect">
     <button v-if="!isShowPannel" @click.prevent="togglePannel" class="button-switch"><i class="fas fa-sliders-h"></i></button>
   </transition>
   <!-- 導覽列選單 -->

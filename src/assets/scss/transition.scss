@@ -24,17 +24,17 @@
 ================
 */
 // 進場前的樣式，退場後的樣式
-.fade-enter-from,
-.fade-leave-to {
+.fade-effect-enter-from,
+.fade-effect-leave-to {
   opacity: 0;
 }
 // 進場後的樣式，退場前的樣式
-.fade-enter-to,
-.fade-leave-from {
+.fade-effect-enter-to,
+.fade-effect-leave-from {
   opacity: 1;
 }
 // 進/退場的過程
-.fade-enter-active,
-.fade-leave-active {
+.fade-effect-enter-active,
+.fade-effect-leave-active {
   transition: opacity 0.5s;
 }
