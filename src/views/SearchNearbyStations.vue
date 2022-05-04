@@ -132,7 +132,7 @@ export default {
       }
     },
     async getAddress () {
-      const data = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${this.currentLatitude},${this.currentLongitude}&key=AIzaSyBDCCU5i73ygOg0SVW0ulO4icYw7Rf58e4`)
+      const data = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${this.currentLatitude}&longitude=${this.currentLongitude}&localityLanguage=zh`)
       const json = await data.json()
       return json
     },
@@ -310,9 +310,8 @@ export default {
     // this.currentLongitude = 120.3048368
     // 取得地址資料
     const position = await this.getAddress()
-    const address = position.results[0].formatted_address
     // 擷取出縣市名稱
-    const city = address.slice(address.match(/[縣市]/).index - 2, address.match(/[縣市]/).index + 1)
+    const city = position.city
     // 儲存到元件中
     this.currentCity = city
     this.currentCityEn = this.transferToEn(city)

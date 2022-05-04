@@ -34,7 +34,7 @@ module.exports = {
       maskIcon: 'favicon.jpg',
       msTileImage: 'favicon.jpg'
     }
-  },
+  }
   // 設定代理伺服器（跨網域請求資料時會用到）
   // devServer: {
   //   proxy: {
