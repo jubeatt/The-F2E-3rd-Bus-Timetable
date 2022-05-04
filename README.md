@@ -2,13 +2,19 @@
 
 這是來自[The-F2E-3rd](https://2021.thef2e.com/)的一個挑戰。The-F2E-3rd 是由[六角學院](https://www.hexschool.com/)主辦的一項競賽，主要是要提供給工程師、設計師一個可以練習專業技術的資源。目前 The-F2E 修練精神時光屋已經舉辦了三屆，有興趣的朋友也歡迎到連結中參考看看。
 
+
+## 網站連結
+
+- The-F2E 挑戰連結：https://2021.thef2e.com/users/6296432819610583076?week=3&type=2
+- Demo 網站連結：https://jubeatt.github.io/The-F2E-3rd-Bus-Timetable/
+
+
 ## 大綱
 
 - [總覽](#總覽)
   - [公告消息](#公告消息)
   - [關於這份挑戰](#關於這份挑戰)
   - [螢幕截圖](#螢幕截圖)
-  - [網站連結](#網站連結)
 - [使用的工具](#使用的工具)
 - [資料夾架構](#資料夾架構)
 - [開發紀錄](#開發紀錄)
@@ -21,9 +27,13 @@
 
 ### 公告消息
 
+#### 2022/5/4
+
+查詢附近站牌的功能修好囉！（改用別的 API 服務來處理）
+
 #### 2022/4/29
 
-**重要訊息：查詢附近站牌的功能現在不能使用囉，因為 Google map 的 API 免費額度已用完）**
+查詢附近站牌的功能現在不能使用囉，因為 Google map 的 API 免費額度已用完）
 
 #### 2021/11/29
 
@@ -62,10 +72,6 @@
 
 ![screen-shot-mobile](src/README-IMG/screen-shot-mobile.jpg)
 
-### 網站連結
-
-- The-F2E 挑戰連結：[這裡](https://2021.thef2e.com/users/6296432819610583076?week=3&type=2)
-- Demo 網站連結：[這裡](https://jubeatt.github.io/The-F2E-3rd-Bus-Timetable/)
 
 ### 使用的工具
 
