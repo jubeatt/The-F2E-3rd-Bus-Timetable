@@ -3,7 +3,9 @@
     <header class="header">
       <div class="container">
         <div class="main-buttons">
-          <button @click="toPrevious" class="main-buttons__button-prev"><i class="fas fa-chevron-left"></i></button>
+          <button @click="toPrevious" class="main-buttons__button-prev">
+            <i class="fas fa-chevron-left"></i>
+          </button>
           <router-link to="/" class="link">
             <svg
               width="93"
@@ -42,11 +44,17 @@
               />
             </svg>
           </router-link>
-          <button @click="toggleMap" class="main-buttons__button-map"><i class="fas fa-map-marked-alt"></i></button>
+          <button @click="toggleMap" class="main-buttons__button-map">
+            <i class="fas fa-map-marked-alt"></i>
+          </button>
         </div>
         <div class="heading">
           <h2 class="heading__text">{{ routeName }}</h2>
-          <button @click="reLoading" class="heading__button-reload" :class="{ 'heading__button-reload--disabled' : !isClickable }">
+          <button
+            @click="reLoading"
+            class="heading__button-reload"
+            :class="{ 'heading__button-reload--disabled': !isClickable }"
+          >
             <span v-if="isClickable"><i class="fas fa-redo-alt"></i></span>
             <span v-if="!isClickable"><i class="fas fa-ban"></i></span>
           </button>
@@ -54,24 +62,25 @@
         <div class="direction">
           <button
             class="direction__button"
-            :class="{'direction__button--current' : direction }"
-            @click="direction = 1">往 {{ destinationStop }}</button>
+            :class="{ 'direction__button--current': direction }"
+            @click="direction = 1"
+          >
+            往 {{ destinationStop }}
+          </button>
           <button
             class="direction__button"
-            :class="{'direction__button--current' : !direction }"
-            @click="direction = 0">往{{ departureStop }}</button>
+            :class="{ 'direction__button--current': !direction }"
+            @click="direction = 0"
+          >
+            往{{ departureStop }}
+          </button>
         </div>
       </div>
     </header>
     <main class="content">
       <div class="container">
         <!-- 地圖 -->
-        <div
-          id="map"
-          ref="map"
-          class="map"
-          v-show="isShowMap"
-          ></div>
+        <div id="map" ref="map" class="map" v-show="isShowMap"></div>
         <!-- 去程 -->
         <div v-if="direction && !isShowMap" :key="1">
           <p class="update-msg text-color-main">*於 {{ timer }} 秒後自動更新</p>
@@ -81,15 +90,30 @@
                 <h3 class="stop__name">{{ stop.StopName.Zh_tw }}</h3>
                 <p
                   class="stop__status status-msg"
-                  :class="{'status-msg--close' : statusStyleCheck(stop) === 0,
-                           'status-msg--active' : statusStyleCheck(stop) === 1,
-                           'status-msg--not-yet' : statusStyleCheck(stop) === 2,
-                           'status-msg--last' : statusStyleCheck(stop) === 3,
-                           'status-msg--traffic' : statusStyleCheck(stop) === 4,
-                           'status-msg--driving' : statusStyleCheck(stop) === 5}">{{ statusMessage(stop) }}</p>
-                <span v-if="statusStyleCheck(stop) === 1 &&  checkAccessibility" :key="index" class="stop__icon"><i class="fas fa-wheelchair"></i></span>
-                <p v-if="statusStyleCheck(stop) === 1" :key="index" class="stop__plateNumb">{{ stop.PlateNumb }}</p>
-                <span class="stop__dot" :class="{'stop__dot--on': statusStyleCheck(stop) === 1}"></span>
+                  :class="{
+                    'status-msg--close': statusStyleCheck(stop) === 0,
+                    'status-msg--active': statusStyleCheck(stop) === 1,
+                    'status-msg--not-yet': statusStyleCheck(stop) === 2,
+                    'status-msg--last': statusStyleCheck(stop) === 3,
+                    'status-msg--traffic': statusStyleCheck(stop) === 4,
+                    'status-msg--driving': statusStyleCheck(stop) === 5
+                  }"
+                >
+                  {{ statusMessage(stop) }}
+                </p>
+                <span
+                  v-if="statusStyleCheck(stop) === 1 && checkAccessibility"
+                  :key="index"
+                  class="stop__icon"
+                  ><i class="fas fa-wheelchair"></i
+                ></span>
+                <p v-if="statusStyleCheck(stop) === 1" :key="index" class="stop__plateNumb">
+                  {{ stop.PlateNumb }}
+                </p>
+                <span
+                  class="stop__dot"
+                  :class="{ 'stop__dot--on': statusStyleCheck(stop) === 1 }"
+                ></span>
               </section>
             </template>
           </div>
@@ -103,15 +127,30 @@
                 <h3 class="stop__name">{{ stop.StopName.Zh_tw }}</h3>
                 <p
                   class="stop__status status-msg"
-                  :class="{'status-msg--close' : statusStyleCheck(stop) === 0,
-                           'status-msg--active' : statusStyleCheck(stop) === 1,
-                           'status-msg--not-yet' : statusStyleCheck(stop) === 2,
-                           'status-msg--last' : statusStyleCheck(stop) === 3,
-                           'status-msg--traffic' : statusStyleCheck(stop) === 4,
-                           'status-msg--driving' : statusStyleCheck(stop) === 5}">{{ statusMessage(stop) }}</p>
-                <span v-if="statusStyleCheck(stop) === 1 && checkAccessibility" :key="index" class="stop__icon"><i class="fas fa-wheelchair"></i></span>
-                <p v-if="statusStyleCheck(stop) === 1" :key="index" class="stop__plateNumb">{{ stop.PlateNumb }}</p>
-                <span class="stop__dot" :class="{'stop__dot--on': statusStyleCheck(stop) === 1}"></span>
+                  :class="{
+                    'status-msg--close': statusStyleCheck(stop) === 0,
+                    'status-msg--active': statusStyleCheck(stop) === 1,
+                    'status-msg--not-yet': statusStyleCheck(stop) === 2,
+                    'status-msg--last': statusStyleCheck(stop) === 3,
+                    'status-msg--traffic': statusStyleCheck(stop) === 4,
+                    'status-msg--driving': statusStyleCheck(stop) === 5
+                  }"
+                >
+                  {{ statusMessage(stop) }}
+                </p>
+                <span
+                  v-if="statusStyleCheck(stop) === 1 && checkAccessibility"
+                  :key="index"
+                  class="stop__icon"
+                  ><i class="fas fa-wheelchair"></i
+                ></span>
+                <p v-if="statusStyleCheck(stop) === 1" :key="index" class="stop__plateNumb">
+                  {{ stop.PlateNumb }}
+                </p>
+                <span
+                  class="stop__dot"
+                  :class="{ 'stop__dot--on': statusStyleCheck(stop) === 1 }"
+                ></span>
               </section>
             </template>
           </div>
@@ -126,7 +165,8 @@
       :opacity="loader.opacity"
       :background-color="loader.background"
       :blur="loader.blur"
-      :is-full-page="loader.fullPage"/>
+      :is-full-page="loader.fullPage"
+    />
   </div>
 </template>
 
@@ -140,7 +180,7 @@ let openStreetMap = {}
 export default {
   emits: ['backToPreviousPage'],
   name: 'EstimatedTimeOfArrivalA',
-  data () {
+  data() {
     return {
       loader: {
         style: 'dots',
@@ -179,34 +219,43 @@ export default {
   },
   methods: {
     // 取得去程資料
-    async fetchGoDistanceData (city, routeUID) {
+    async fetchGoDistanceData(city, routeUID) {
       // 送出請求
-      const data = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%200&$orderby=StopSequence&$format=JSON`, { headers: GetAuthorizationHeader() })
+      const data = await fetch(
+        `https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%200&$orderby=StopSequence&$format=JSON`,
+        { headers: GetAuthorizationHeader() }
+      )
       // 解析資料
       const json = await data.json()
       // 回傳解析完成的資料
       return json
     },
     // 取得返程資料
-    async fetchBackDistanceData (city, routeUID) {
+    async fetchBackDistanceData(city, routeUID) {
       // 送出請求
-      const data = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%201&$orderby=StopSequence&$format=JSON`, { headers: GetAuthorizationHeader() })
+      const data = await fetch(
+        `https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'%20and%20Direction%20eq%201&$orderby=StopSequence&$format=JSON`,
+        { headers: GetAuthorizationHeader() }
+      )
       // 解析資料
       const json = await data.json()
       // 回傳解析完成的資料
       return json
     },
     // 取得路線資料
-    async fetchStopRouteData (city, routeUID) {
+    async fetchStopRouteData(city, routeUID) {
       // 送出請求
-      const data = await fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/StopOfRoute/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'&$format=JSON`, { headers: GetAuthorizationHeader() })
+      const data = await fetch(
+        `https://ptx.transportdata.tw/MOTC/v2/Bus/StopOfRoute/City/${city}?$filter=RouteUID%20eq%20'${routeUID}'&$format=JSON`,
+        { headers: GetAuthorizationHeader() }
+      )
       // 解析資料
       const json = await data.json()
       // 回傳解析完成的資料
       return json
     },
     // 設定狀態文字
-    statusMessage (data) {
+    statusMessage(data) {
       switch (data.StopStatus) {
         // 正常
         case 0:
@@ -256,7 +305,7 @@ export default {
       }
     },
     // 設定狀態樣式
-    statusStyleCheck (data) {
+    statusStyleCheck(data) {
       switch (data.StopStatus) {
         // 回傳值代碼（各自代表的狀態）
         // 0：未營運
@@ -293,7 +342,7 @@ export default {
       }
     },
     // 檢查是否為無障礙車種（這是不準確的做法，待修復）
-    checkAccessibility (data) {
+    checkAccessibility(data) {
       // 根據車牌前後綴做檢查（僅限桃園、台中、高雄）
       if (/FT|FV|FR|FZ|FX|FY|FW|U5|U6|U7|U8|U9|V3|FAG|FAD|FAE|EAL|EAA|KKA/.test(data.PlateNumb)) {
         return 1
@@ -302,7 +351,7 @@ export default {
       }
     },
     // 設置倒數計時器
-    setAutoReLoading () {
+    setAutoReLoading() {
       // 每 1 秒執行一次
       this.timerID = window.setInterval(async () => {
         this.timer -= 1
@@ -311,9 +360,15 @@ export default {
           // 顯示 loading 畫面
           this.loader.isLoading = true
           // 利用路由參數發送請求（去程資料）
-          this.goDistanceData = await this.fetchGoDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+          this.goDistanceData = await this.fetchGoDistanceData(
+            this.$route.params.City,
+            this.$route.params.RouteUID
+          )
           // 利用路由參數發送請求（返程資料）
-          this.backDistanceData = await this.fetchBackDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+          this.backDistanceData = await this.fetchBackDistanceData(
+            this.$route.params.City,
+            this.$route.params.RouteUID
+          )
           // 關閉 loading 畫面
           this.loader.isLoading = false
           // 重新設定秒數
@@ -322,7 +377,7 @@ export default {
       }, 1000)
     },
     // 重新整理功能
-    async reLoading () {
+    async reLoading() {
       // 避免連續點擊
       if (this.isClickable) {
         // 禁用按鈕
@@ -330,9 +385,15 @@ export default {
         // 顯示 loading 畫面
         this.loader.isLoading = true
         // 利用路由參數發送請求（去程資料）
-        this.goDistanceData = await this.fetchGoDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+        this.goDistanceData = await this.fetchGoDistanceData(
+          this.$route.params.City,
+          this.$route.params.RouteUID
+        )
         // 利用路由參數發送請求（返程資料）
-        this.backDistanceData = await this.fetchBackDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+        this.backDistanceData = await this.fetchBackDistanceData(
+          this.$route.params.City,
+          this.$route.params.RouteUID
+        )
         // 關閉 loading 畫面
         this.loader.isLoading = false
         // 重新設定秒數
@@ -345,7 +406,7 @@ export default {
         console.log('還不可以點擊...')
       }
     },
-    toggleMap () {
+    toggleMap() {
       // 顯示地圖
       this.isShowMap = !this.isShowMap
       // 如果還沒初始化，進行地圖初始化
@@ -361,16 +422,27 @@ export default {
           })
           // 設定圖資來源
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            attribution:
+              'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 20
           }).addTo(openStreetMap)
 
           // 指標（起始站）
-          L.circleMarker([this.stopRouteData[0].Stops[0].StopPosition.PositionLat, this.stopRouteData[0].Stops[0].StopPosition.PositionLon], {
-            radius: 15,
-            color: '#B91646',
-            className: 'custom-marker'
-          }).addTo(openStreetMap).bindPopup(`<p style="font-size: 18px;">起始站：${this.stopRouteData[0].Stops[0].StopName.Zh_tw}</p>`)
+          L.circleMarker(
+            [
+              this.stopRouteData[0].Stops[0].StopPosition.PositionLat,
+              this.stopRouteData[0].Stops[0].StopPosition.PositionLon
+            ],
+            {
+              radius: 15,
+              color: '#B91646',
+              className: 'custom-marker'
+            }
+          )
+            .addTo(openStreetMap)
+            .bindPopup(
+              `<p style="font-size: 18px;">起始站：${this.stopRouteData[0].Stops[0].StopName.Zh_tw}</p>`
+            )
 
           // 繪製出每個站牌的 Marker
           this.stopRouteData[0].Stops.forEach((item, index) => {
@@ -401,20 +473,29 @@ export default {
         })
       }
     },
-    toPrevious () {
+    toPrevious() {
       // 回上一頁
       router.back()
     }
   },
-  async created () {
+  async created() {
     // 顯示 loading 畫面
     this.loader.isLoading = true
     // 利用路由參數發送請求（去程資料）
-    this.goDistanceData = await this.fetchGoDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+    this.goDistanceData = await this.fetchGoDistanceData(
+      this.$route.params.City,
+      this.$route.params.RouteUID
+    )
     // 利用路由參數發送請求（返程資料）
-    this.backDistanceData = await this.fetchBackDistanceData(this.$route.params.City, this.$route.params.RouteUID)
+    this.backDistanceData = await this.fetchBackDistanceData(
+      this.$route.params.City,
+      this.$route.params.RouteUID
+    )
     // 利用路由參數發送請求（路線資料）
-    this.stopRouteData = await this.fetchStopRouteData(this.$route.params.City, this.$route.params.RouteUID)
+    this.stopRouteData = await this.fetchStopRouteData(
+      this.$route.params.City,
+      this.$route.params.RouteUID
+    )
     // 儲存站牌名稱
     this.routeName = this.goDistanceData[0].RouteName.Zh_tw
     // 儲存起點站牌名稱
@@ -481,7 +562,7 @@ export default {
     //   }
     // })
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     // 清除計數器
     window.clearInterval(this.timerID)
     // 觸發父層事件

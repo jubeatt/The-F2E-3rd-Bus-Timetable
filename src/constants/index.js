@@ -1,0 +1,91 @@
+export const cityMappingCh = {
+  台北市: 'Taipei',
+  新北市: 'NewTaipei',
+  基隆市: 'Keelung',
+  桃園市: 'Taoyuan',
+  新竹市: 'Hsinchu',
+  新竹縣: 'HsinchuCounty',
+  苗栗縣: 'MiaoliCounty',
+  台中市: 'Taichung',
+  南投縣: 'NantouCounty',
+  彰化縣: 'ChanghuaCounty',
+  雲林縣: 'YunlinCounty',
+  嘉義市: 'Chiayi',
+  嘉義縣: 'ChiayiCounty',
+  台南市: 'Tainan',
+  高雄市: 'Kaohsiung',
+  屏東縣: 'PingtungCounty',
+  台東縣: 'TaitungCounty',
+  花蓮縣: 'HualienCounty',
+  宜蘭縣: 'YilanCounty',
+  澎湖縣: 'PenghuCounty',
+  金門縣: 'KinmenCounty',
+  連江縣: 'LienchiangCounty'
+}
+
+export const cityMappingEn = {
+  Taipei: '台北市',
+  NewTaipei: '新北市',
+  Keelung: '基隆市',
+  Taoyuan: '桃園市',
+  Hsinchu: '新竹市',
+  HsinchuCounty: '新竹縣',
+  MiaoliCounty: '苗栗縣',
+  Taichung: '台中市',
+  NantouCounty: '南投縣',
+  ChanghuaCounty: '彰化縣',
+  YunlinCounty: '雲林縣',
+  Chiayi: '嘉義市',
+  ChiayiCounty: '嘉義縣',
+  Tainan: '台南市',
+  Kaohsiung: '高雄市',
+  PingtungCounty: '屏東縣',
+  TaitungCounty: '台東縣',
+  HualienCounty: '花蓮縣',
+  YilanCounty: '宜蘭縣',
+  PenghuCounty: '澎湖縣',
+  KinmenCounty: '金門縣',
+  LienchiangCounty: '連江縣'
+}
+
+// search panel (city)
+export const cityOptions = [
+  { key: 'Taipei', label: '台北市', value: 'Taipei' },
+  { key: 'NewTaipei', label: '新北市', value: 'NewTaipei' },
+  { key: 'Keelung', label: '基隆市', value: 'Keelung' },
+  { key: 'Taoyuan', label: '桃園市', value: 'Taoyuan' },
+  { key: 'Hsinchu', label: '新竹市', value: 'Hsinchu' },
+  { key: 'HsinchuCounty', label: '新竹縣', value: 'HsinchuCounty' },
+  { key: 'MiaoliCounty', label: '苗栗縣', value: 'MiaoliCounty' },
+  { key: 'Taichung', label: '台中市', value: 'Taichung' },
+  { key: 'NantouCounty', label: '南投縣', value: 'NantouCounty' },
+  { key: 'ChanghuaCounty', label: '彰化縣', value: 'ChanghuaCounty' },
+  { key: 'YunlinCounty', label: '雲林縣', value: 'YunlinCounty' },
+  { key: 'Chiayi', label: '嘉義市', value: 'Chiayi' },
+  { key: 'ChiayiCounty', label: '嘉義縣', value: 'ChiayiCounty' },
+  { key: 'Tainan', label: '台南市', value: 'Tainan' },
+  { key: 'Kaohsiung', label: '高雄市', value: 'Kaohsiung' },
+  { key: 'PingtungCounty', label: '屏東縣', value: 'PingtungCounty' },
+  { key: 'TaitungCounty', label: '台東縣', value: 'TaitungCounty' },
+  { key: 'HualienCounty', label: '花蓮縣', value: 'HualienCounty' },
+  { key: 'YilanCounty', label: '宜蘭縣', value: 'YilanCounty' },
+  { key: 'PenghuCounty', label: '澎湖縣', value: 'PenghuCounty' },
+  { key: 'KinmenCounty', label: '金門縣', value: 'KinmenCounty' },
+  { key: 'LienchiangCounty', label: '連江縣', value: 'LienchiangCounty' }
+]
+
+// search panel (more)
+export const moreOptions = [
+  { key: 'F', label: 'F', value: 'F' },
+  { key: 'R', label: 'R', value: 'R' },
+  { key: 'T', label: 'T', value: 'T' },
+  { key: '快', label: '快', value: '快' },
+  { key: '內科', label: '內科', value: '內科' },
+  { key: '跳蛙', label: '跳蛙', value: '跳蛙' },
+  { key: '通勤', label: '通勤', value: '通勤' },
+  { key: '南軟', label: '南軟', value: '南軟' },
+  { key: '先導', label: '先導', value: '先導' },
+  { key: '夜間', label: '夜間', value: '夜間' },
+  { key: '市民', label: '市民', value: '市民' },
+  { key: '其他', label: '其他', value: '其他' }
+]

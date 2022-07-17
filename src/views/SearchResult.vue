@@ -1,12 +1,17 @@
 <template>
   <div class="container__search-result">
-    <h2 class="heading"><i class="icon-position fas fa-map-marker-alt"></i>{{ transferToZhTw(cityName) }}</h2>
+    <h2 class="heading">
+      <i class="icon-position fas fa-map-marker-alt"></i>{{ transferToZhTw(cityName) }}
+    </h2>
     <p v-if="routeName" class="search-text">搜尋：{{ routeName }}</p>
     <p v-if="noResultMsg">找不到搜尋結果</p>
     <template v-for="(item, index) of routeData" :key="index">
       <router-link :to="`/EstimatedTimeOfArrival/${cityName}/${item.RouteUID}`" class="card-info">
         <h3 class="card-info__title">{{ item.RouteName.Zh_tw }}</h3>
-        <p class="card-info__text">{{ item.DepartureStopNameZh }}<span class="card-info__middle-text">往</span>{{ item.DestinationStopNameZh }}</p>
+        <p class="card-info__text">
+          {{ item.DepartureStopNameZh }}<span class="card-info__middle-text">往</span
+          >{{ item.DestinationStopNameZh }}
+        </p>
       </router-link>
     </template>
   </div>
@@ -18,7 +23,8 @@
     :opacity="loader.opacity"
     :background-color="loader.background"
     :blur="loader.blur"
-    :is-full-page="loader.fullPage"/>
+    :is-full-page="loader.fullPage"
+  />
 </template>
 
 <script>
@@ -27,7 +33,7 @@ import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
 export default {
   name: 'SearchResult',
-  data () {
+  data() {
     return {
       loader: {
         style: 'dots',
@@ -47,12 +53,14 @@ export default {
     Loading
   },
   methods: {
-    fetchRoute (cityName) {
-      return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${cityName}?$format=JSON`, { headers: GetAuthorizationHeader() })
+    fetchRoute(cityName) {
+      return fetch(`https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${cityName}?$format=JSON`, {
+        headers: GetAuthorizationHeader()
+      })
         .then((response) => response.json())
         .then((json) => json)
     },
-    transferToZhTw (string) {
+    transferToZhTw(string) {
       let result = ''
       switch (string) {
         case 'Taipei':
@@ -124,24 +132,24 @@ export default {
       }
       return result
     },
-    searchData (array, string) {
+    searchData(array, string) {
       return array.filter(function (item) {
         return item.RouteName.Zh_tw.includes(string)
       })
     }
   },
   computed: {
-    cityName () {
+    cityName() {
       return this.$route.params.City
     },
-    routeName () {
+    routeName() {
       return this.$route.query.RouteName
     },
-    routeDataLength () {
+    routeDataLength() {
       return this.routeData.length
     }
   },
-  async created () {
+  async created() {
     // 打開 loading 畫面
     this.loader.isLoading = true
     // 取得公車路線資料
