@@ -61,7 +61,7 @@ export default {
       backupStations: null,
       currentCity: '',
       currentCityEn: '',
-      distance: 2000,
+      distance: 1000,
       isOnSearching: true
     }
   },

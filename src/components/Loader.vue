@@ -1,15 +1,13 @@
 <template>
-  <teleport to="body">
-    <Loading
-      :active="isLoading"
-      :loader="type || 'dots'"
-      :color="color || '#fff'"
-      :opacity="opacity || 0.08"
-      :background-color="background || '#fff'"
-      :blur="blur || null"
-      :is-full-page="isFullPage || true"
-    />
-  </teleport>
+  <Loading
+    :active="isLoading"
+    :loader="type || 'dots'"
+    :color="color || '#fff'"
+    :opacity="opacity || 0.08"
+    :background-color="background || '#fff'"
+    :blur="blur || null"
+    :is-full-page="isFullPage || true"
+  />
 </template>
 <script>
 import Loading from 'vue-loading-overlay'
